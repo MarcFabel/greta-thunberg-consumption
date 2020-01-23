@@ -27,14 +27,14 @@ import pandas as pd
 
 
 # HOME directories
-z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
+#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
 
 
 
 # work directories (LOCAL)
-#z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
-#z_media_figures =   'G:/Projekte/Projekte_ab2016/greta_cons/analysis/output/graphs/descriptive/'
-#z_prefix =          'greta_cons_'
+z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
+z_media_figures =   'G:/Projekte/Projekte_ab2016/greta_cons/analysis/output/graphs/descriptive/'
+z_prefix =          'greta_cons_'
 
 ###############################################################################
 #           Read in Data
@@ -130,20 +130,20 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 ax.legend()
 ax.set(xlabel='Date', ylabel='Number of articles covering Greta Thunberg,\n per 1,000 articles') #xlabel='months',
-#plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_2019.pdf')
 
 
 
 
 # with events
 fig, ax = plt.subplots()
-ax.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_greta_ratio, alpha=0.006, color='darkgrey')
+ax.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_greta_ratio, alpha=0.006, color='darkgrey', label='unsmoothed')
 ax.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_greta_ratio_ma3, label='smoothed')
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
 ax.xaxis.set_minor_locator(mdates.YearLocator())
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
-ax.set(xlabel='Date', ylabel='Number of articles covering Greta Thunberg,\n per 1,000 articles') #xlabel='months',
+ax.set(xlabel='Date', ylabel='Number of articles covering Greta Thunberg,\n per 1,000 articles')
 
 ax.axvspan(datetime(2018,12,3), datetime(2018,12,14), color=c_shading, alpha=c_opacity)   # Katowice - climate conference
 ax.axvspan(datetime(2019,1,23), datetime(2019,1,25), color=c_shading, alpha=c_opacity)    # Davos - world economic forum
@@ -154,7 +154,8 @@ ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)               
 ax.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
 ax.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
 ax.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
-#plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_events_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_events_2019.pdf')
+
 
 
 
@@ -176,7 +177,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 ax.legend()
 ax.set(xlabel='Date', ylabel='Number of articles covering FFF,\n per 1,000 articles') #xlabel='months',
-#plt.savefig(z_media_figures + z_prefix + 'fff_per_1000_events_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'fff_per_1000_2019.pdf')
 
 
 
@@ -199,7 +200,7 @@ ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)               
 ax.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
 ax.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
 ax.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
-#plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_events_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'fff_per_1000_events_2019.pdf')
 
 
 
