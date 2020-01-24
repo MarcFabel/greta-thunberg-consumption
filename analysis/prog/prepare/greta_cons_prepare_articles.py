@@ -99,7 +99,7 @@ ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
 ax.xaxis.set_minor_locator(mdates.YearLocator())
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
-plt.savefig(z_media_figures + z_prefix + 'greta_2018_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'genios_greta_2018_2019.pdf')
 
 
 
@@ -111,7 +111,7 @@ ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
 ax.xaxis.set_minor_locator(mdates.YearLocator())
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
-plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_2018_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'genios_greta_per_1000_2018_2019.pdf')
 
 
 
@@ -130,7 +130,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 ax.legend()
 ax.set(xlabel='Date', ylabel='Number of articles covering Greta Thunberg,\n per 1,000 articles') #xlabel='months',
-plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'genios_greta_per_1000_2019.pdf')
 
 
 
@@ -154,7 +154,7 @@ ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)               
 ax.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
 ax.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
 ax.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
-plt.savefig(z_media_figures + z_prefix + 'greta_per_1000_events_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'genios_greta_per_1000_events_2019.pdf')
 
 
 
@@ -177,7 +177,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 ax.legend()
 ax.set(xlabel='Date', ylabel='Number of articles covering FFF,\n per 1,000 articles') #xlabel='months',
-plt.savefig(z_media_figures + z_prefix + 'fff_per_1000_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'genios_fff_per_1000_2019.pdf')
 
 
 
@@ -200,7 +200,7 @@ ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)               
 ax.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
 ax.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
 ax.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
-plt.savefig(z_media_figures + z_prefix + 'fff_per_1000_events_2019.pdf')
+plt.savefig(z_media_figures + z_prefix + 'genios_fff_per_1000_events_2019.pdf')
 
 
 
