@@ -20,7 +20,7 @@ import time
 import json
 import pandas as pd
 import GetOldTweets3 as got
-
+from datetime import timedelta, date,datetime
 
 # Store OAuth authentication credentials in relevant variables
 access_token = "165818745-x3wLpDdKgN3A24DXJmbmSZUzbFeEVCUf75aH9QIX"
@@ -35,8 +35,11 @@ api = tweepy.API(auth,wait_on_rate_limit=True)
 
 
 # work directories (LOCAL)
-z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
+#z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
 
+
+# server directories 
+z_media_output =   'G:/Projekte/Projekte_ab2016/greta_cons/analysis/data/intermediate/media/'
 
 ###############################################################################
 #       1) use tweepy to collect tweets
@@ -67,12 +70,12 @@ temp = api.user_timeline(id=username, count=1)
 
 for status in temp:
     dictionary = status._json
-    
-    
+
+
 #######################################
 
-# have the one tweet as json    
-    status = temp[0]    
+# have the one tweet as json
+    status = temp[0]
 #convert to string
 json_str = json.dumps(status._json)
 
@@ -82,7 +85,7 @@ parsed = json.loads(json_str)
 print(json.dumps(parsed, indent=4, sort_keys=True))
 
 
-    
+
 
 #by looking at the dictionary, you can see the root level atributes of the tweets
 #######################################
@@ -93,8 +96,8 @@ with open("greta.json") as json_file:
 
 # Print each key-value pair in json_data
 for k,val in json_data.items():
-    print(k + ': ', val)    
-    
+    print(k + ': ', val)
+
 
 
 
@@ -203,8 +206,16 @@ fh_write = open(z_media_output + 'twitter_greta_thunberg', 'w')
 tweetCriteria = got.manager.TweetCriteria().setUsername("GretaThunberg")\
                                            .setMaxTweets(z_maxtweets)
 # problem with writing down the results
-tweet = got.manager.TweetManager.getTweets(tweetCriteria)[2]
-print(tweet.date, tweet.favorites, tweet.retweets, tweet.mentions, tweet.text)
+tweet = got.manager.TweetManager.getTweets(tweetCriteria)[0]
+print(tweet.date, tweet.favorites, tweet.retweets, tweet.mentions, tweet.text, tweet.hashtags, tweet.geo)
+
+
+
+print(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + ';' + str(tweet.favorites) + ';' + str(tweet.retweets) + ';' + tweet.mentions + ';' + tweet.text + ';' + tweet.hashtags + ';' + tweet.geo)
+fh_write.write(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + ';' + str(tweet.favorites) + ';' + str(tweet.retweets) + ';' + tweet.mentions + ';' + tweet.text + ';' + tweet.hashtags + ';' + tweet.geo)
+
+
+
 fh_write.write(tweet.date + ';' + tweet.favorites + ';' + tweet.retweets + ';' + tweet.mentions + ';' + tweet.text + '\n')
 
 while j < z_maxtweets:
@@ -212,3 +223,170 @@ while j < z_maxtweets:
      print(tweet.date, tweet.favorites, tweet.retweets, tweet.mentions, tweet.text)
      fh_write.write(tweet.date + ';' + tweet.favorites + ';' + tweet.retweets + ';' + tweet.mentions + ';' + tweet.text + '\n')
      j += 1
+
+
+###############################################################################
+#Programm
+z_maxtweets = 10
+j = 0
+
+
+#introduce monthly counter
+z_start_date = datetime(2018, 11, 1)
+z_end_date = datetime(2019, 12, 31)
+
+
+# break up the requests in months
+
+
+# looks only at own tweets
+fh_write = open(z_media_output + 'twitter_greta_thunberg.csv', 'w')
+fh_write.write('date;favorites;retweets;mentions;text;hashtags;geo' + '\n')
+tweetCriteria = got.manager.TweetCriteria().setUsername("GretaThunberg")\
+                .setSince('2019-11-01').setUntil('2019-12-31')\
+                .setMaxTweets(z_maxtweets)
+
+while j < z_maxtweets:
+     tweet = got.manager.TweetManager.getTweets(tweetCriteria)[j]
+     fh_write.write(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + ';' +
+                    str(tweet.favorites) + ';' +
+                    str(tweet.retweets) + ';' +
+                    tweet.mentions + ';' +
+                    tweet.text + ';' +
+                    tweet.hashtags + ';' +
+                    tweet.geo + '\n')
+     j += 1
+
+fh_write.close()
+print('program finished')
+
+
+
+
+
+
+
+
+def enumerate_month_dates(start_date, end_date):
+    current = start_date
+    while current <= end_date:
+        if current.month >= 12:
+            next_i = datetime(current.year + 1, 1, 1)
+        else:
+            next_i = datetime(current.year, current.month + 1, 1)
+        last = min(next_i, end_date) #  min(next_i - timedelta(1), end_date)
+        yield current, last
+        current = next_i
+
+# trial new program:
+for x in enumerate_month_dates(z_start_date, z_end_date):
+     print(x[0].strftime('%Y-%m-%d'),x[1].strftime('%Y-%m-%d'))
+
+
+print('currently extracting:', x[0].strftime('%Y-%m-%d') + ' until ' + x[1].strftime('%Y-%m-%d'))
+
+
+
+###############################################################################
+# Program with iterator
+
+#Programm
+z_maxtweets = 1000
+
+
+
+#introduce monthly counter
+z_start_date = datetime(2018, 11, 1)
+z_end_date = datetime(2018, 12, 31)
+
+
+
+
+# looks only at own tweets
+fh_write = open(z_media_output + 'twitter_greta_thunberg.csv', 'w')
+fh_write.write('date;favorites;retweets;mentions;text;hashtags;geo' + '\n')
+
+for month in enumerate_month_dates(z_start_date, z_end_date):
+     print('currently extracting:', month[0].strftime('%Y-%m-%d') + ' until ' + month[1].strftime('%Y-%m-%d'))
+     tweetCriteria = got.manager.TweetCriteria().setUsername("GretaThunberg")\
+                .setSince(month[0].strftime('%Y-%m-%d'))\
+                .setUntil(month[1].strftime('%Y-%m-%d'))\
+                .setMaxTweets(z_maxtweets)
+
+     len_tweets_month = len(got.manager.TweetManager.getTweets(tweetCriteria))
+
+     j = 0
+
+     while j < z_maxtweets and j < len_tweets_month:
+          tweet = got.manager.TweetManager.getTweets(tweetCriteria)[j]
+          fh_write.write(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + ';' +
+                    str(tweet.favorites) + ';' +
+                    str(tweet.retweets) + ';' +
+                    tweet.mentions + ';' +
+                    tweet.text + ';' +
+                    tweet.hashtags + ';' +
+                    tweet.geo + '\n')
+          j += 1
+
+     print('now sleeping...')
+     time.sleep(250)
+
+fh_write.close()
+print('program finished')
+
+
+
+
+def daterange(start_date, end_date):
+    for n in range(int ((end_date - start_date).days)):
+        yield start_date + timedelta(n)
+
+for single_date in daterange(z_start_date, z_end_date):
+     print(single_date.strftime('%Y-%m-%d'))
+
+
+  ############################################################################################
+# write program with daily entrances
+
+z_maxtweets = 1000
+
+
+
+#introduce monthly counter
+z_start_date = datetime(2018, 11, 1)
+z_end_date = datetime(2020,1,1)
+
+
+
+
+# looks only at own tweets
+fh_write = open(z_media_output + 'twitter_greta_thunberg.csv', 'w')
+fh_write.write('date;favorites;retweets;mentions;text;hashtags' + '\n')
+
+for day in daterange(z_start_date, z_end_date):
+     tomorrow = day + timedelta(1)
+     print('currently extracting:', day.strftime('%Y-%m-%d'))
+     tweetCriteria = got.manager.TweetCriteria().setUsername("GretaThunberg")\
+                .setSince(day.strftime('%Y-%m-%d'))\
+                .setUntil(tomorrow.strftime('%Y-%m-%d'))\
+                .setMaxTweets(z_maxtweets)
+
+     len_tweets_month = len(got.manager.TweetManager.getTweets(tweetCriteria))
+
+     j = 0
+
+     while j < z_maxtweets and j < len_tweets_month:
+          tweet = got.manager.TweetManager.getTweets(tweetCriteria)[j]
+          fh_write.write(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + ';' +
+                    str(tweet.favorites) + ';' +
+                    str(tweet.retweets) + ';' +
+                    tweet.mentions + ';' +
+                    tweet.text.replace(';', ',') + ';' +
+                    tweet.hashtags.replace(';', ',') + '\n')
+          j += 1
+
+#     print('now sleeping...')
+     time.sleep(13)
+
+fh_write.close()
+print('program finished')
