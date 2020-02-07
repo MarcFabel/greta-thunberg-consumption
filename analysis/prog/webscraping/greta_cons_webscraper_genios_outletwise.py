@@ -108,6 +108,13 @@ for outlet in outlets:
              outlet)
 
 
+term_all_paper = ''
+for outlet in outlets:
+     print(outlet)
+     scraper_outlet(term_all_paper,
+             'outlets/genios_articles_'+outlet+'_all.csv',
+             outlet)
+
 
 
 
