@@ -28,10 +28,10 @@ z_start_date = datetime(2018, 1, 1)    # 2018, 1, 1
 z_end_date   = datetime(2019, 12, 31)  # 2019, 12, 31
 
 # HOME directories
-#z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
+#z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
 
 # work directories (LOCAL)
-z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
+z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
 
 ###############################################################################
 #       1) Define programs
