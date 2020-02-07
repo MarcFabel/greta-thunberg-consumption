@@ -20,6 +20,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.style as style
 import matplotlib.dates as mdates
+import numpy as np
 
 #style.available
 style.use('seaborn-darkgrid')
@@ -27,7 +28,7 @@ import pandas as pd
 
 
 # HOME directories
-#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/media/'
+#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
 
 
 
@@ -55,10 +56,30 @@ articles = pd.read_csv(z_media_input + 'genios_articles_all.csv', sep=',',
                        names=['date', 'art_all'], header=0,
                        index_col='date', parse_dates=True , dayfirst=True)
 
+greta_sz = pd.read_csv(z_media_input + 'outlets/genios_articles_SZ_greta_thunberg.csv', sep=',',
+                    names=['date', 'art_greta_sz'], header=0, index_col='date',
+                    parse_dates=True, dayfirst=True)
+
+greta_faz = pd.read_csv(z_media_input + 'outlets/genios_articles_FAZ_greta_thunberg.csv', sep=',',
+                    names=['date', 'art_greta_faz'], header=0, index_col='date',
+                    parse_dates=True, dayfirst=True)
+
+articles_sz = pd.read_csv(z_media_input + 'outlets/genios_articles_SZ_all.csv', sep=',',
+                       names=['date', 'art_all_sz'], header=0,
+                       index_col='date', parse_dates=True , dayfirst=True)
+
+articles_faz = pd.read_csv(z_media_input + 'outlets/genios_articles_FAZ_all.csv', sep=',',
+                       names=['date', 'art_all_faz'], header=0,
+                       index_col='date', parse_dates=True , dayfirst=True)
+
 
 ########## merge dfs  #########################################################
 articles = articles.join(greta, how='inner')
 articles = articles.join(fff, how='inner')
+articles = articles.join(greta_sz, how='outer')
+articles = articles.join(greta_faz, how='outer')
+articles = articles.join(articles_sz, how='outer')
+articles = articles.join(articles_faz, how='outer')
 
 
 ########## generate variables  ################################################
@@ -215,3 +236,43 @@ ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 
 
 
+###############################################################################
+#           evolution of greta in SZ & FAZ
+###############################################################################
+temp = articles[['art_greta_faz', 'art_greta_sz', 'art_greta']].loc['2018-11':].resample('W').sum()
+
+# w/o general trend in germany
+fig, ax = plt.subplots()
+ax.plot(temp.index.values, temp['art_greta_sz'], color='tab:blue', label='SZ')
+ax.plot(temp.index.values, temp['art_greta_faz'], color='tab:orange', label='FAZ')
+ax.legend(loc='upper left')
+ax.set_yticks(np.arange(0, 17, 4))
+ax.set_xlabel('Date')
+ax.set_ylabel('Number of articles')
+plt.savefig(z_media_figures + z_prefix + 'genios_greta_SZ_FAZ.pdf')
+
+
+# mit generellen trend
+fig, ax1 = plt.subplots()
+
+ax1.plot(temp.index.values, temp['art_greta_sz'], color='tab:blue', label='SZ')
+ax1.plot(temp.index.values, temp['art_greta_faz'], color='tab:orange', label='FAZ')
+ax1.set_xlabel('Date')
+ax1.set_ylabel('Number of articles,\n SZ and FAZ')
+ax1.set_yticks(np.arange(0, 17, 4))
+
+ax2 = ax1.twinx()
+color_re = 'tab:green'
+ax2.plot(temp.index.values, temp['art_greta'], color=color_re, label='all newspapers', alpha=0.4, linewidth=4)
+ax2.set_ylabel('Number of articles,\n all German newspapers', color=color_re)
+ax2.tick_params(axis='y', labelcolor=color_re)
+ax2.grid(None)
+ax2.set_yticks(np.arange(0, 2001, 500))
+
+
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+
+fig.tight_layout() # otherwise right label is clipped
+plt.savefig(z_media_figures + z_prefix + 'genios_greta_SZ_FAZ_all_newspapers.pdf')
