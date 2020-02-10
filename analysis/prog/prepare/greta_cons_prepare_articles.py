@@ -172,6 +172,7 @@ ax.axvline(datetime(2019,3,1), color=c_shading, alpha=c_opacity)                
 ax.axvline(datetime(2019,3,15), color=c_shading, alpha=c_opacity)                         # worldwide - 1.4 million young people go on strike (friday)
 ax.axvline(datetime(2019,3,29), color=c_shading, alpha=c_opacity)                         # Berlin - climate strike with Greta (friday)
 ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)                         # Strasbourg - EU speech
+ax.axvline(datetime(2019,5,24), color=c_shading, alpha=c_opacity)                         # 2nd Global Climate Strike (for EU elections)
 ax.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
 ax.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
 ax.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
@@ -212,15 +213,14 @@ ax.xaxis.set_minor_locator(mdates.YearLocator())
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 ax.set(xlabel='Date', ylabel='Number of articles covering FFF,\n per 1,000 articles')
-ax.axvspan(datetime(2018,12,3), datetime(2018,12,14), color=c_shading, alpha=c_opacity)   # Katowice - climate conference
 ax.axvspan(datetime(2019,1,23), datetime(2019,1,25), color=c_shading, alpha=c_opacity)    # Davos - world economic forum
 ax.axvline(datetime(2019,3,1), color=c_shading, alpha=c_opacity)                          # Hamburg - climate strike with Greta (friday)
 ax.axvline(datetime(2019,3,15), color=c_shading, alpha=c_opacity)                         # worldwide - 1.4 million young people go on strike (friday)
 ax.axvline(datetime(2019,3,29), color=c_shading, alpha=c_opacity)                         # Berlin - climate strike with Greta (friday)
-ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)                         # Strasbourg - EU speech
-ax.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
-ax.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
-ax.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
+ax.axvline(datetime(2019,5,24), color=c_shading, alpha=c_opacity)                         # 2nd Global Climate Strike (for EU elections)
+ax.axvline(datetime(2019,6,21), color=c_shading, alpha=c_opacity)                         # Aachen: International Climate Strike
+ax.axvspan(datetime(2019,9,20), datetime(2019,9,27), color=c_shading, alpha=c_opacity)    # Global Week of Climate Action
+ax.axvline(datetime(2019,11,29), color=c_shading, alpha=c_opacity)                        # Fourth Global Climate Strike
 plt.savefig(z_media_figures + z_prefix + 'genios_fff_per_1000_events_2019.pdf')
 
 
