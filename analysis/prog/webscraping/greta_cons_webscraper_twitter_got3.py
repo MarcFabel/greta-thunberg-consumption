@@ -19,13 +19,36 @@ from datetime import timedelta,datetime
 import GetOldTweets3 as got
 import time
 
+
+# HOME directories
+z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+
+
 # work directories (LOCAL)
-z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
+#z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
 # function to loop through days
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
+        
+#z_username = 'Ende__Gelaende'
+#z_username = 'ExtinctionR_DE'
+
+# finished scraping
+#z_username = 'Luisamneubauer'
+#z_username = 'jakobblasel'  
+#z_username = 'GretaThunberg' 
+#z_username = 'carla_reemtsma'  
+#z_username = 'FranziWessel'
+#z_username = 'FridayForFuture' # FFF Germany
+
+
+
+
+# get number of followers
+
+  
 
 ###############################################################################
 #       1) use GOT to collect tweets
@@ -36,18 +59,19 @@ z_maxtweets = 1000
 
 
 # time period over which you want to scrape the old tweets
-z_start_date = datetime(2018, 10, 1) # 2018, 10, 1
-z_end_date = datetime(2020,1,1) # 2020,1,1
+z_start_date = datetime(2018, 12, 1) # 2018, 10, 1
+z_end_date = datetime(2020,1,31) # 2020,1,1
 
 
 # open file handle with headers
-fh_write = open(z_media_output + 'twitter_greta_thunberg_temp.csv', 'w')
+fh_write = open(z_media_output + 'twitter_' + z_username + '.csv', 'w',
+                encoding='utf8') 
 fh_write.write('date\tfavorites\tretweets\tmentions\ttext\thashtags' + '\n')
 
 for day in daterange(z_start_date, z_end_date):
      tomorrow = day + timedelta(1) # enables extraction of tweets between today and tomorrow
      print('currently extracting:', day.strftime('%Y-%m-%d'))
-     tweetCriteria = got.manager.TweetCriteria().setUsername("GretaThunberg")\
+     tweetCriteria = got.manager.TweetCriteria().setUsername(z_username)\
                 .setSince(day.strftime('%Y-%m-%d'))\
                 .setUntil(tomorrow.strftime('%Y-%m-%d'))\
                 .setMaxTweets(z_maxtweets)
@@ -66,7 +90,7 @@ for day in daterange(z_start_date, z_end_date):
           j += 1
 
      # additional time between daily requests
-     time.sleep(13)
+     time.sleep(7)
 
 fh_write.close()
 print('program finished')
