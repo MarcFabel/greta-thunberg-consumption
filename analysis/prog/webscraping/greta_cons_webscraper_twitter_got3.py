@@ -21,34 +21,41 @@ import time
 
 
 # HOME directories
-z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+#z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
 
 # work directories (LOCAL)
 #z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
+
+# work directories (SERVER)
+z_media_output = 'F:/temp/'
+
 # function to loop through days
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
-        
-#z_username = 'Ende__Gelaende'
-#z_username = 'ExtinctionR_DE'
+
+
+#z_username = 'ExtinctionR_DE'              #z_start_date = datetime(2018, 11, 1)
+z_username = 'parents4future'              #z_start_date = datetime(2019, 2, 1)
+#z_username = 'sciforfuture'                #z_start_date = datetime(2019, 3, 1)
+
 
 # finished scraping
 #z_username = 'Luisamneubauer'
-#z_username = 'jakobblasel'  
-#z_username = 'GretaThunberg' 
-#z_username = 'carla_reemtsma'  
-#z_username = 'FranziWessel'
-#z_username = 'FridayForFuture' # FFF Germany
-
+#z_username = 'jakobblasel'
+#z_username = 'GretaThunberg'
+#z_username = 'carla_reemtsma'
+#z_username = 'FranziWessel'                #z_start_date = datetime(2019, 5, 1)
+#z_username = 'FridayForFuture'             #z_start_date = datetime(2018, 12, 1) FFF Germany
+#z_username = 'Ende__Gelaende'
 
 
 
 # get number of followers
 
-  
+
 
 ###############################################################################
 #       1) use GOT to collect tweets
@@ -59,13 +66,13 @@ z_maxtweets = 1000
 
 
 # time period over which you want to scrape the old tweets
-z_start_date = datetime(2018, 12, 1) # 2018, 10, 1
+z_start_date = datetime(2019, 10, 28) # 2018, 10, 1
 z_end_date = datetime(2020,1,31) # 2020,1,1
 
 
 # open file handle with headers
-fh_write = open(z_media_output + 'twitter_' + z_username + '.csv', 'w',
-                encoding='utf8') 
+fh_write = open(z_media_output + 'twitter_' + z_username + '_v4.csv', 'w',
+                encoding='utf8')
 fh_write.write('date\tfavorites\tretweets\tmentions\ttext\thashtags' + '\n')
 
 for day in daterange(z_start_date, z_end_date):
@@ -90,7 +97,7 @@ for day in daterange(z_start_date, z_end_date):
           j += 1
 
      # additional time between daily requests
-     time.sleep(7)
+     time.sleep(17)
 
 fh_write.close()
 print('program finished')
