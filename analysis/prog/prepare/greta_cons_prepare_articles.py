@@ -34,7 +34,7 @@ import pandas as pd
 
 # work directories (LOCAL)
 z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
-z_media_figures =   'G:/Projekte/Projekte_ab2016/greta_cons/analysis/output/graphs/descriptive/'
+z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
 z_prefix =          'greta_cons_'
 
 ###############################################################################
