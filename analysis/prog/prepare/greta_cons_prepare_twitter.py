@@ -24,13 +24,13 @@ style.use('seaborn-darkgrid')
 
 
 # HOME directory
-z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
 
 # work directories (LOCAL)
-#z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
-#z_media_figures =   'G:/Projekte/Projekte_ab2016/greta_cons/analysis/output/graphs/descriptive/'
-#z_prefix =          'greta_cons_'
+z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
+z_prefix =          'greta_cons_'
 
 
 ###############################################################################
@@ -57,26 +57,26 @@ activists = luisa['favorites'].copy()
 
 list_activists = [greta, luisa, jakob]
 
-# make graph for each of the activists: 
+# make graph for each of the activists:
 for activist in list_activists:
     # define variables in per thousand+
     # define variables for greta
     activist['favorites'] = activist['favorites'] / 1000
     activist['retweets']  = activist['retweets']  / 1000
     temp = jakob.resample('W').sum()
-    
-    
-############################################# 
-# Versuch alles über ein großes dictionary zu machen    
+
+
+#############################################
+# Versuch alles über ein großes dictionary zu machen
 
 
 # generate dictionary of activist
-paths = ['GretaThunberg', 'Luisamneubauer', 'jakobblasel', 'carla_reemtsma', 
+paths = ['GretaThunberg', 'Luisamneubauer', 'jakobblasel', 'carla_reemtsma',
          'FranziWessel']
 dfs = {p: pd.read_csv(z_media_input + 'twitter_' +  p + '.csv', sep='\t',
                     index_col='date', parse_dates=True, encoding = "utf-8") for p in paths}
 
-    
+
 # more workable keys:
 dfs['greta'] = dfs.pop('GretaThunberg')
 dfs['luisa'] = dfs.pop('Luisamneubauer')
@@ -84,27 +84,27 @@ dfs['jakob'] = dfs.pop('jakobblasel')
 dfs['carla'] = dfs.pop('carla_reemtsma')
 dfs['franzi']= dfs.pop('FranziWessel')
 
-list_activists = ['greta', 'luisa', 'jakob', 'carla', 'franzi']   
+list_activists = ['greta', 'luisa', 'jakob', 'carla', 'franzi']
 
 for activist in list_activists:
     dfs[activist]['favorites'] = dfs[activist]['favorites'] / 1000
     dfs[activist]['retweets'] = dfs[activist]['retweets'] / 1000
     dfs[activist + '_w'] = dfs[activist].resample('W').sum()
-             
-    
+
+
 # kann ich df übergreifend plotten - yes
-fig, ax = plt.subplots() 
+fig, ax = plt.subplots()
 ax.plot(dfs['luisa_w'].index.values, dfs['jakob_w']['favorites'],
-        color='blue', label='jakob blasel') 
+        color='blue', label='jakob blasel')
 ax.plot(dfs['carla_w'].index.values, dfs['carla_w']['favorites'],
         color='green', label='carla reemtsma')
 ax.plot(dfs['franzi_w'].index.values, dfs['franzi_w']['favorites'],
         color='red', label='franzi wessel')
-ax.legend(loc='upper left') 
+ax.legend(loc='upper left')
 
 
 # loop over activists to have graph
-for activist in list_activists: 
+for activist in list_activists:
 	fig, ax1 = plt.subplots()
 	color_fav = 'tab:blue'
 	ax1.plot(dfs[activist + '_w'].index.values, dfs[activist + '_w']['favorites'], color=color_fav, label='favorites') # T10 categorical palette
@@ -128,7 +128,7 @@ for activist in list_activists:
 	lines, labels = ax1.get_legend_handles_labels()
 	lines2, labels2 = ax2.get_legend_handles_labels()
 	ax2.legend(lines + lines2, labels + labels2, loc='upper left')
-    
+
 
 
 ###############################################################################
@@ -226,7 +226,7 @@ greta['lang'] = greta.loc[greta.text.notnull() & criterium_no_link].text.apply(d
 # correct language missclassifications
 temp1 = greta.loc[greta.lang != 'en']
 
-lang_misclass = ['af', 'ca', 'cs', 'cy', 'et', 'fi', 'id', 'it', 'no', 'pl', 
+lang_misclass = ['af', 'ca', 'cs', 'cy', 'et', 'fi', 'id', 'it', 'no', 'pl',
                  'pt', 'ro', 'sl', 'so', 'sw', 'tl', 'tr']
 for lang in lang_misclass:
     greta['lang'] = greta['lang'].replace(lang, 'en')
