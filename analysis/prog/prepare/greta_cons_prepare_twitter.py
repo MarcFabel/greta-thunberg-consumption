@@ -243,3 +243,95 @@ z_new_columns = z_cols_to_order + (greta.columns.drop(z_cols_to_order).tolist())
 greta = greta[z_new_columns]
 
 
+
+
+################################################################
+
+###############################################################
+
+from wordcloud import WordCloud, STOPWORDS
+import re
+from string import digits, punctuation
+import nltk
+
+import random
+import numpy as np
+
+
+
+def grey_color_func(word, font_size, position, orientation, random_state=None,
+                    **kwargs):
+    return "hsl(230, 0%%, %d%%)" % random.randint(20, 51)
+
+
+# make tweets into list
+raw_tweets = greta.text.values.tolist()
+
+# eliminate empty fields
+raw_tweets =  [x for x in raw_tweets if type(x)== str]
+
+
+# Create a string form of our list of text
+raw_string = ' '.join(raw_tweets)
+
+# eliminate urls
+no_links = re.sub(r'http\S+', '', raw_string)
+
+
+
+
+# remove punctuation and special characters
+remove = digits + punctuation + '“”—'
+remove
+
+no_punctuation = no_links.translate(str.maketrans({p: "" for p in remove}))
+
+
+# tokenization
+words = no_punctuation.split(" ")
+words = [w for w in words if len(w) > 2]  # ignore a, an, be, ...
+words = [w.lower() for w in words]
+words = [w for w in words if w not in STOPWORDS]
+
+# remove more stopwords
+_stopwords = nltk.corpus.stopwords.words('english')
+words = [w for w in words if w not in _stopwords]
+
+_further_stopwords = ['must', 'att', 'som', 'inte', 'och', 'dont', 'det', 'för',
+                      'har', 'doesnt', 'ive', 'alla']
+words = [w for w in words if w not in _further_stopwords]
+
+
+# unify fridays for future
+words = [sub.replace('fridayforfuture', 'fridaysforfuture') for sub in words]
+words = [sub.replace('fridaysforfurture', 'fridaysforfuture') for sub in words]
+
+
+# word cloud w/o stemming
+
+wc = WordCloud(
+    width = 1500,
+    height = 1000,
+    background_color = 'white',
+    max_words=90,
+    collocations=False,
+    random_state=1)
+clean_string = ' '.join(words)
+wc.generate(clean_string)
+
+fig = plt.figure(
+    figsize = (20, 16),
+    facecolor = 'k',
+    edgecolor = 'k')
+
+
+plt.imshow(wc.recolor(color_func=grey_color_func, random_state=3), interpolation = 'bilinear')
+plt.axis('off')
+plt.tight_layout(pad=0)
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_word_cloud.pdf')
+
+
+
+
+
+
