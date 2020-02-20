@@ -246,7 +246,7 @@ greta = greta[z_new_columns]
 
 
 ################################################################
-
+# Word Cloud
 ###############################################################
 
 from wordcloud import WordCloud, STOPWORDS
@@ -258,7 +258,7 @@ import random
 import numpy as np
 
 
-
+# color function for different shades of gray in the word cloud
 def grey_color_func(word, font_size, position, orientation, random_state=None,
                     **kwargs):
     return "hsl(230, 0%%, %d%%)" % random.randint(20, 51)
@@ -270,15 +270,11 @@ raw_tweets = greta.text.values.tolist()
 # eliminate empty fields
 raw_tweets =  [x for x in raw_tweets if type(x)== str]
 
-
 # Create a string form of our list of text
 raw_string = ' '.join(raw_tweets)
 
 # eliminate urls
 no_links = re.sub(r'http\S+', '', raw_string)
-
-
-
 
 # remove punctuation and special characters
 remove = digits + punctuation + '“”—'
@@ -315,7 +311,7 @@ wc = WordCloud(
     background_color = 'white',
     max_words=90,
     collocations=False,
-    random_state=1)
+    random_state=1) # collocations=False -> use only monograms
 clean_string = ' '.join(words)
 wc.generate(clean_string)
 
@@ -333,5 +329,144 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_greta_word_cloud.pdf')
 
 
 
+################################################################
+# Top Words in Greta Thunberg's Tweets
+################################################################
 
+import seaborn as sns
+
+
+# generate df with number of occurences per word
+dfwords = pd.DataFrame(words, columns=['words'])
+dfwords['counts'] = 1
+words_nr = dfwords.groupby(['words']).sum()
+words_nr.sort_values(['counts'], inplace=True, ascending=False)
+words_nr = words_nr[:39]
+
+# bar
+fig, ax = plt.subplots()
+ax = sns.barplot(words_nr.index, words_nr.counts, palette='Blues_d') #
+ax.set(xlabel='', ylabel='Number of uses')
+for item in ax.get_xticklabels():
+     item.set_rotation(90)
+plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_words.pdf')
+
+
+
+################################################################
+# Number of Tweets by Greta Thunberg
+################################################################
+temp = greta.copy()
+temp['counts'] = 1
+temp = temp.resample('W').sum()
+
+## without events
+#fig, ax1 = plt.subplots()
+#color_fav = 'darkgrey'
+#ax1.plot(temp.index.values, temp['favorites'], color=color_fav, label='favorites',zorder=100)
+#ax1.set_xlabel('Date')
+#ax1.set_ylabel('Favorites [in thousand]', color=color_fav)
+#ax1.tick_params(axis='y', labelcolor=color_fav)
+#ax2 = ax1.twinx()
+#color_re = 'tab:blue'
+#ax2.plot(temp.index.values, temp['counts'], color=color_re, label='count', zorder=0)
+#ax2.set_ylabel('Number of tweets', color=color_re)
+#ax2.tick_params(axis='y', labelcolor=color_re)
+#ax2.grid(None)
+## ask matplotlib for the plotted objects and their labels
+#lines, labels = ax1.get_legend_handles_labels()
+#lines2, labels2 = ax2.get_legend_handles_labels()
+#lines3, labels3 = ax3.get_legend_handles_labels()
+#ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+
+
+
+
+# andersrum mit drei Achsen##################################
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+ax3 =fig.add_axes(ax1.get_position(), sharex=ax1, sharey=ax1)
+ax3.set_facecolor('none') #prevents axes background from hiding artists below
+ax3.set_axis_off() # pervents superimposed ticks from being drawn
+color_fav = 'tab:blue'
+color_re = 'darkgrey'
+ax2.plot(temp.index.values, temp['favorites'], color=color_re, label='favorites')
+ax3.plot(temp.index.values, temp['counts'], color=color_fav, label='count')
+ax2.set_ylabel('Favorites [in thousand]', color=color_re)
+ax2.tick_params(axis='y', labelcolor=color_re)
+ax1.set_xlabel('Date')
+ax1.set_ylabel('Number of tweets', color=color_fav)
+ax1.tick_params(axis='y', labelcolor=color_fav)
+ax2.grid(None)
+ax3.grid(None)
+lines, labels = ax3.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_counts_weekly.pdf')
+
+
+
+
+
+################################################################
+# Sentiment of Greta Thunberg's Tweets
+################################################################
+
+# histogram of positive or negative tweets
+from textblob import TextBlob
+
+
+
+# eliminate urls
+def remove_url(txt):
+     return " ".join(re.sub(r'http\S+', '', txt).split())
+
+tweets_no_urls = [remove_url(tweet) for tweet in raw_tweets]
+sentiment_objects = [TextBlob(tweet) for tweet in tweets_no_urls]
+sentiment_objects[1].polarity, sentiment_objects[1]
+
+sentiment_values = [[tweet.sentiment.polarity,
+                     tweet.sentiment.subjectivity,
+                     str(tweet)] for tweet in sentiment_objects]
+sentiment_df = pd.DataFrame(sentiment_values, columns=["polarity",
+                                                       'subjectivity', "tweet"])
+
+
+
+
+# Polarity histogram conditional on having a polarity
+polarity_df = sentiment_df[sentiment_df.polarity != 0]
+
+
+sns.distplot(polarity_df.polarity, hist=True, kde=True, norm_hist=False, color = 'darkblue',
+             hist_kws={'edgecolor':'black'})
+plt.ylabel('Density')
+plt.xlabel('')
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_polarity_hist.pdf')
+
+# add vertical line
+
+
+
+
+
+subjectivity_df = sentiment_df[sentiment_df.subjectivity != 0]
+
+
+sns.distplot(subjectivity_df.subjectivity, hist=True, kde=True, norm_hist=False, color = 'darkblue',
+             hist_kws={'edgecolor':'black'})
+plt.ylabel('Density')
+plt.xlabel('')
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_subjectivity_hist.pdf')
+
+
+
+
+
+
+
+
+
+# readability scores
 
