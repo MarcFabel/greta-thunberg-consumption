@@ -289,6 +289,15 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 	\end{minipage}
 \end{figure}
 
+
+\begin{figure}[H]\centering
+	\caption{The evolution of Greta Thunberg's Twitter feed}
+	\includegraphics[width=0.85\linewidth]{descriptive/greta_cons_twitter_greta_favorites_counts_weekly}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure plots the weekly number of tweets and favorites (in thousand).}
+	\end{minipage}
+\end{figure}
+
 \begin{figure}[H]\centering
 	\caption{The evolution of Greta Thunberg's Twitter feed}
 	\includegraphics[width=0.85\linewidth]{descriptive/greta_cons_twitter_greta_favorites_retweets_weekly_events}
@@ -298,6 +307,8 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 \end{figure}
 
 
+
+\newpage
 \begin{figure}[H]\centering
 	\caption{Word Cloud of Greta Thunberg's tweets}
 	\includegraphics[width=0.85\linewidth]{descriptive/greta_cons_twitter_greta_word_cloud.pdf}
@@ -305,6 +316,34 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 		\scriptsize{\emph{Notes:} The figure shows the contents of Greta Thunberg's tweets. The larger one word is depicted, the more frequent it is used by Greta Thunberg in her tweets. The lowercased keywords are from the subset of words after removing urls, digits, punctuation, and stopwords.}
 	\end{minipage}
 \end{figure}
+
+\begin{figure}[H]\centering
+	\caption{Top words in Greta Thunberg's tweets}
+	\includegraphics[width=0.95\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_words.pdf}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the frequency of common words in Greta Thunberg's tweets.}
+	\end{minipage}
+\end{figure}
+
+
+
+
+
+\begin{figure}[H]\centering
+	\caption{Sentiment analysis of Greta Thunberg's tweets}
+	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Polarity}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_polarity_hist.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Subjectivity}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_subjectivity_hist.pdf}
+	\end{subfigure}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The histograms show the distribution of tweets in the dimensions of polarity and subjectivity. We can see that there are more tweets with polarity values larger than zero, indicating more positive tweets. Furthermore, Greta Thunberg's tweets tend to be formulated more subjectively. We use the \texttt{TextBlob} library in order to classify the sentiments of the tweets.}
+	\end{minipage}
+\end{figure}
+
+
+
 
 
 
