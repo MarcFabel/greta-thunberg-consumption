@@ -25,11 +25,11 @@ import time
 
 
 # work directories (LOCAL)
-#z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
 
 # work directories (SERVER)
-z_media_output = 'F:/temp/'
+#z_media_output = 'F:/temp/'
 
 # function to loop through days
 def daterange(start_date, end_date):
@@ -38,7 +38,7 @@ def daterange(start_date, end_date):
 
 
 # define user name
-
+z_username = 'louismotaal'                 #z_start_date = datetime(2018, 10, 1)
 
 
 # finished scraping
@@ -64,7 +64,7 @@ z_maxtweets = 1000
 
 
 # time period over which you want to scrape the old tweets
-z_start_date = datetime(2019, 3, 15) # 2018, 10, 1
+z_start_date = datetime(2018, 10, 1) # 2018, 10, 1
 z_end_date = datetime(2020,1,31) # 2020,1,31
 
 
@@ -98,7 +98,7 @@ for day in daterange(z_start_date, z_end_date):
         j += 1
 
     # additional time between daily requests
-    time.sleep(60)
+    time.sleep(30)
 
 fh_write.close()
 print('program finished')
