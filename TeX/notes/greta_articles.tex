@@ -280,7 +280,7 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 {\Huge \begin{center}\textbf{Twitter Data}\end{center}}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
-
+\subsection{Greta Thunberg's Twitter feed}
 \begin{figure}[H]\centering
 	\caption{The evolution of Greta Thunberg's Twitter feed}
 	\includegraphics[width=0.85\linewidth]{descriptive/greta_cons_twitter_greta_favorites_retweets_weekly}
@@ -330,7 +330,7 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 
 
 \begin{figure}[H]\centering
-	\caption{Sentiment analysis of Greta Thunberg's tweets}
+	\caption{Conditional sentiment analysis of Greta Thunberg's tweets}
 	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Polarity}
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_polarity_hist.pdf}
 	\end{subfigure}
@@ -338,11 +338,114 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_subjectivity_hist.pdf}
 	\end{subfigure}
 	\begin{minipage}{\linewidth}
-		\scriptsize{\emph{Notes:} The histograms show the distribution of tweets in the dimensions of polarity and subjectivity. We can see that there are more tweets with polarity values larger than zero, indicating more positive tweets. Furthermore, Greta Thunberg's tweets tend to be formulated more subjectively. We use the \texttt{TextBlob} library in order to classify the sentiments of the tweets.}
+		\scriptsize{\emph{Notes:} The histograms show the conditional distribution of tweets in the dimensions of polarity and subjectivity. We can see that there are more tweets with polarity values larger than zero, indicating more positive tweets. Furthermore, Greta Thunberg's tweets tend to be formulated more subjectively. We use the \texttt{TextBlob} library in order to classify the sentiments of the tweets.}
 	\end{minipage}
 \end{figure}
 
 
+
+%--------------------------------------------------------------------
+% TWITTER - OTHER FFF ICONS
+%--------------------------------------------------------------------
+\newpage
+\subsection{The Twitter feed of other famous FFF icons}
+
+\begin{figure}[H]\centering
+	\caption{The polarity and subjectivity of other FFF icons}
+	\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_activists_scatter_polarity_subjectivity}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the conditional means of the tweets' polarity and subjectivity across important FFF activists.}
+	\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{landscape}
+
+	\begin{figure}[H]\centering
+		\caption{Twitter feeds of important FFF icons - Number of favorites across different activists}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{All}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_all.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Luisa Neubauer}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_Luisamneubauer.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Jakob Blasel}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_jakobblasel.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Carla Reemtsma}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_carla_reemtsma.pdf}
+		\end{subfigure}
+	
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Franzi Wessel}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_FranziWessel.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{FridayForFuture Germany}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_FridayForFuture.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Ende Gelaende}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_Ende__Gelaende.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{parents4future}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_parents4future.pdf}
+		\end{subfigure}
+	
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Extinction Rebellion}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_ExtinctionR_DE.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{sciforfuture}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_sciforfuture.pdf}
+		\end{subfigure}
+		\begin{minipage}{\linewidth}
+			\scriptsize{\emph{Notes:} The figures show the number of favorites [in thousand] across different FFF icons.}
+		\end{minipage}
+	\end{figure}
+
+\end{landscape}
+
+
+
+
+\begin{landscape}
+	\begin{figure}[H]\centering
+		\caption{Twitter feeds of important FFF icons}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Greta Thunberg}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_GretaThunberg.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Luisa Neubauer}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_Luisamneubauer.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Jakob Blasel}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_jakobblasel.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Carla Reemtsma}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_carla_reemtsma.pdf}
+		\end{subfigure}
+		
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Franzi Wessel}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_FranziWessel.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{FridayForFuture Germany}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_FridayForFuture.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Ende Gelaende}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_Ende__Gelaende.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{parents4future}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_parents4future.pdf}
+		\end{subfigure}
+		
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{Extinction Rebellion}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_ExtinctionR_DE.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.23\linewidth}\centering\caption{sciforfuture}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_retweets_sciforfuture.pdf}
+		\end{subfigure}
+		\begin{minipage}{\linewidth}
+			\scriptsize{\emph{Notes:} The figures show the number of favorites and retweets [in thousand] across different FFF icons.}
+		\end{minipage}
+	\end{figure}	
+\end{landscape}
 
 
 
