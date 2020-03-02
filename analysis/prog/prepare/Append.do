@@ -321,6 +321,56 @@ replace location2 = "Hauptbahnhof" if city2 == "Wolfsburg"
 replace location2 = "Hauptbahnhof" if city2 == "Worms"
 replace location2 = "Sparkasse Wülfrath" if city2 == "Wülfrath"
 replace location2 = "Bahnhofsplatz" if id == 319
+replace location2 = "Neues Rathaus" if id == 1039
+replace location2 = "Hauptbahnhof" if id == 1781
+replace location2 = "Bargteheide" if id == 1041
+replace location2 = subinstr(location2, "- dann eine Route", "", .)
+replace location2 = subinstr(location2, " 1245 Uhr Beauner Platz", "", .)
+replace location2 = subinstr(location2, " Kreisvorstandssitzung", "", .)
+replace location2 = "Hauptbahnhof" if id == 1066
+replace location2 = "Bücherei" if id == 1806
+replace location2 = "Dr. Ruer Platz" if id == 228
+replace location2 = "Hauptbahnhof" if id == 1714
+replace location2 = "Rathaus" if id == 1652
+replace location2 = subinstr(location2, " 1930 Uhr  Babette-Ihle-Platz", "", .)
+replace location2 = "Schafmarktplatz" if id == 567
+replace location2 = "Amtsgericht" if id == 1835
+replace location2 = "Karl-Marx-Monument" if id == 571
+replace location2 = "Wochenmarktplatz" if id == 1099
+replace location2 = "DGB-Haus" if id == 1719
+replace location2 = "Rathaus" if id == 51
+replace location2 = "St-Nikolai-Kirche" if id == 598
+replace location2 = subinstr(location2, " Fahrradblock", "", .)
+replace location2 = subinstr(location2, " Studentsblock", "", .)
+replace location2 = "Bockenheimer Warte" if id == 68
+replace location2 = "Konstablerwache" if id == 291
+replace location2 = "Kemptener Str. 11" if id == 1904
+replace location2 = "Rathaus" if id == 627
+replace location2 = "Schillerplatz" if id == 1188
+replace location2 = "Opernplatz" if id == 1219
+replace location2 = "Aldiparkplatz" if id == 1961
+replace location2 = "Exerzierplatz" if id == 1985
+replace location2 = "Hauptbahnhof" if id == 507
+replace location2 = "Alter Markt" if id == 909
+replace location2 = "Richard-Wagner-Platz" if id == 1613
+replace location2 = "Willy-Brandt-Platz" if id == 251
+replace location2 = subinstr(location2, " Schweigedemo", "", .)
+replace location2 = "Marktplatz" if id == 1615
+replace location2 = "Musik und Kongresshalle" if id == 131
+replace location2 = "Musik und Kongresshalle" if id == 686
+replace location2 = "Musik und Kongresshalle" if id == 1317
+replace location2 = "Ehrenhof" if id == 2036
+replace location2 = "Schloss Ehrenhof" if id == 2036
+replace location2 = "Schloss Ehrenhof" if id == 694
+replace location2 = subinstr(location2, " KlimaForum", "", .)
+replace location2 = subinstr(location2, "  -Zug ab ca. 1330 Uhr", "", .)
+replace location2 = "Historisches Rathaus" if id == 149
+replace location2 = "Odenwaldhalle" if id == 720
+replace location2 = "Neupfarrplatz" if id == 838
+replace location2 = subinstr(location2, " Menschen kette", "", .)
+replace location2 = subinstr(location2, " Kleidertausch & Spendensammlung für nachhaltige Organisationen", "", .)
+
+
 
 
 
@@ -349,6 +399,12 @@ replace city2 = "Rothenburg ob der Tauber" if id==2141
 replace city2 = "Rottenburg am Neckar" if id==2142
 replace city2 = "Weißenburg in Bayern" if id==214 
 replace city2 = "Weißenburg in Bayern" if id == 784 
+replace city2 = subinstr(city2, " Fahrradblock", "", .)
+replace city2 = subinstr(city2, " Studentsblck", "", .)
+replace city2 = subinstr(city2, " 1", "", .)
+replace city2 = subinstr(city2, " 2", "", .)
+replace city2 = subinstr(city2, " 3", "", .)
+replace city2 = subinstr(city2, " 4", "", .)
 
 
 
@@ -374,7 +430,51 @@ tabulate    dup3
 drop        if dup3>1	
 
 drop        dup3
-drop        in 1/1
+*drop        in 1/1
+
+
+
+
+/*-------------CLEAN TIME-----------------------------*/
+
+replace time = "14:00" if city2 == "Amberg" & location2 == "Maltesergarten"
+replace time = subinstr(time, "Sachsen", "", .)
+replace time = subinstr(time, "week4CLIMATE", "", .)
+replace time = "14:00" if id == 228
+replace time = subinstr(time, "Brandenburg", "", .)
+replace time = "13:00" if id == 238
+replace time = "13:00" if id == 2070
+
+
+
+/*-------------GENERATE TIME FORMAT-----------------------------*/
+
+gen double time_format=clock(time,"hm")
+format time_format %tcHH:MM
+
+
+/*-------------GENERATE DUMMY FOR DEMO IN DIFFERENT CITY-----------------------------*/
+
+gen diff_city = 0
+replace diff_city = 1 if id == 1041
+replace diff_city = 1 if id == 1085
+replace diff_city = 1 if id == 1100
+replace diff_city = 1 if id == 48
+replace diff_city = 1 if id == 1130
+replace diff_city = 1 if id == 1170
+replace diff_city = 1 if id == 1912
+replace diff_city = 1 if id == 1194
+replace diff_city = 1 if id == 1208
+replace diff_city = 1 if id == 2038
+replace diff_city = 1 if id == 1423
+replace diff_city = 1 if id == 2134
+replace diff_city = 1 if id == 1450
+replace diff_city = 1 if id == 1503
+replace diff_city = 1 if id == 1647
+replace diff_city = 1 if id == 1567
+
+
+
 
 
 save       "$dir_temp\Appended.dta", replace
