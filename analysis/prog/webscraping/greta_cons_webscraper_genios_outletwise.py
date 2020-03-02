@@ -22,16 +22,19 @@ Outputs:
 import requests
 from bs4 import BeautifulSoup
 from datetime import timedelta, datetime
+import pandas as pd
 
 # magic numbers
 z_start_date = datetime(2018, 8, 1)    # 2018, 8, 1
-z_end_date   = datetime(2019, 12, 31)  # 2019, 12, 31
+z_end_date   = datetime(2020, 2, 28)  # 2020, 2, 28
 
 # HOME directories
-#z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
+z_media_input_list_outlets = '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/genios_sources_list/'
+z_media_output =             '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
+
 
 # work directories (LOCAL)
-z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
+#z_media_output =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
 
 ###############################################################################
 #       1) Define programs
@@ -45,13 +48,20 @@ def daterange(start_date, end_date):
 
 
 ########## 1.2 scraper ##########
-def scraper_outlet(term, output_name,outlet):
+def scraper_outlet(terms, header, output_name,outlet):
     fh_write = open(z_media_output + output_name, 'w')
-    fh_write.write('The following terms were used: ' + ',' + term + '\n')
+
+    # write header: outlet_var
+    fh_write.write('date'+ ',' + ', '.join([outlet + '_' + s for s in header]) + '\n')    
 
     # loop through days
     for day in daterange(z_start_date, z_end_date):
-        link = 'https://www.genios.de/dosearch?explicitSearch=true&q='+term+'&\
+        
+        list_result = []
+        
+        # loop through terms
+        for term in terms:        
+            link = 'https://www.genios.de/dosearch?explicitSearch=true&q='+term+'&\
 searchRestriction=&dbShortcut='+outlet+'&searchMask=5478&TI%2CUT\
 %2CDZ%2CBT%2COT%2CSL=&KO=&MM%2COW%2CUF%2CMF%2CAO%2CTP%2CVM%2CNN%2CNJ%2\
 CKV%2CZ2=&CO%2CC2%2CTA%2CKA%2CVA%2CZ1=&CT%2CZ4%2CKW=&BR%2CGW%2CN1%2CN2\
@@ -59,29 +69,30 @@ CKV%2CZ2=&CO%2CC2%2CTA%2CKA%2CVA%2CZ1=&CT%2CZ4%2CKW=&BR%2CGW%2CN1%2CN2\
 =&Z3%2CCN%2CCE%2CKC%2CTC%2CVC=&timeFilterType=on&DT_from=\
 '+ day.strftime('%d.%m.%Y') + '&DT_to=' + day.strftime('%d.%m.%Y') + '&x=61&y=18'
 
-        # extract html
-        page = requests.get(link)
-        soup = BeautifulSoup(page.content, 'html.parser')
-        result_text_header = soup.find(class_="moduleResultTextHeader")
-        result = result_text_header.get_text()
-
-        #omit the thousands digit
-        if len(result)<= 22:
-            print(day.strftime('%d.%m.%Y'), result[18:-1])
-            fh_write.write(day.strftime('%d.%m.%Y') + ',' + result[18:-1] + '\n')
-        if len(result)== 24:
-            print(day.strftime('%d.%m.%Y'), result[18:19]+result[20:-1])
-            fh_write.write(day.strftime('%d.%m.%Y') + ',' + result[18:19]+result[20:-1] + '\n')
-        if len(result)== 25:
-            print(day.strftime('%d.%m.%Y'), result[18:20]+result[21:-1])
-            fh_write.write(day.strftime('%d.%m.%Y') + ',' + result[18:20]+result[21:-1] + '\n')
-        if len(result)>25  and result[-9:-8]=="0":
-            print(day.strftime('%d.%m.%Y'), '0')
-            fh_write.write(day.strftime('%d.%m.%Y') + ',' + '0' + '\n')
+            # extract html
+            page = requests.get(link)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            result_text_header = soup.find(class_="moduleResultTextHeader")
+            result = result_text_header.get_text()
+            
+            #omit the thousands digit
+            if len(result)<= 22:
+                list_result.append(result[18:-1])
+            if len(result)== 24:
+                list_result.append(result[18:19]+result[20:-1])
+            if len(result)== 25:
+                list_result.append(result[18:20]+result[21:-1])
+            if len(result)>25  and result[-9:-8]=="0":
+                list_result.append('0')
+                
+        print(outlet, day.strftime('%d.%m.%Y'), ', '.join(list_result))        
+        fh_write.write(day.strftime('%d.%m.%Y')+ ',' + ', '.join(list_result) + '\n')
+                
+                
 
     # close file handle
     fh_write.close()
-    print('finished scraping for terms: ' + term)
+    print('finished scraping for terms in : ' + outlet)
 
 
 
@@ -96,28 +107,27 @@ CKV%2CZ2=&CO%2CC2%2CTA%2CKA%2CVA%2CZ1=&CT%2CZ4%2CKW=&BR%2CGW%2CN1%2CN2\
 #       3) scrape for terms in specific outlets
 ###############################################################################
 
+# open list of outlets
+outlets = pd.read_csv(z_media_input_list_outlets +
+                     'list_outlets_url_abbreviations.csv',
+                     sep=';')['abbrevation'].to_list()
 
-outlets = ['FAZ', 'SZ']
+#outlets = ['FTB', 'SZ']
 
-term_greta_thunberg = "\"greta thunberg\""
-
-for outlet in outlets:
-     print(outlet)
-     scraper_outlet(term_greta_thunberg,
-             'outlets/genios_articles_'+outlet+'_greta_thunberg.csv',
-             outlet)
-
-
+# terms
 term_all_paper = ''
+term_greta_thunberg = "\"greta thunberg\""
+term_FFF = "\"Fridays-For-Future\"+%7C%7C+Klimastreik+%7C%7C+\"FridaysForFuture\""
+
+# define list of terms and list of headers
+list_terms = [term_all_paper, term_greta_thunberg, term_FFF]
+list_header = ['all', 'greta', 'fff']
+
+
+
 for outlet in outlets:
-     print(outlet)
-     scraper_outlet(term_all_paper,
-             'outlets/genios_articles_'+outlet+'_all.csv',
+     scraper_outlet(list_terms, list_header,
+             'outlets/genios_articles_'+outlet+'.csv',
              outlet)
-
-
-
-
-
-
+     
 
