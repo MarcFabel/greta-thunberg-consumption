@@ -37,9 +37,8 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 
-#z_username = 'ExtinctionR_DE'              #z_start_date = datetime(2018, 11, 1)
-z_username = 'parents4future'              #z_start_date = datetime(2019, 2, 1)
-#z_username = 'sciforfuture'                #z_start_date = datetime(2019, 3, 1)
+# define user name
+
 
 
 # finished scraping
@@ -50,15 +49,14 @@ z_username = 'parents4future'              #z_start_date = datetime(2019, 2, 1)
 #z_username = 'FranziWessel'                #z_start_date = datetime(2019, 5, 1)
 #z_username = 'FridayForFuture'             #z_start_date = datetime(2018, 12, 1) FFF Germany
 #z_username = 'Ende__Gelaende'
-
-
+#z_username = 'parents4future'              #z_start_date = datetime(2019, 2, 1)
+#z_username = 'ExtinctionR_DE'              #z_start_date = datetime(2018, 11, 1)
+#z_username = 'sciforfuture'                #z_start_date = datetime(2019, 3, 1)
 
 # get number of followers
 
-
-
 ###############################################################################
-#       1) use GOT to collect tweets
+#       1) use GOT to collect old tweets
 ###############################################################################
 
 # have a large constant in order to capture all tweets per day
@@ -66,38 +64,57 @@ z_maxtweets = 1000
 
 
 # time period over which you want to scrape the old tweets
-z_start_date = datetime(2019, 10, 28) # 2018, 10, 1
-z_end_date = datetime(2020,1,31) # 2020,1,1
+z_start_date = datetime(2019, 3, 15) # 2018, 10, 1
+z_end_date = datetime(2020,1,31) # 2020,1,31
 
 
 # open file handle with headers
-fh_write = open(z_media_output + 'twitter_' + z_username + '_v4.csv', 'w',
+fh_write = open(z_media_output + 'twitter_' + z_username + '.csv', 'w',
                 encoding='utf8')
 fh_write.write('date\tfavorites\tretweets\tmentions\ttext\thashtags' + '\n')
 
 for day in daterange(z_start_date, z_end_date):
-     tomorrow = day + timedelta(1) # enables extraction of tweets between today and tomorrow
-     print('currently extracting:', day.strftime('%Y-%m-%d'))
-     tweetCriteria = got.manager.TweetCriteria().setUsername(z_username)\
-                .setSince(day.strftime('%Y-%m-%d'))\
-                .setUntil(tomorrow.strftime('%Y-%m-%d'))\
-                .setMaxTweets(z_maxtweets)
+    tomorrow = day + timedelta(1) # enables extraction of tweets between today and tomorrow
+    print('currently extracting:', day.strftime('%Y-%m-%d'))
+    tweetCriteria = got.manager.TweetCriteria().setUsername(z_username)\
+            .setSince(day.strftime('%Y-%m-%d'))\
+            .setUntil(tomorrow.strftime('%Y-%m-%d'))\
+            .setMaxTweets(z_maxtweets)
 
-     # etract all tweets today
-     j = 0
-     len_tweets_month = len(got.manager.TweetManager.getTweets(tweetCriteria))
-     while j < z_maxtweets and j < len_tweets_month:
-          tweet = got.manager.TweetManager.getTweets(tweetCriteria)[j]
-          fh_write.write(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + '\t' +
-                    str(tweet.favorites) + '\t' +
-                    str(tweet.retweets) + '\t' +
-                    tweet.mentions + '\t' +
-                    tweet.text + '\t' +
-                    tweet.hashtags + '\n')
-          j += 1
+    # etract all tweets today
+    j = 0
+    temp = got.manager.TweetManager.getTweets(tweetCriteria)
+    len_tweets_month = len(temp)
+    print(len_tweets_month)
 
-     # additional time between daily requests
-     time.sleep(17)
+    while j < z_maxtweets and j < len_tweets_month:
+        tweet = temp[j]
+        fh_write.write(tweet.date.strftime('%Y-%m-%d %H:%M:%S') + '\t' +
+            str(tweet.favorites) + '\t' +
+            str(tweet.retweets) + '\t' +
+            tweet.mentions + '\t' +
+            tweet.text + '\t' +
+            tweet.hashtags + '\n')
+        j += 1
+
+    # additional time between daily requests
+    time.sleep(60)
 
 fh_write.close()
 print('program finished')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
