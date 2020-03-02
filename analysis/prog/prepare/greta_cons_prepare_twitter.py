@@ -37,74 +37,71 @@ z_prefix =          'greta_cons_'
 #           Read in & prepare Data
 ###############################################################################
 
-########## Read in activists ##################################################
-greta = pd.read_csv(z_media_input + 'twitter_GretaThunberg.csv', sep='\t',
-                    index_col='date', parse_dates=True, encoding = "utf-8")
-
-luisa = pd.read_csv(z_media_input + 'twitter_Luisamneubauer.csv', sep='\t',
-                    index_col='date', parse_dates=True, encoding = "utf-8")
-
-jakob = pd.read_csv(z_media_input + 'twitter_jakobblasel.csv', sep='\t',
-                    index_col='date', parse_dates=True, encoding = "utf-8")
-
-
-
-
-
-# define common activists
-activists = luisa['favorites'].copy()
-
-
-list_activists = [greta, luisa, jakob]
-
-# make graph for each of the activists:
-for activist in list_activists:
-    # define variables in per thousand+
-    # define variables for greta
-    activist['favorites'] = activist['favorites'] / 1000
-    activist['retweets']  = activist['retweets']  / 1000
-    temp = jakob.resample('W').sum()
 
 
 #############################################
-# Versuch alles über ein großes dictionary zu machen
-
-
 # generate dictionary of activist
-paths = ['GretaThunberg', 'Luisamneubauer', 'jakobblasel', 'carla_reemtsma',
-         'FranziWessel']
+list_twitter_accounts = ['GretaThunberg', 'Luisamneubauer', 'jakobblasel', 'carla_reemtsma',
+         'FranziWessel', 'FridayForFuture', 'Ende__Gelaende', 'parents4future',
+         'ExtinctionR_DE', 'sciforfuture']
 dfs = {p: pd.read_csv(z_media_input + 'twitter_' +  p + '.csv', sep='\t',
-                    index_col='date', parse_dates=True, encoding = "utf-8") for p in paths}
+                      index_col='date', parse_dates=True, encoding = "utf-8")
+      for p in list_twitter_accounts}
 
 
 # more workable keys:
-dfs['greta'] = dfs.pop('GretaThunberg')
-dfs['luisa'] = dfs.pop('Luisamneubauer')
-dfs['jakob'] = dfs.pop('jakobblasel')
-dfs['carla'] = dfs.pop('carla_reemtsma')
-dfs['franzi']= dfs.pop('FranziWessel')
+dfs['greta']  = dfs.pop('GretaThunberg')
+dfs['luisa']  = dfs.pop('Luisamneubauer')
+dfs['jakob']  = dfs.pop('jakobblasel')
+dfs['carla']  = dfs.pop('carla_reemtsma')
+dfs['franzi'] = dfs.pop('FranziWessel')
+dfs['f4f']    = dfs.pop('FridayForFuture')
+dfs['ende']   = dfs.pop('Ende__Gelaende')
+dfs['p4f']    = dfs.pop('parents4future')
+dfs['extreb'] = dfs.pop('ExtinctionR_DE')
+dfs['s4f']    = dfs.pop('sciforfuture')
 
-list_activists = ['greta', 'luisa', 'jakob', 'carla', 'franzi']
 
-for activist in list_activists:
+z_list_activists = list(dfs.keys())
+
+# use dictionary to have short (work in code) and long (save output) keys
+z_dict_keys_sl = {
+		'greta' 	: 'GretaThunberg',
+		'luisa' 	: 'Luisamneubauer',
+		'jakob' 	: 'jakobblasel',
+		'carla' 	: 'carla_reemtsma',
+		'franzi'	: 'FranziWessel',
+		'f4f'   	: 'FridayForFuture',
+		'ende'  	: 'Ende__Gelaende',
+		'p4f'   	: 'parents4future',
+		'extreb'	: 'ExtinctionR_DE',
+		's4f'   	: 'sciforfuture'
+          }
+# swap key, value pairs
+z_dict_keys_ls = dict([(value, key) for key, value in z_dict_keys_sl.items()])
+
+
+
+for activist in z_list_activists:
     dfs[activist]['favorites'] = dfs[activist]['favorites'] / 1000
     dfs[activist]['retweets'] = dfs[activist]['retweets'] / 1000
     dfs[activist + '_w'] = dfs[activist].resample('W').sum()
 
 
-# kann ich df übergreifend plotten - yes
-fig, ax = plt.subplots()
-ax.plot(dfs['luisa_w'].index.values, dfs['jakob_w']['favorites'],
-        color='blue', label='jakob blasel')
-ax.plot(dfs['carla_w'].index.values, dfs['carla_w']['favorites'],
-        color='green', label='carla reemtsma')
-ax.plot(dfs['franzi_w'].index.values, dfs['franzi_w']['favorites'],
-        color='red', label='franzi wessel')
-ax.legend(loc='upper left')
 
 
-# loop over activists to have graph
-for activist in list_activists:
+
+
+
+
+
+###############################################################################
+#           Graphs
+###############################################################################
+
+
+##########  Graph : favorites and retweets per activist #######################
+for activist in z_list_activists:
 	fig, ax1 = plt.subplots()
 	color_fav = 'tab:blue'
 	ax1.plot(dfs[activist + '_w'].index.values, dfs[activist + '_w']['favorites'], color=color_fav, label='favorites') # T10 categorical palette
@@ -128,16 +125,72 @@ for activist in list_activists:
 	lines, labels = ax1.get_legend_handles_labels()
 	lines2, labels2 = ax2.get_legend_handles_labels()
 	ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+	plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_retweets_' +
+				z_dict_keys_sl[activist]  +'.pdf')
 
 
 
-###############################################################################
-#           Graphs
-###############################################################################
+
+
+
+
+##########  Graphs : compare the activists ####################################
+
+#w/o greta thunberg - has to be programmed as spaghetti graph
+# dictionary color
+tab_color_palette = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red',
+                     'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',
+                     'tab:olive', 'tab:cyan']
+tab_color_palette = tab_color_palette[:len(z_list_activists)] # shorten the color pallete to the number of activists w/o greta
+z_dict_activists_color = dict(zip(z_list_activists, tab_color_palette))
+
+
+# likes: all in one graph
+fig, ax = plt.subplots()
+for activist in z_list_activists:
+     ax.plot(dfs[activist + '_w'].index.values, dfs[activist+'_w']['favorites'],
+             label=z_dict_keys_sl[activist],
+             color=z_dict_activists_color[activist])
+ax.legend(loc='upper left')
+ax.set_ylabel('Favorites [in thousand]')
+plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_spaghetti_all.pdf')
+
+
+#w/o greta thunberg - has to be programmed as spaghetti graph
+for activist in z_list_activists[1:]:
+     temp = z_list_activists.copy()[1:] # list w/o greta
+     temp.remove(activist)
+     fig, ax = plt.subplots()
+     ax.plot(dfs[activist+ '_w'].index.values, dfs[activist+ '_w']['favorites'],
+             linewidth=1.6, alpha=0.99, label=z_dict_keys_sl[activist],
+             color=z_dict_activists_color[activist])
+     for other_activists in temp:
+          ax.plot(dfs[other_activists+'_w'].index.values,
+                  dfs[other_activists+ '_w']['favorites'],
+                  color='grey', linewidth=0.3, alpha=0.7)
+     ax.legend(loc='upper left')
+     ax.set_ylabel('Favorites [in thousand]')
+     plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_spaghetti_' +
+				z_dict_keys_sl[activist]  +'.pdf')
+
+
+
+
+
+
+
+
+
+
+
+
+##########  Graph : favorites and retweets Greta only #########################
+
+temp = dfs['greta_w'].copy()
+
 
 # without events
 fig, ax1 = plt.subplots()
-
 color_fav = 'tab:blue'
 ax1.plot(temp.index.values, temp['favorites'], color=color_fav, label='favorites') # T10 categorical palette
 ax1.set_xlabel('Date')
@@ -204,43 +257,45 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_retweets_weekl
 ###############################################################################
 #           NLP
 ###############################################################################
-
-# classify language of tweet
-from langdetect import detect
-import numpy as np
-
-# define missing values as str.nan
-greta['text'] = greta['text'].replace('', np.nan)
-greta['text'] = greta['text'].replace(' ', np.nan)
+greta = dfs['greta'].copy()
 
 
-
-
-# there are two tweets that just contain links, which cannot be classified as language
-criterium_no_link = (greta['text'] != 'https://www.fridaysforfuture.org') & \
-    (greta['text'] != 'https://unfccc-cop25.streamworld.de/webcast/high-level-event-on-climate-emergency')
-
-greta['lang'] = greta.loc[greta.text.notnull() & criterium_no_link].text.apply(detect)
-
-
-# correct language missclassifications
-temp1 = greta.loc[greta.lang != 'en']
-
-lang_misclass = ['af', 'ca', 'cs', 'cy', 'et', 'fi', 'id', 'it', 'no', 'pl',
-                 'pt', 'ro', 'sl', 'so', 'sw', 'tl', 'tr']
-for lang in lang_misclass:
-    greta['lang'] = greta['lang'].replace(lang, 'en')
-
-temp1 = greta.loc[greta.lang != 'en']
-
-
-
-
-
-# change order of columns
-z_cols_to_order = ['favorites', 'retweets', 'lang', 'text']
-z_new_columns = z_cols_to_order + (greta.columns.drop(z_cols_to_order).tolist())
-greta = greta[z_new_columns]
+## classify language of tweet
+#from langdetect import detect
+#import numpy as np
+#
+## define missing values as str.nan
+#greta['text'] = greta['text'].replace('', np.nan)
+#greta['text'] = greta['text'].replace(' ', np.nan)
+#
+#
+#
+#
+## there are two tweets that just contain links, which cannot be classified as language
+#criterium_no_link = (greta['text'] != 'https://www.fridaysforfuture.org') & \
+#    (greta['text'] != 'https://unfccc-cop25.streamworld.de/webcast/high-level-event-on-climate-emergency')
+#
+#greta['lang'] = greta.loc[greta.text.notnull() & criterium_no_link].text.apply(detect)
+#
+#
+## correct language missclassifications
+#temp1 = greta.loc[greta.lang != 'en']
+#
+#lang_misclass = ['af', 'ca', 'cs', 'cy', 'et', 'fi', 'id', 'it', 'no', 'pl',
+#                 'pt', 'ro', 'sl', 'so', 'sw', 'tl', 'tr']
+#for lang in lang_misclass:
+#    greta['lang'] = greta['lang'].replace(lang, 'en')
+#
+#temp1 = greta.loc[greta.lang != 'en']
+#
+#
+#
+#
+#
+## change order of columns
+#z_cols_to_order = ['favorites', 'retweets', 'lang', 'text']
+#z_new_columns = z_cols_to_order + (greta.columns.drop(z_cols_to_order).tolist())
+#greta = greta[z_new_columns]
 
 
 
@@ -255,7 +310,6 @@ from string import digits, punctuation
 import nltk
 
 import random
-import numpy as np
 
 
 # color function for different shades of gray in the word cloud
@@ -459,6 +513,57 @@ sns.distplot(subjectivity_df.subjectivity, hist=True, kde=True, norm_hist=False,
 plt.ylabel('Density')
 plt.xlabel('')
 plt.savefig(z_media_figures + z_prefix + 'twitter_greta_subjectivity_hist.pdf')
+
+
+
+
+
+##########  Polarity and Subjectivity for all activists #######################
+temp = {}
+for activist in z_list_activists:
+
+     # make tweets into list
+     raw_tweets = dfs[activist].text.values.tolist()
+
+     # eliminate empty fields
+     raw_tweets =  [x for x in raw_tweets if type(x)== str]
+
+     tweets_no_urls = [remove_url(tweet) for tweet in raw_tweets]
+     sentiment_objects = [TextBlob(tweet) for tweet in tweets_no_urls]
+     sentiment_objects[1].polarity, sentiment_objects[1]
+
+     sentiment_values = [[tweet.sentiment.polarity,
+                     tweet.sentiment.subjectivity] for tweet in sentiment_objects]
+     sentiment_df = pd.DataFrame(sentiment_values, columns=["polarity",
+                                                       'subjectivity'])
+
+     temp[activist] = [sentiment_df[sentiment_df['polarity'] != 0].polarity.mean(),
+          sentiment_df[sentiment_df['polarity'] != 0].polarity.std(),
+          sentiment_df[sentiment_df['subjectivity'] != 0].subjectivity.mean(),
+          sentiment_df[sentiment_df['subjectivity'] != 0].subjectivity.mean()]
+
+df_polarity_subjectivty = pd.DataFrame.from_dict(temp, orient='index',
+                                                 columns=['pol_m', 'pol_sd', 'sub_m', 'sub_sd'])
+
+
+# change index values
+df_polarity_subjectivty.index = df_polarity_subjectivty.index.map(z_dict_keys_sl)
+
+
+# export the dataframe to a scatter plot
+fig, ax = plt.subplots()
+ax = sns.scatterplot(x=df_polarity_subjectivty["pol_m"],
+                     y=df_polarity_subjectivty["sub_m"],
+                     hue= df_polarity_subjectivty.index)
+ax.set_xlabel('mean polarity')
+ax.set_ylabel('mean subjectivity')
+
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15),
+          fancybox=True,  ncol=5)
+plt.savefig(z_media_figures + z_prefix + 'twitter_activists_scatter_polarity_subjectivity.pdf',
+             bbox_inches='tight')
+
+
 
 
 
