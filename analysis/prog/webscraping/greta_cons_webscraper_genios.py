@@ -25,7 +25,7 @@ from datetime import timedelta, datetime
 
 # magic numbers
 z_start_date = datetime(2018, 1, 1)    # 2018, 1, 1
-z_end_date   = datetime(2019, 12, 31)  # 2019, 12, 31
+z_end_date   = datetime(2020, 2, 29)  # 2019, 12, 31
 
 # HOME directories
 #z_media_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
@@ -106,9 +106,16 @@ scraper(term_FFF, 'genios_articles_FFF.csv')
 # Boolean Operator in search engine -> || used for OR
 # source for encoding: https://www.w3schools.com/tags/ref_urlencode.ASP
 
+# school management
+# pattern: (Schulleitung || Direktorat || Schulleiter || Schulleiterin || Schuldirektor || Schuldirektorin)
+# & ("Greta Thunberg" || "Fridays For Future" || FridaysForFuture)
+term_school = '(Schulleitung+%7C%7C+Direktorat+%7C%7C+Schulleiter+%7C%7C+Schulleiterin+%7C%7C+Schuldirektor+%7C%7C+Schuldirektorin)+%26+\
+(\"Greta Thunberg\"+%7C%7C+\"Fridays For Future\"+%7C%7C+FridaysForFuture)'
+scraper(term_school, 'genios_articles_school_management.csv')
+
+
+
 # universe of articles
 term_all_paper = ''
 scraper(term_all_paper, 'genios_articles_all.csv')
-
-
 
