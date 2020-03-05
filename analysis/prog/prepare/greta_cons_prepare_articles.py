@@ -51,6 +51,9 @@ fff = pd.read_csv(z_media_input + 'genios_articles_FFF.csv', sep=',',
                     names=['date', 'art_fff'], header=0, index_col='date',
                     parse_dates=True, dayfirst=True)
 
+school = pd.read_csv(z_media_input + 'genios_articles_school_management.csv', sep=',',
+                    names=['date', 'art_school'], header=0, index_col='date',
+                    parse_dates=True, dayfirst=True)
 
 articles = pd.read_csv(z_media_input + 'genios_articles_all.csv', sep=',',
                        names=['date', 'art_all'], header=0,
@@ -76,6 +79,7 @@ articles_faz = pd.read_csv(z_media_input + 'outlets/genios_articles_FAZ_all.csv'
 ########## merge dfs  #########################################################
 articles = articles.join(greta, how='inner')
 articles = articles.join(fff, how='inner')
+articles = articles.join(school, how='inner')
 articles = articles.join(greta_sz, how='outer')
 articles = articles.join(greta_faz, how='outer')
 articles = articles.join(articles_sz, how='outer')
@@ -87,6 +91,7 @@ articles = articles.join(articles_faz, how='outer')
 # number of articles per thousand
 articles['art_greta_ratio'] = articles['art_greta'] * 1000 / articles['art_all']
 articles['art_fff_ratio'] = articles['art_fff'] * 1000 / articles['art_all']
+articles['art_school_ratio'] = articles['art_school'] * 1000 / articles['art_all']
 
 
 # day of the week
@@ -103,6 +108,9 @@ articles['art_fff_ma3'] = articles.art_fff.rolling(window=3).mean()
 articles['art_fff_ratio_ma3'] = articles.art_fff_ratio.rolling(window=3).mean()
 articles['art_fff_ratio_ma7'] = articles.art_fff_ratio.rolling(window=7).mean()
 
+articles['art_school_ma3'] = articles.art_school.rolling(window=3).mean()
+articles['art_school_ratio_ma3'] = articles.art_school_ratio.rolling(window=3).mean()
+articles['art_school_ratio_ma7'] = articles.art_school_ratio.rolling(window=7).mean()
 
 
 ###############################################################################
@@ -233,6 +241,62 @@ ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
 ax.xaxis.set_minor_locator(mdates.YearLocator())
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
+
+
+
+
+
+
+
+
+
+
+
+########## plot School articles per 1,000 articles - 2019 ######################
+
+fig, ax = plt.subplots()
+ax.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_school_ratio, alpha=0.6, color='darkgrey', label='unsmoothed')
+ax.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_school_ratio_ma3, label='smoothed')
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+ax.xaxis.set_minor_locator(mdates.YearLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
+ax.legend()
+ax.set(xlabel='Date', ylabel='Number of articles covering School Management,\n per 1,000 articles') #xlabel='months',
+plt.savefig(z_media_figures + z_prefix + 'genios_school_per_1000_2019.pdf')
+
+
+
+
+
+
+# plot school management and FFF
+
+fig, ax1 = plt.subplots()
+color_fav = 'tab:blue'
+ax1.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_school_ratio_ma3,
+         label='school management', color=color_fav)
+ax1.set_xlabel('Date')
+ax1.set_ylabel('Number of articles covering School Management,\n per 1,000 articles', color=color_fav) #xlabel='months',
+ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+ax1.xaxis.set_minor_locator(mdates.YearLocator())
+ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax1.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
+
+ax2 = ax1.twinx()
+color_re = 'tab:orange'
+ax2.plot(articles.loc['2018-11':].index.values, articles.loc['2018-11':].art_fff_ratio_ma3,
+         label='fff strikes', color=color_re, alpha=0.45, linewidth=2.1)
+ax2.set_ylabel('Number of articles covering FFF strikes,\n per 1,000 articles', color=color_re)
+ax2.tick_params(axis='y', labelcolor=color_re)
+ax2.grid(None)
+
+# ask matplotlib for the plotted objects and their labels
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+plt.savefig(z_media_figures + z_prefix + 'genios_school_fff_strikes_per_1000_2019.pdf')
+
 
 
 
