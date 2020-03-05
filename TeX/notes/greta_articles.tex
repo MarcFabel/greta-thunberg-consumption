@@ -174,8 +174,12 @@ labelfont={bf}
 %--------------------------------------------------------------------
 \begin{document}
 \maketitle
-The document contains figures that depict the evolution of the phenomenon Greta Thunberg or FFF. The first half is dedicated to the evolution in print media, whereas the second half is covering data obtained from Greta Thunberg's Twitter feed.
+The document contains figures that depict the evolution of the phenomenon Greta Thunberg or FFF. The first half is dedicated to the evolution in print media, whereas the second half is covering data obtained from Greta Thunberg's Twitter feed.\newline
 
+Data which is not presented here, but we still have: 
+\begin{itemize}
+	\item the number of articles (about Greta Thunberg, FFF, ...) across all outlets that are listed on genios
+\end{itemize}
 
 \tableofcontents
 
@@ -313,7 +317,7 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 	\caption{Word Cloud of Greta Thunberg's tweets}
 	\includegraphics[width=0.85\linewidth]{descriptive/greta_cons_twitter_greta_word_cloud.pdf}
 	\begin{minipage}{\linewidth}
-		\scriptsize{\emph{Notes:} The figure shows the contents of Greta Thunberg's tweets. The larger one word is depicted, the more frequent it is used by Greta Thunberg in her tweets. The lowercased keywords are from the subset of words after removing urls, digits, punctuation, and stopwords.}
+		\scriptsize{\emph{Notes:} The figure shows the contents of Greta Thunberg's tweets. The larger one word is depicted, the more frequent it is used by Greta Thunberg in her tweets. The lowercased keywords are from the subset of words after removing urls, hastags, mentions, digits, punctuation, and stopwords.}
 	\end{minipage}
 \end{figure}
 
@@ -325,6 +329,23 @@ The document contains figures that depict the evolution of the phenomenon Greta 
 	\end{minipage}
 \end{figure}
 
+
+\begin{figure}[H]\centering
+	\caption{Top hashtags in Greta Thunberg's tweets}
+	\includegraphics[width=0.95\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_hashtags.pdf}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:} The figure shows the frequency of the most widely used hashtags in Greta Thunberg's tweets. The hashtags are listed if they appear at least five times over the entire time period. }
+	\end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]\centering
+	\caption{Top mentions in Greta Thunberg's tweets}
+	\includegraphics[width=0.95\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_mentions.pdf}
+	\begin{minipage}{\linewidth}
+		\scriptsize{\emph{Notes:}The figure lists the ten most frequent mentions in Greta Thunberg's tweets. The people behind the Twitter accounts are: @$\_$NikkiHenderson, @Sailing$\_$LaVaga, @elayna$\_$c (sailors), @GeorgeMonbiot (British writer and politcal activist),  @KevinClimate (Professor of energy and climate change), @Luisamneubauer (German climate activist), @AnunaDe (Belgian climate activist), @ExtinctionR (global environmental movement), @UNFCCC (UN Climate Change), @KlimatSverige (Swedish non-profit climate activism network)}
+	\end{minipage}
+\end{figure}
 
 
 

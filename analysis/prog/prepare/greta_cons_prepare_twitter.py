@@ -24,13 +24,13 @@ style.use('seaborn-darkgrid')
 
 
 # HOME directory
-z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
 
 # work directories (LOCAL)
-#z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
-#z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
-#z_prefix =          'greta_cons_'
+z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
+z_prefix =          'greta_cons_'
 
 
 ###############################################################################
@@ -460,8 +460,8 @@ hashtags = [h.lower() for h in hashtags]
 hashtags = [sub.replace('#fridayforfuture', '#fridaysforfuture') for sub in hashtags]
 hashtags = [sub.replace('#fridaysforfurture', '#fridaysforfuture') for sub in hashtags]
 hashtags = [sub.replace('#schoolsstrike4climate', '#schoolstrike4climate') for sub in hashtags]
-                        
-                        
+
+
 # generate df with number of occurences per hashtag
 dfhashtags = pd.DataFrame(hashtags, columns=['hashtags'])
 dfhashtags['counts'] = 1
@@ -476,29 +476,29 @@ ax = sns.barplot(hashtags_nr.index, hashtags_nr.counts, palette='Blues_d') #
 ax.set(xlabel='', ylabel='Number of uses')
 for item in ax.get_xticklabels():
      item.set_rotation(90)
-plt.tight_layout()      # makes room for the x-label (as it is quite wide)                     
-                        
+plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_hashtags.pdf')
 
-
-# word cloud of hashtags
-wc = WordCloud(
-    width = 1500,
-    height = 1000,
-    background_color = 'white',
-    max_words=90,
-    collocations=False,
-    random_state=1) # collocations=False -> use only monograms
-clean_string = ' '.join(hashtags)
-wc.generate(clean_string)
-
-fig = plt.figure(
-    figsize = (20, 16),
-    facecolor = 'k',
-    edgecolor = 'k')
-
-plt.imshow(wc.recolor(color_func=grey_color_func, random_state=3), interpolation = 'bilinear')
-plt.axis('off')
-plt.tight_layout(pad=0)
+#
+## word cloud of hashtags
+#wc = WordCloud(
+#    width = 1500,
+#    height = 1000,
+#    background_color = 'white',
+#    max_words=90,
+#    collocations=False,
+#    random_state=1) # collocations=False -> use only monograms
+#clean_string = ' '.join(hashtags)
+#wc.generate(clean_string)
+#
+#fig = plt.figure(
+#    figsize = (20, 16),
+#    facecolor = 'k',
+#    edgecolor = 'k')
+#
+#plt.imshow(wc.recolor(color_func=grey_color_func, random_state=3), interpolation = 'bilinear')
+#plt.axis('off')
+#plt.tight_layout(pad=0)
 
 
 ##########  Graphs : top mentions #############################################
@@ -518,7 +518,7 @@ dfmentions = pd.DataFrame(mentions, columns=['mentions'])
 dfmentions['counts'] = 1
 mentions_nr = dfmentions.groupby(['mentions']).sum()
 mentions_nr.sort_values(['counts'], inplace=True, ascending=False)
-# keep if hashtag is appearing at least 5 times
+# show 10 most cited mentions
 mentions_nr = mentions_nr[:10]
 
 # bar
@@ -527,7 +527,8 @@ ax = sns.barplot(mentions_nr.index, mentions_nr.counts, palette='Blues_d') #
 ax.set(xlabel='', ylabel='Number of uses')
 for item in ax.get_xticklabels():
      item.set_rotation(90)
-plt.tight_layout()      # makes room for the x-label (as it is quite wide)                     
+plt.tight_layout()      # makes room for the x-label (as it is quite wide)
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_mentions.pdf')
 
 
 
