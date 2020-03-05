@@ -115,7 +115,11 @@ CKV%2CZ2=&CO%2CC2%2CTA%2CKA%2CVA%2CZ1=&CT%2CZ4%2CKW=&BR%2CGW%2CN1%2CN2\
 # open list of outlets
 outlets = pd.read_csv(z_media_input_list_outlets +
                      'list_outlets_url_abbreviations.csv',
-                     sep=';')['abbrevation'].to_list()
+                     sep=';')['abbrevation']
+
+# slice frame in case the loop stops at some point
+outlets = outlets.iloc[-12:,] # stopped at SZMA
+outlets = outlets.to_list()
 
 #outlets = ['FTB', 'SZ']
 
