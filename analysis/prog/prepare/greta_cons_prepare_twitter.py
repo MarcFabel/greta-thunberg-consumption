@@ -24,13 +24,13 @@ style.use('seaborn-darkgrid')
 
 
 # HOME directory
-#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 
 
 # work directories (LOCAL)
-z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
-z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
-z_prefix =          'greta_cons_'
+#z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+#z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
+#z_prefix =          'greta_cons_'
 
 
 ###############################################################################
@@ -245,6 +245,37 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_retweets_weekl
 
 
 
+################################################################
+# Number of Tweets by Greta Thunberg
+################################################################
+temp = dfs['greta'].copy()
+temp['counts'] = 1
+temp = temp.resample('W').sum()
+
+
+
+# mit drei Achsen##################################
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+ax3 =fig.add_axes(ax1.get_position(), sharex=ax1, sharey=ax1)
+ax3.set_facecolor('none') #prevents axes background from hiding artists below
+ax3.set_axis_off() # pervents superimposed ticks from being drawn
+color_fav = 'tab:blue'
+color_re = 'darkgrey'
+ax2.plot(temp.index.values, temp['favorites'], color=color_re, label='favorites')
+ax3.plot(temp.index.values, temp['counts'], color=color_fav, label='count')
+ax2.set_ylabel('Favorites [in thousand]', color=color_re)
+ax2.tick_params(axis='y', labelcolor=color_re)
+ax1.set_xlabel('Date')
+ax1.set_ylabel('Number of tweets', color=color_fav)
+ax1.tick_params(axis='y', labelcolor=color_fav)
+ax2.grid(None)
+ax3.grid(None)
+lines, labels = ax3.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_counts_weekly.pdf')
+
 
 
 # we would also need the number of followers: Hiwi-fun with
@@ -327,14 +358,15 @@ raw_tweets =  [x for x in raw_tweets if type(x)== str]
 # Create a string form of our list of text
 raw_string = ' '.join(raw_tweets)
 
-# eliminate urls
+# eliminate urls, hastags, and mentions
 no_links = re.sub(r'http\S+', '', raw_string)
+no_hashtags = re.sub(r'#\S+', '', no_links)
+no_mentions = re.sub(r'@\S+', '', no_hashtags)
 
 # remove punctuation and special characters
 remove = digits + punctuation + '“”—'
 remove
-
-no_punctuation = no_links.translate(str.maketrans({p: "" for p in remove}))
+no_punctuation = no_mentions.translate(str.maketrans({p: "" for p in remove}))
 
 
 # tokenization
@@ -408,56 +440,100 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_words.p
 
 
 
-################################################################
-# Number of Tweets by Greta Thunberg
-################################################################
-temp = greta.copy()
-temp['counts'] = 1
-temp = temp.resample('W').sum()
+##########  Graphs : top hashtags #############################################
 
-## without events
-#fig, ax1 = plt.subplots()
-#color_fav = 'darkgrey'
-#ax1.plot(temp.index.values, temp['favorites'], color=color_fav, label='favorites',zorder=100)
-#ax1.set_xlabel('Date')
-#ax1.set_ylabel('Favorites [in thousand]', color=color_fav)
-#ax1.tick_params(axis='y', labelcolor=color_fav)
-#ax2 = ax1.twinx()
-#color_re = 'tab:blue'
-#ax2.plot(temp.index.values, temp['counts'], color=color_re, label='count', zorder=0)
-#ax2.set_ylabel('Number of tweets', color=color_re)
-#ax2.tick_params(axis='y', labelcolor=color_re)
-#ax2.grid(None)
-## ask matplotlib for the plotted objects and their labels
-#lines, labels = ax1.get_legend_handles_labels()
-#lines2, labels2 = ax2.get_legend_handles_labels()
-#lines3, labels3 = ax3.get_legend_handles_labels()
-#ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+# make hashtags into list
+raw_hashtags = greta.hashtags.values.tolist()
+
+# eliminate empty fields
+raw_hashtags =  [x for x in raw_hashtags if type(x)== str]
+
+# seperate lists entries further to have one hashtag per entry
+raw_hashtags = ' '.join(raw_hashtags)
+hashtags = raw_hashtags.split(" ")
+
+# make entries lower-case
+hashtags = [h.lower() for h in hashtags]
 
 
+# unify fridays for future
+hashtags = [sub.replace('#fridayforfuture', '#fridaysforfuture') for sub in hashtags]
+hashtags = [sub.replace('#fridaysforfurture', '#fridaysforfuture') for sub in hashtags]
+hashtags = [sub.replace('#schoolsstrike4climate', '#schoolstrike4climate') for sub in hashtags]
+                        
+                        
+# generate df with number of occurences per hashtag
+dfhashtags = pd.DataFrame(hashtags, columns=['hashtags'])
+dfhashtags['counts'] = 1
+hashtags_nr = dfhashtags.groupby(['hashtags']).sum()
+hashtags_nr.sort_values(['counts'], inplace=True, ascending=False)
+# keep if hashtag is appearing at least 5 times
+hashtags_nr = hashtags_nr[hashtags_nr.counts >= 5]
+
+# bar
+fig, ax = plt.subplots()
+ax = sns.barplot(hashtags_nr.index, hashtags_nr.counts, palette='Blues_d') #
+ax.set(xlabel='', ylabel='Number of uses')
+for item in ax.get_xticklabels():
+     item.set_rotation(90)
+plt.tight_layout()      # makes room for the x-label (as it is quite wide)                     
+                        
 
 
-# andersrum mit drei Achsen##################################
-fig, ax1 = plt.subplots()
-ax2 = ax1.twinx()
-ax3 =fig.add_axes(ax1.get_position(), sharex=ax1, sharey=ax1)
-ax3.set_facecolor('none') #prevents axes background from hiding artists below
-ax3.set_axis_off() # pervents superimposed ticks from being drawn
-color_fav = 'tab:blue'
-color_re = 'darkgrey'
-ax2.plot(temp.index.values, temp['favorites'], color=color_re, label='favorites')
-ax3.plot(temp.index.values, temp['counts'], color=color_fav, label='count')
-ax2.set_ylabel('Favorites [in thousand]', color=color_re)
-ax2.tick_params(axis='y', labelcolor=color_re)
-ax1.set_xlabel('Date')
-ax1.set_ylabel('Number of tweets', color=color_fav)
-ax1.tick_params(axis='y', labelcolor=color_fav)
-ax2.grid(None)
-ax3.grid(None)
-lines, labels = ax3.get_legend_handles_labels()
-lines2, labels2 = ax2.get_legend_handles_labels()
-ax2.legend(lines + lines2, labels + labels2, loc='upper left')
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_counts_weekly.pdf')
+# word cloud of hashtags
+wc = WordCloud(
+    width = 1500,
+    height = 1000,
+    background_color = 'white',
+    max_words=90,
+    collocations=False,
+    random_state=1) # collocations=False -> use only monograms
+clean_string = ' '.join(hashtags)
+wc.generate(clean_string)
+
+fig = plt.figure(
+    figsize = (20, 16),
+    facecolor = 'k',
+    edgecolor = 'k')
+
+plt.imshow(wc.recolor(color_func=grey_color_func, random_state=3), interpolation = 'bilinear')
+plt.axis('off')
+plt.tight_layout(pad=0)
+
+
+##########  Graphs : top mentions #############################################
+
+# make mentions into list
+raw_mentions = greta.mentions.values.tolist()
+
+# eliminate empty fields
+raw_mentions =  [x for x in raw_mentions if type(x)== str]
+
+# seperate lists entries further to have one hashtag per entry
+raw_mentions = ' '.join(raw_mentions)
+mentions = raw_mentions.split(" ")
+
+# generate df with number of occurences per hashtag
+dfmentions = pd.DataFrame(mentions, columns=['mentions'])
+dfmentions['counts'] = 1
+mentions_nr = dfmentions.groupby(['mentions']).sum()
+mentions_nr.sort_values(['counts'], inplace=True, ascending=False)
+# keep if hashtag is appearing at least 5 times
+mentions_nr = mentions_nr[:10]
+
+# bar
+fig, ax = plt.subplots()
+ax = sns.barplot(mentions_nr.index, mentions_nr.counts, palette='Blues_d') #
+ax.set(xlabel='', ylabel='Number of uses')
+for item in ax.get_xticklabels():
+     item.set_rotation(90)
+plt.tight_layout()      # makes room for the x-label (as it is quite wide)                     
+
+
+
+
+
+
 
 
 
