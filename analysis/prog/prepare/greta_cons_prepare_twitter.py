@@ -16,22 +16,31 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.style as style
 from datetime import datetime
+import matplotlib.dates as mdates
 
 
 
 #style.available
-style.use('seaborn-darkgrid')
+#style.use('seaborn-darkgrid')
+style.use('seaborn-white')
 
 
 # HOME directory
-#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+z_media_figures =   '/Users/marcfabel/Desktop/twitter_fff_figures/'
+z_prefix =          'greta_cons_'
 
 
 # work directories (LOCAL)
-z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
-z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
-z_prefix =          'greta_cons_'
+#z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
+#z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
+#z_prefix =          'greta_cons_'
 
+
+
+# color
+c_shading = 'darkgreen'
+c_opacity = 0.4
 
 ###############################################################################
 #           Read in & prepare Data
@@ -41,9 +50,9 @@ z_prefix =          'greta_cons_'
 
 #############################################
 # generate dictionary of activist
-list_twitter_accounts = ['GretaThunberg', 'Luisamneubauer', 'jakobblasel', 'carla_reemtsma',
+list_twitter_accounts = sorted(['GretaThunberg', 'Luisamneubauer', 'jakobblasel', 'carla_reemtsma',
          'FranziWessel', 'FridayForFuture', 'Ende__Gelaende', 'parents4future',
-         'ExtinctionR_DE', 'sciforfuture']
+         'ExtinctionR_DE', 'sciforfuture'], key=str.lower)
 dfs = {p: pd.read_csv(z_media_input + 'twitter_' +  p + '.csv', sep='\t',
                       index_col='date', parse_dates=True, encoding = "utf-8")
       for p in list_twitter_accounts}
@@ -66,15 +75,15 @@ z_list_activists = list(dfs.keys())
 
 # use dictionary to have short (work in code) and long (save output) keys
 z_dict_keys_sl = {
-		'greta' 	: 'GretaThunberg',
-		'luisa' 	: 'Luisamneubauer',
-		'jakob' 	: 'jakobblasel',
-		'carla' 	: 'carla_reemtsma',
+        	'carla' 	: 'carla_reemtsma',
+		'ende'  	: 'Ende__Gelaende',
+		'extreb'	: 'ExtinctionR_DE',
 		'franzi'	: 'FranziWessel',
 		'f4f'   	: 'FridayForFuture',
-		'ende'  	: 'Ende__Gelaende',
+		'greta' 	: 'GretaThunberg',
+		'jakob' 	: 'jakobblasel',
+		'luisa' 	: 'Luisamneubauer',
 		'p4f'   	: 'parents4future',
-		'extreb'	: 'ExtinctionR_DE',
 		's4f'   	: 'sciforfuture'
           }
 # swap key, value pairs
@@ -130,6 +139,55 @@ for activist in z_list_activists:
 
 
 
+    
+    
+
+
+
+###############################################################################
+# Luisa Neubauer Favorites with events
+txt = '''
+    The green lines/areas indicate important events: 
+    1) Climate Strike Hamburg (01.03.2019), 2) 1st Global Climate Strike - more than 1.4 million people
+    involved (15.03.2019), 3) Greta Thunberg's speech in Strasbourg in front of EU Parliament (16.04.2019)
+    4) 2nd Global Climate Strike - just before EU elections (24.05.2019),  5) Greta Thunberg starts journey
+    across Atlantic (14.08.2019), 6) 3rd Global Climate Strike + UN Climate Action Summit in NY (29.09.2019)
+    7) 4th Global Climate Strike + UN Climate Change Conference in Madrid (Nov/Dec 2019), 
+    8) World Economic Forum in Davos (January 2020), 9) Online Strike during Corona Pandemic (April 2020)
+    10) Corona Stimulus Package #KlimazielstattLobbyDeal (June 2020)
+    '''
+
+fig, ax = plt.subplots()
+ax.axvline(datetime(2019,3,1), color=c_shading, alpha=c_opacity)                          # Hamburg - climate strike with Greta (friday)
+ax.axvline(datetime(2019,3,15), color=c_shading, alpha=c_opacity)                         # worldwide - 1.4 million young people go on strike (friday)
+ax.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)                         # Strasbourg - EU speech
+ax.axvline(datetime(2019,5,24), color=c_shading, alpha=c_opacity)                         # 2nd global climate strike (EU election)
+ax.axvline(datetime(2019,8,14), color=c_shading, alpha=c_opacity)                         # start travel Atlantic - travel to UN
+ax.axvspan(datetime(2019,9,20), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # 3rd global climate strike + NY - UN climate action summit
+ax.axvspan(datetime(2019,11,29), datetime(2019,12,13), color=c_shading, alpha=c_opacity)  # 4th global climate strike + Madrid - UN climate change conference
+ax.axvspan(datetime(2020,1,20), datetime(2020,1,24), color=c_shading, alpha=c_opacity)    # Davos WEF
+ax.axvline(datetime(2020,4,24), color=c_shading, alpha=c_opacity)                         # online strike during corona pandemic
+ax.axvline(datetime(2020,6,2), color=c_shading, alpha=c_opacity)                          # Corona-Konjunkturpaket
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+ax.xaxis.set_minor_locator(mdates.YearLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
+fig.text(.1, -0.25, txt, ha='left', wrap=True, fontsize=7)
+
+ax.plot(dfs['luisa_w'].loc['2019':].index.values,
+        dfs['luisa_w'].loc['2019':]['favorites'],
+        color='darkblue',
+        label='luisa')
+ax.set_title('Twitter feed of Luisamneubauer', fontweight='bold')
+ax.set(xlabel='Date', ylabel='Favorites [in thousand]')
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+plt.savefig(z_media_figures + z_prefix + 'twitter_luisa_favorites_events.pdf', bbox_inches = "tight")
+
+
+
+
+
 
 
 
@@ -153,33 +211,49 @@ for activist in z_list_activists:
              color=z_dict_activists_color[activist])
 ax.legend(loc='upper left')
 ax.set_ylabel('Favorites [in thousand]')
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+ax.xaxis.set_minor_locator(mdates.YearLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax.xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
 plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_spaghetti_all.pdf')
 
 
-#w/o greta thunberg - has to be programmed as spaghetti graph
+
+     
+# Spaghetti graph
+fig, axs = plt.subplots(3, 3,  figsize=(12,9))
+fig.subplots_adjust(hspace = .5)
+#fig = plt.gcf()
+#fig.suptitle('Favorites [in thousand]', fontsize=16)
+axs = axs.ravel()
+
+num = 0
 for activist in z_list_activists[1:]:
-     temp = z_list_activists.copy()[1:] # list w/o greta
-     temp.remove(activist)
-     fig, ax = plt.subplots()
-     ax.plot(dfs[activist+ '_w'].index.values, dfs[activist+ '_w']['favorites'],
-             linewidth=1.6, alpha=0.99, label=z_dict_keys_sl[activist],
-             color=z_dict_activists_color[activist])
-     for other_activists in temp:
-          ax.plot(dfs[other_activists+'_w'].index.values,
-                  dfs[other_activists+ '_w']['favorites'],
-                  color='grey', linewidth=0.3, alpha=0.7)
-     ax.legend(loc='upper left')
-     ax.set_ylabel('Favorites [in thousand]')
-     plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_spaghetti_' +
-				z_dict_keys_sl[activist]  +'.pdf')
+    temp = z_list_activists.copy()[1:] # list w/o greta
+    temp.remove(activist)
 
+    axs[num].plot(dfs[activist+ '_w'].index.values, dfs[activist+ '_w']['favorites'],
+            linewidth=2, alpha=0.99, label=z_dict_keys_sl[activist],
+            color=z_dict_activists_color[activist])
+    for other_activists in temp:
+         axs[num].plot(dfs[other_activists+'_w'].index.values,
+                 dfs[other_activists+ '_w']['favorites'],
+                 color='grey', linewidth=0.3, alpha=0.7)
+#    axs[num].legend(loc='upper center')
+    axs[num].xaxis.set_major_locator(mdates.MonthLocator(interval=4))
+    axs[num].xaxis.set_minor_locator(mdates.YearLocator())
+    axs[num].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    axs[num].xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
+    axs[num].spines['right'].set_visible(False)
+    axs[num].spines['top'].set_visible(False)
+    axs[num].set_title(z_dict_keys_sl[activist], fontsize=11,
+       color=z_dict_activists_color[activist])
+    num+=1
 
-
-
-
-
-
-
+plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_spaghetti_wo_greta.pdf',
+            bbox_inches = 'tight')
 
 
 
@@ -202,7 +276,6 @@ color_re = 'tab:orange'
 ax2.plot(temp.index.values, temp['retweets'], color=color_re, label='retweets')
 ax2.set_ylabel('Retweets [in thousand]', color=color_re)
 ax2.tick_params(axis='y', labelcolor=color_re)
-ax2.grid(None)
 
 # ask matplotlib for the plotted objects and their labels
 lines, labels = ax1.get_legend_handles_labels()
@@ -213,35 +286,48 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_retweets_weekl
 
 
 # with events
-c_shading = 'darkgreen'
-c_opacity = 0.4
+txt = '''
+    The green lines/areas indicate important events: 
+    1) Climate Conference Katowice (Dec 2018), 2) WEF in Davos (Jan 2019) 3) 1st Global Climate Strike (Mar 2019),
+    4) Speech British Parliament (Apr 2019), 5) Speech French Parliament (July 2019), 6) Journey across Atlantic
+    (Aug 2019), 7) UN Climate Action Summit in NY (Sep 2019), 8) UN Climate Change Conference in Madrid, 
+    Time's Person of the Year, UK elections (Nov/Dec 2019), 9) WEF in Davos (Jan 2020), 
+    10) Meeting w/ Malala Yousafzai (Feb 2020)
+    '''
 
 fig, ax1 = plt.subplots()
-
-color_fav = 'tab:blue'
-ax1.plot(temp.index.values, temp['favorites'], color=color_fav, label='favorites') # T10 categorical palette
-ax1.set_xlabel('Date')
-ax1.set_ylabel('Favorites [in thousand]', color=color_fav)
-ax1.tick_params(axis='y', labelcolor=color_fav)
+ax1.axvspan(datetime(2018,12,3), datetime(2018,12,14), color=c_shading, alpha=c_opacity)   # 1 Katowice - climate conference
+ax1.axvspan(datetime(2019,1,23), datetime(2019,1,25), color=c_shading, alpha=c_opacity)    # 2 Davos - world economic forum
+ax1.axvline(datetime(2019,3,15), color=c_shading, alpha=c_opacity)                         # 3 worldwide - 1.4 million young people go on strike (friday)
+ax1.axvline(datetime(2019,4,23), color=c_shading, alpha=c_opacity)                         # 4 Speech in front of British Parliament
+ax1.axvline(datetime(2019,7,24), color=c_shading, alpha=c_opacity)                         # 5 Speech in front of Fench Parliament
+ax1.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # 6 Atlantic - travel to UN
+ax1.axvspan(datetime(2019,9,20), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # 7 NY - UN climate action summit
+ax1.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # 8 Madrid - UN climate change conference & Time Person of the Year & Tweet about UK election
+ax1.axvspan(datetime(2020,1,20), datetime(2020,1,24), color=c_shading, alpha=c_opacity)    # 9 Davos WEF
+ax1.axvline(datetime(2020,2,25), color=c_shading, alpha=c_opacity)                         # 10 Greta meets Malala Yousafzai (Nobel laureate 2014)
 
 ax2 = ax1.twinx()
 color_re = 'tab:orange'
-ax2.plot(temp.index.values, temp['retweets'], color=color_re, label='retweets')
-ax2.set_ylabel('Retweets [in thousand]', color=color_re)
+ax2.plot(temp.index.values, temp['retweets'], color=color_re, label='retweets', alpha=0.9)
+ax2.set_ylabel('retweets [in thousand]', color=color_re)
 ax2.tick_params(axis='y', labelcolor=color_re)
-ax2.grid(None)
-
-ax1.axvspan(datetime(2018,12,3), datetime(2018,12,14), color=c_shading, alpha=c_opacity)   # Katowice - climate conference
-ax1.axvspan(datetime(2019,1,23), datetime(2019,1,25), color=c_shading, alpha=c_opacity)    # Davos - world economic forum
-ax1.axvline(datetime(2019,3,1), color=c_shading, alpha=c_opacity)                          # Hamburg - climate strike with Greta (friday)
-ax1.axvline(datetime(2019,3,15), color=c_shading, alpha=c_opacity)                         # worldwide - 1.4 million young people go on strike (friday)
-ax1.axvline(datetime(2019,3,29), color=c_shading, alpha=c_opacity)                         # Berlin - climate strike with Greta (friday)
-ax1.axvline(datetime(2019,4,16), color=c_shading, alpha=c_opacity)                         # Strasbourg - EU speech
-ax1.axvspan(datetime(2019,8,14), datetime(2019,8,28), color=c_shading, alpha=c_opacity)    # Atlantic - travel to UN
-ax1.axvspan(datetime(2019,9,23), datetime(2019,9,29), color=c_shading, alpha=c_opacity)    # NY - UN climate action summit
-ax1.axvspan(datetime(2019,12,2), datetime(2019,12,13), color=c_shading, alpha=c_opacity)   # Madrid - UN climate change conference
-
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_retweets_weekly_events.pdf')
+color_fav = 'darkblue'
+ax1.plot(temp.index.values, temp['favorites'], color=color_fav, label='favorites') 
+ax1.set_xlabel('Date')
+ax1.set_ylabel('Favorites [in thousand]', color=color_fav)
+ax1.tick_params(axis='y', labelcolor=color_fav)
+ax1.spines['top'].set_visible(False)
+ax2.spines['top'].set_visible(False)
+#ax1.spines['right'].set_visible(False)
+#ax2.spines['right'].set_visible(False)
+ax1.xaxis.set_major_locator(mdates.MonthLocator(interval=3))
+ax1.xaxis.set_minor_locator(mdates.YearLocator())
+ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+fig.text(.1, -0.25, txt, ha='left', wrap=True, fontsize=7)
+ax1.set_title('Twitter feed of GretaThunberg', fontweight='bold')
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_retweets_weekly_events.pdf',
+             bbox_inches = "tight")
 
 
 
@@ -474,31 +560,14 @@ hashtags_nr = hashtags_nr[hashtags_nr.counts >= 5]
 fig, ax = plt.subplots()
 ax = sns.barplot(hashtags_nr.index, hashtags_nr.counts, palette='Blues_d') #
 ax.set(xlabel='', ylabel='Number of uses')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
 plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_hashtags.pdf')
 
-#
-## word cloud of hashtags
-#wc = WordCloud(
-#    width = 1500,
-#    height = 1000,
-#    background_color = 'white',
-#    max_words=90,
-#    collocations=False,
-#    random_state=1) # collocations=False -> use only monograms
-#clean_string = ' '.join(hashtags)
-#wc.generate(clean_string)
-#
-#fig = plt.figure(
-#    figsize = (20, 16),
-#    facecolor = 'k',
-#    edgecolor = 'k')
-#
-#plt.imshow(wc.recolor(color_func=grey_color_func, random_state=3), interpolation = 'bilinear')
-#plt.axis('off')
-#plt.tight_layout(pad=0)
+
 
 
 ##########  Graphs : top mentions #############################################
@@ -521,16 +590,30 @@ mentions_nr.sort_values(['counts'], inplace=True, ascending=False)
 # show 10 most cited mentions
 mentions_nr = mentions_nr[:10]
 
+
+
 # bar
+txt = '''
+    The figure lists the ten most frequent mentions in Greta Thunberg’s tweets. 
+    The people/organizations behind the Twitter accounts are: 
+    @_NikkiHenderson, @Sailing_LaVaga, @elayna_c (Sailors), @GeorgeMonbiot (British writer and politcal activist), 
+    @KevinClimate (Professor of energy and climate change),  @AnunaDe (Belgian climate activist),
+    @Luisamneubauer (German climate activist), @jrockstrom (Director of Potsdam Institute for Climate Impact Research),
+    @ExtinctionR (Global environmental movement),  @NaomiAKlein (Journalist, author, activist, and professor).
+    '''
+
 fig, ax = plt.subplots()
 ax = sns.barplot(mentions_nr.index, mentions_nr.counts, palette='Blues_d') #
 ax.set(xlabel='', ylabel='Number of uses')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_mentions.pdf')
+fig.text(.1, -0.25, txt, ha='left', wrap=True, fontsize=7)
 
-
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_mentions.pdf',
+            bbox_inches = 'tight')
 
 
 
@@ -568,29 +651,22 @@ sentiment_df = pd.DataFrame(sentiment_values, columns=["polarity",
 
 # Polarity histogram conditional on having a polarity
 polarity_df = sentiment_df[sentiment_df.polarity != 0]
-
-
-sns.distplot(polarity_df.polarity, hist=True, kde=True, norm_hist=False, color = 'darkblue',
-             hist_kws={'edgecolor':'black'})
-plt.ylabel('Density')
-plt.xlabel('')
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_polarity_hist.pdf')
-
-# add vertical line
-
-
-
-
-
 subjectivity_df = sentiment_df[sentiment_df.subjectivity != 0]
 
 
-sns.distplot(subjectivity_df.subjectivity, hist=True, kde=True, norm_hist=False, color = 'darkblue',
-             hist_kws={'edgecolor':'black'})
-plt.ylabel('Density')
-plt.xlabel('')
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_subjectivity_hist.pdf')
+# Histogram of polarity and subjectivity
+fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(16,6))
+sns.despine()
 
+sns.distplot(polarity_df.polarity, hist=True, kde=True, norm_hist=False, 
+             color = 'darkblue', hist_kws={'edgecolor':'black'}, ax=ax1)
+sns.distplot(subjectivity_df.subjectivity, hist=True, kde=True, norm_hist=False,
+             color = 'darkblue', hist_kws={'edgecolor':'black'}, ax=ax2)
+ax1.set_xlabel('')
+ax2.set_xlabel('')
+ax1.set_title('Polarity')
+ax2.set_title('Subjectivity')
+plt.savefig(z_media_figures + z_prefix + 'twitter_greta_subjectivity_polarity_hist.pdf')
 
 
 
@@ -637,7 +713,84 @@ ax.set_ylabel('mean subjectivity')
 
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15),
           fancybox=True,  ncol=5)
-plt.savefig(z_media_figures + z_prefix + 'twitter_activists_scatter_polarity_subjectivity.pdf',
+#plt.savefig(z_media_figures + z_prefix + 'twitter_activists_scatter_polarity_subjectivity.pdf',
+#             bbox_inches='tight')
+
+
+
+
+
+
+
+
+
+###############################################################################
+# Readability scores: Greta Thunberg
+
+import textstat
+import numpy as np
+
+# drop empty text fields
+temp = greta.copy()
+temp['text'].replace('', np.nan, inplace=True)
+temp['text'].replace(' ', np.nan, inplace=True)
+temp.dropna(subset=['text'], inplace=True)
+
+
+temp['syl_count'] = temp.text.apply(lambda x: textstat.syllable_count(x))
+temp['word_count'] = temp.text.apply(lambda x: textstat.lexicon_count(x, removepunct=True))
+temp['sent_count'] = temp.text.apply(lambda x: textstat.sentence_count(x))
+temp['score_fre'] = temp.text.apply(lambda x: textstat.flesch_reading_ease(x))
+temp['score_are'] = temp.text.apply(lambda x: textstat.automated_readability_index(x))
+temp['char_count'] = temp.text.apply(lambda x: len(x))
+
+
+sns.distplot(temp.word_count, hist=True, kde=False, norm_hist=True, color = 'darkblue', hist_kws={'edgecolor':'black'})
+
+
+
+
+
+
+fig, [[ax1, ax2], [ax3, ax4]] = plt.subplots(nrows=2, ncols=2, figsize=(8,6))
+fig.subplots_adjust(hspace = .5)
+sns.despine()
+fig = plt.gcf()
+fig.suptitle('Sentiment and length of tweets [GretaThunberg]', fontsize=16)
+
+ax1.axvline(polarity_df.polarity.mean(), color='darkred', alpha=c_opacity, linestyle='dashed')
+ax1.axvline(polarity_df.polarity.median(), color='darkblue', alpha=c_opacity, linestyle='dashed')
+sns.distplot(polarity_df.polarity, hist=True, kde=False, norm_hist=True, 
+             color = 'darkblue', hist_kws={'edgecolor':'black'}, ax=ax1)
+
+
+ax2.axvline(subjectivity_df.subjectivity.mean(), color='darkred', alpha=c_opacity, linestyle='dashed')
+ax2.axvline(subjectivity_df.subjectivity.median(), color='darkblue', alpha=c_opacity, linestyle='dashed')
+sns.distplot(subjectivity_df.subjectivity, hist=True, kde=False, norm_hist=True,
+             color = 'darkblue', hist_kws={'edgecolor':'black'}, ax=ax2)
+
+ax3.axvline(temp.loc[temp.char_count < 281].char_count.mean(), color='darkred', alpha=c_opacity, linestyle='dashed', label='mean')
+ax3.axvline(temp.loc[temp.char_count < 281].char_count.median(), color='darkblue', alpha=c_opacity, linestyle='dashed', label='median')
+sns.distplot(temp.loc[temp.char_count < 281].char_count, hist=True, kde=False, norm_hist=True,
+             color = 'darkblue', hist_kws={'edgecolor':'black'}, ax=ax3)
+
+ax4.axvline(temp.word_count.mean(), color='darkred', alpha=c_opacity, linestyle='dashed', label='mean')
+ax4.axvline(temp.word_count.median(), color='darkblue', alpha=c_opacity, linestyle='dashed', label='median')
+ax4.legend(loc='upper right')
+sns.distplot(temp.word_count, hist=True, kde=False, norm_hist=True,
+             color = 'darkblue', hist_kws={'edgecolor':'black'}, ax=ax4)
+
+ax1.set_xlabel('')
+ax2.set_xlabel('')
+ax3.set_xlabel('')
+ax4.set_xlabel('')
+ax1.set_title('Polarity')
+ax2.set_title('Subjectivity')
+ax3.set_title('Character count')
+ax4.set_title('Word count')
+
+
+plt.savefig(z_media_figures + z_prefix + 'twitter_activists_scatter_polarity_subjectivity_word_count.pdf',
              bbox_inches='tight')
 
 
@@ -645,10 +798,4 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_activists_scatter_polarity_sub
 
 
 
-
-
-
-
-
-# readability scores
 
