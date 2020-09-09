@@ -92,3 +92,25 @@ SAW_Antrag/
 Treffen/
 
 analysis/prog/prepare/archive/
+
+analysis/prog/analysis/descriptives.do
+
+analysis/prog/analysis/graphs.do
+
+analysis/prog/analysis/maps_Alina.do
+
+analysis/prog/prepare/Append.do
+
+analysis/prog/prepare/append_strikes_new.do
+
+analysis/prog/prepare/append_strikes.do
+
+analysis/prog/prepare/maps.do
+
+analysis/prog/prepare/PLZ_aggregation.do
+
+analysis/prog/prepare/Untitled1.do
+
+analysis/prog/prepare/weather_do.do
+
+*.synctex
