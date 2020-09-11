@@ -13,11 +13,14 @@ Inputs:
 Outputs:
     - election_brandenburg2019_ags_prepared.csv              [intermediate]
 
+Comment:
+     Two municipalitiy names were adjusted in the source data, such that there
+     are no doublings. The affected regions are: Golzow and Mittelmark
+
 """
 
 # packages
 import pandas as pd
-import numpy as np
 
 
 
@@ -49,28 +52,7 @@ municipality_ags_keys.dropna(subset=['gemeinde'], inplace=True)
 
 
 
-
-## gemeinde names are not unqiue so I have to match on kreis & gemeinde
-## forward fill of kreis information after clearing false entries
-#z_false_identifiers = (municipality_ags_keys['wahlkrs_name'].isnull()) & (municipality_ags_keys['kreis'].notnull())
-#municipality_ags_keys.loc[z_false_identifiers, 'kreis'] = np.nan
-#
-#municipality_ags_keys = municipality_ags_keys.fillna(method='ffill')
-#
-#
-#
-#temp = municipality_ags_keys['kreis'].unique()
-#
-#
-#
-#
-## too complictaed match and correct three instances manually
-
-
-
-
 # adjust municipality names to match the other
-
 municipality_ags_keys.gemeinde = municipality_ags_keys.gemeinde.replace({
           'Ketzin/Havel'           : 'Ketzin',
           'Petershagen/Eggersdorf' : 'Petershagen/ Eggersdorf',
@@ -86,9 +68,7 @@ municipality_ags_keys.gemeinde = municipality_ags_keys.gemeinde.replace({
 
 
 
-###############################################################################
-
-
+# results from the regions    #################################################
 
 
 # generate empty dataframe, which I can append sheet-information into:
@@ -103,9 +83,6 @@ results.rename(columns={'gruene/\nb_90':'gruene',
                      'bvb_/_freie_waehler':'freie_waehler',
                      'gueltige\nstimmen':'gueltig',
                      'wahlbe-\nrechtigte':'wahlberechtigte'}, inplace=True)
-
-
-
 
 
 # Loop through kreise (sheets of exel file)
@@ -151,23 +128,17 @@ for kreis in range(len(z_list_regions)):
 
 
 
-# match with ags information & manually correct for the three doublings which might be matched wrongly
 
-temp = municipality_ags_keys[['gemeinde', 'ags']]
+# match with ags information    ###############################################
 
-temp2 = results.merge(temp, left_on=['region'], right_on=['gemeinde'], how='outer', indicator=True)
+# match with ags information
+results.rename(columns={'region':'gemeinde'}, inplace=True)
+df_final = results.merge(municipality_ags_keys[['gemeinde', 'ags']], on=['gemeinde'], how='left', indicator=False)
 
 
-# there is still a dimension mismatch by 417-413 =4, check doublings
-
-# temp2._merge.value_counts()
-#Out[121]:
-#both          417
-#right_only     50
-#left_only       0
-#Name: _merge, dtype: int64
+df_final.drop('gemeinde', axis=1, inplace=True)
 
 
 
 # write-out
-#elec.to_csv(z_election_output + 'election_sachsen2019_ags_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')
+df_final.to_csv(z_election_output + 'election_brandenburg2019_ags_prepared.csv', sep=';', encoding='UTF-8', index=False, float_format='%.1f')
