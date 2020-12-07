@@ -1,0 +1,181 @@
+\documentclass[usenames,dvipsnames]{beamer} %dvipsnames for xcolor &tikz at same time		
+ 
+
+\usepackage{dsfont} %Double stroke, e.g. for indicator function
+
+%%%BASICS
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage{amssymb}
+
+%%%START THEME SETTINGS
+
+% IFO BLAU!!!
+\setbeamercolor{structure}{fg=beamer@ifoblue}
+\definecolor{beamer@ifoblue}{RGB}{12,50,82}
+%\definecolor{ifoblue}{RGB}{12,50,82}
+
+%\usetheme{Hannover}
+\usecolortheme{dolphin}
+\usefonttheme{professionalfonts}
+
+
+
+
+%%%END THEME SETTINGS
+
+\usepackage[compatibility=false]{caption}
+\usepackage{subcaption}
+\usepackage{graphicx} 
+%PATH MAC
+%\graphicspath{{/Users/marcfabel/Dropbox/Uni/Tinbergen/MPhil/STATA/GRAPHS/}}
+
+%F:\_MPhil\STATA\graphs
+%PATH Windows
+%\graphicspath{{F:/_MPhil/STATA/graphs/}}
+%\graphicspath{{C:/Users/fabel/Dropbox/Uni/Tinbergen/MPhil/STATA/GRAPHS/}}
+
+\usepackage{afterpage}
+ \usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage[labelfont=bf,labelsep = period, singlelinecheck=off,justification=raggedright]{caption}%both together help to have subfigures, other specifications which are nice: labelformat = parens -> number in paranthesis
+\usepackage[singlelinecheck=on]{subcaption}
+
+
+\setbeamertemplate{items}[circle]
+\usepackage{tikz}
+\newcommand\mynum[1]{%
+  \usebeamercolor{enumerate item}%
+  \tikzset{beameritem/.style={circle,inner sep=0,minimum size=2ex,text=enumerate item.bg,fill=enumerate item.fg,font=\footnotesize}}%
+  \tikz[baseline=(n.base)]\node(n)[beameritem]{#1};%
+}	% the three packages are used to have enumerate points in text
+
+\usepackage{tcolorbox}
+
+
+
+%\usepackage{footmisc}
+
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+
+\title[Soccer and Crime]{  \textbf{-- For the Greta Good -- \\ The Rise of Environmental Awareness through Child-to-Parent Value Transmission}\newline Work in progress}
+\author[Marc Fabel]{Marc Fabel, Oliver Falck, Markus Ludwig, Helmut Rainer, Maria Waldinger, Sebastian Wichert}
+%\institute[VfS Meeting 2017]{}
+\vspace{-2 em}
+\date{ifo Christmas Conference, Munich\\December 10, 2020}
+
+\titlegraphic{\vspace{1em}
+
+\vspace*{\fill} ~%
+\includegraphics[height=0.8cm]{logo_ifo.eps}
+\hspace*{\fill}
+   \includegraphics[height=0.8cm]{mgse_logo.jpg}
+
+}
+
+ \setbeamercovered{dynamic}				% macht die Pausen transparent
+
+\captionsetup[figure]{labelformat=empty}
+\captionsetup[table]{labelformat=empty}
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%	NOTES:
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+%\AtBeginSection[]
+%  {
+%     \begin{frame}<beamer>
+%     \frametitle{Agenda}
+%     \tableofcontents[currentsection]
+%     \end{frame}
+%  }
+% COMMAND UM ÜBERALL DIE ÜBERSICHT ZU HABEN
+
+
+
+
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+
+
+%--------------------------------------------------------------------
+% INTRODUCTION
+%--------------------------------------------------------------------
+\section{Introduction}
+	\begin{frame}{Motivation}
+		\begin{itemize}
+			\item Long campaign by young people:
+			
+			\textit{"you must change your ways; […] losing my future is not like losing an election or a few points on the stock market"\\ {\footnotesize Severn Cullis-Suzuki, UN Climate Conference in Rio de Janeiro, 1992}}
+			 
+			\item Consequences of human-caused climate change become ever more visible
+			\item Greta Thunberg inspired young people to stage some of the largest environmental protests in history					
+		\end{itemize}
+
+
+		\begin{block}{Research question}
+			\textbf{$\rightarrow$ What are the effects of school strikes on voting on consumption behavior? \\ $\rightarrow$ Child-to-parent value transmission?}
+		\end{block}
+	\end{frame}
+%--------------------------------------------------------------------
+
+
+\begin{frame}{Procedure}
+
+\begin{block}{Measure Protest Participation}
+	\begin{itemize}
+		\item Data: mobile phone-based tracking data provided by Teralytix
+		\item Residualize journeys between origin-destination pair ($ij$) \\ 
+		$\text{journeys}_{ijt} = \alpha + \vartheta_{ij} \times \gamma_t + \text{weather}_{ijt} + \text{holiday}_{ijt} + \varepsilon_{ijt} $
+	\end{itemize}
+\end{block}	
+	
+
+\begin{block}{Outcomes}
+	\begin{itemize}
+		\item Voting behavior: EU election, state elections
+		\item Consumption behavior: mobility 
+	\end{itemize}
+\end{block}	
+	
+	
+\end{frame}
+
+
+%--------------------------------------------------------------------
+
+
+\begin{frame}{Climate Strike Hamburg}
+	\begin{figure}
+		\includegraphics[width=0.6\linewidth]{../../analysis/output/graphs/presentation/hh_strike_2020.pdf}
+	\end{figure}
+\end{frame}
+
+
+
+%--------------------------------------------------------------------
+
+
+\begin{frame}{Validate with Football Games}
+	\begin{figure}
+		\begin{subfigure}[h]{0.44\linewidth}\centering
+			\includegraphics[width=\linewidth]{../../analysis/output/graphs/presentation/soccer_residualized_inbound_movements_munich}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.54\linewidth}\centering
+			\includegraphics[width=\linewidth]{../../analysis/output/graphs/presentation/munich_01_25_incl_not_categorized}
+		\end{subfigure}
+	\end{figure}
+\end{frame}
+
+
+
+
+
+\end{document}
