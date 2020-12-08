@@ -74,7 +74,7 @@
 
 }
 
- \setbeamercovered{dynamic}				% macht die Pausen transparent
+ %\setbeamercovered{dynamic}				% macht die Pausen transparent
 
 \captionsetup[figure]{labelformat=empty}
 \captionsetup[table]{labelformat=empty}
@@ -105,51 +105,30 @@
 
 
 
-%--------------------------------------------------------------------
-% INTRODUCTION
-%--------------------------------------------------------------------
-\section{Introduction}
-	\begin{frame}{Motivation}
+
+
+
+
+\begin{frame}
+	\begin{block}{Research question}
 		\begin{itemize}
-			\item Long campaign by young people:
-			
-			\textit{"you must change your ways; […] losing my future is not like losing an election or a few points on the stock market"\\ {\footnotesize Severn Cullis-Suzuki, UN Climate Conference in Rio de Janeiro, 1992}}
-			 
-			\item Consequences of human-caused climate change become ever more visible
-			\item Greta Thunberg inspired young people to stage some of the largest environmental protests in history					
+			\item What are the effects of school strikes on voting and consumption behavior?
+			%\item how does participation in climate strikes affect local voting and consumption behavior?
+			\item Child-to-parent value transmission?
 		\end{itemize}
+	\end{block}
 
-
-		\begin{block}{Research question}
-			\textbf{$\rightarrow$ What are the effects of school strikes on voting on consumption behavior? \\ $\rightarrow$ Child-to-parent value transmission?}
-		\end{block}
-	\end{frame}
-%--------------------------------------------------------------------
-
-
-\begin{frame}{Procedure}
-
-\begin{block}{Measure Protest Participation}
-	\begin{itemize}
-		\item Data: mobile phone-based tracking data provided by Teralytix
-		\item Residualize journeys between origin-destination pair ($ij$) \\ 
-		$\text{journeys}_{ijt} = \alpha + \vartheta_{ij} \times \gamma_t + \text{weather}_{ijt} + \text{holiday}_{ijt} + \varepsilon_{ijt} $
-	\end{itemize}
-\end{block}	
-	
-
-\begin{block}{Outcomes}
-	\begin{itemize}
-		\item Voting behavior: EU election, state elections
-		\item Consumption behavior: mobility 
-	\end{itemize}
-\end{block}	
-	
-	
+	\begin{block}{Measure Protest Participation}
+		\begin{itemize}
+			\item Use mobile phone-based tracking data to obtain residualized journeys between origin-destination pairs ($ij$): 		
+			
+		\end{itemize}
+	$\text{journeys}_{ijt} = \alpha + \vartheta_{ij} \times \gamma_t + \text{weather}_{ijt} + \text{holiday}_{ijt} + \varepsilon_{ijt} $
+	\end{block}	
 \end{frame}
 
 
-%--------------------------------------------------------------------
+
 
 
 \begin{frame}{Climate Strike Hamburg}
@@ -159,11 +138,22 @@
 \end{frame}
 
 
+\begin{frame}
+	\begin{block}{Next Steps}
+		\begin{itemize}
+			\item combine with county-level consumption and election outcomes\pause
+		\end{itemize}
+	\end{block}
+
+	\begin{center}
+		\textbf{Merry Christmas!}
+	\end{center}
+
+\end{frame}
+
 
 %--------------------------------------------------------------------
-
-
-\begin{frame}{Validate with Football Games}
+\begin{frame}{Validation with Football Games}
 	\begin{figure}
 		\begin{subfigure}[h]{0.44\linewidth}\centering
 			\includegraphics[width=\linewidth]{../../analysis/output/graphs/presentation/soccer_residualized_inbound_movements_munich}
@@ -173,6 +163,62 @@
 		\end{subfigure}
 	\end{figure}
 \end{frame}
+
+
+
+
+
+
+%
+%%--------------------------------------------------------------------
+%% INTRODUCTION
+%%--------------------------------------------------------------------
+%\section{Introduction}
+%	\begin{frame}{Motivation}
+%		\begin{itemize}
+%			\item Long campaign by young people:
+%			
+%			\textit{"you must change your ways; […] losing my future is not like losing an election or a few points on the stock market"\\ {\footnotesize Severn Cullis-Suzuki, UN Climate Conference in Rio de Janeiro, 1992}}
+%			 
+%			\item Consequences of human-caused climate change become ever more visible
+%			\item Greta Thunberg inspired young people to stage some of the largest environmental protests in history					
+%		\end{itemize}
+%
+%
+%		\begin{block}{Research question}
+%			\textbf{$\rightarrow$ What are the effects of school strikes on voting on consumption behavior? \\ $\rightarrow$ Child-to-parent value transmission?}
+%		\end{block}
+%	\end{frame}
+%%--------------------------------------------------------------------
+%
+%
+%\begin{frame}{Procedure}
+%
+%\begin{block}{Measure Protest Participation}
+%	\begin{itemize}
+%		\item Data: mobile phone-based tracking data provided by Teralytix
+%		\item Residualize journeys between origin-destination pair ($ij$) \\ 
+%		$\text{journeys}_{ijt} = \alpha + \vartheta_{ij} \times \gamma_t + \text{weather}_{ijt} + \text{holiday}_{ijt} + \varepsilon_{ijt} $
+%	\end{itemize}
+%\end{block}	
+%	
+%
+%	
+%\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
