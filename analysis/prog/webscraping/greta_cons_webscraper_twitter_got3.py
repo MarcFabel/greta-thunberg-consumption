@@ -38,20 +38,22 @@ def daterange(start_date, end_date):
 
 
 # define user name
-z_username = 'louismotaal'                 #z_start_date = datetime(2018, 10, 1)
+z_username = 'parents4future'              #z_start_date = datetime(2019, 2, 1)
+
+
 
 
 # finished scraping
-#z_username = 'Luisamneubauer'
-#z_username = 'jakobblasel'
 #z_username = 'GretaThunberg'
+#z_username = 'Luisamneubauer'
+#z_username = 'louismotaal'                 #z_start_date = datetime(2018, 10, 1)
+#z_username = 'jakobblasel'
 #z_username = 'carla_reemtsma'
 #z_username = 'FranziWessel'                #z_start_date = datetime(2019, 5, 1)
 #z_username = 'FridayForFuture'             #z_start_date = datetime(2018, 12, 1) FFF Germany
-#z_username = 'Ende__Gelaende'
-#z_username = 'parents4future'              #z_start_date = datetime(2019, 2, 1)
-#z_username = 'ExtinctionR_DE'              #z_start_date = datetime(2018, 11, 1)
 #z_username = 'sciforfuture'                #z_start_date = datetime(2019, 3, 1)
+#z_username = 'Ende__Gelaende'
+#z_username = 'ExtinctionR_DE'              #z_start_date = datetime(2018, 11, 1)
 
 # get number of followers
 
@@ -64,12 +66,12 @@ z_maxtweets = 1000
 
 
 # time period over which you want to scrape the old tweets
-z_start_date = datetime(2018, 10, 1) # 2018, 10, 1
-z_end_date = datetime(2020,1,31) # 2020,1,31
+z_start_date = datetime(2020, 1, 30) # 2018, 10, 1
+z_end_date = datetime(2020,6,23) # 2020,1,31
 
 
 # open file handle with headers
-fh_write = open(z_media_output + 'twitter_' + z_username + '.csv', 'w',
+fh_write = open(z_media_output + 'twitter_' + z_username + '_v2.csv', 'w',
                 encoding='utf8')
 fh_write.write('date\tfavorites\tretweets\tmentions\ttext\thashtags' + '\n')
 
@@ -85,7 +87,7 @@ for day in daterange(z_start_date, z_end_date):
     j = 0
     temp = got.manager.TweetManager.getTweets(tweetCriteria)
     len_tweets_month = len(temp)
-    print(len_tweets_month)
+    #print(len_tweets_month)
 
     while j < z_maxtweets and j < len_tweets_month:
         tweet = temp[j]
@@ -98,7 +100,7 @@ for day in daterange(z_start_date, z_end_date):
         j += 1
 
     # additional time between daily requests
-    time.sleep(30)
+    time.sleep(11)
 
 fh_write.close()
 print('program finished')
