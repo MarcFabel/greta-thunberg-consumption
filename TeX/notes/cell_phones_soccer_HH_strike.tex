@@ -1,0 +1,290 @@
+% 	TO DO: 
+%	MZ Tabelle nicht einfügen: DDRD estimate von Regression mit 3 CG
+
+
+%--------------------------------------------------------------------
+%	DOCUMENT CLASS
+%--------------------------------------------------------------------
+\documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
+\usepackage{fullpage} % leaves less space at margins of page
+\usepackage[onehalfspacing]{setspace} % determine line pitch to 1.5
+
+%--------------------------------------------------------------------
+%	INPUT
+%--------------------------------------------------------------------
+\usepackage[T1]{fontenc} 	% Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc} % Required for including letters with accents, Umlaute,...
+\usepackage{float} 			% better control over placement of tables and figures in the text
+\usepackage{graphicx} 		% input of graphics
+\usepackage{xcolor} 		% advanced color package
+\usepackage{url} 			% include (clickable) URLs
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{pdfpages}		% insert pages of external pdf documents
+\setlength{\parskip}{0em}	% vertical spacing for paragraphs
+\setlength{\parindent}{0em}	% horizonzal spacing for paragraphs
+\usepackage{tikz}
+\usepackage{tikzscale}		% helps to adjust tikz pictures to textwidth/linewidth
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows}
+\usepackage{eurosym}		% Eurosymbol
+
+% Have sections in TOC, but not in text
+\usepackage{xparse}% for easier management of optional arguments
+\ExplSyntaxOn
+\NewDocumentCommand{\TODO}{msom}
+{
+	\IfBooleanF{#1}% do nothing if it's starred
+	{
+		\cs_if_eq:NNT #1 \chapter { \cleardoublepage\mbox{} }
+		\refstepcounter{\cs_to_str:N #1}
+		\IfNoValueTF{#3}
+		{
+			\addcontentsline{toc}{\cs_to_str:N #1}{\protect\numberline{\use:c{the\cs_to_str:N #1}}#4}
+		}
+		{
+			\addcontentsline{toc}{\cs_to_str:N #1}{\protect\numberline{\use:c{the\cs_to_str:N #1}}#3}
+		}
+	}
+	\cs_if_eq:NNF #1 \chapter { \mbox{} }% allow page breaks after sections
+}
+\ExplSyntaxOff
+
+%--------------------------------------------------------------------
+%	TABLES, FIGURES, LISTS
+%--------------------------------------------------------------------
+\usepackage{booktabs} 		% better tables
+\usepackage{longtable}		% tables that may be continued on the next page
+\usepackage{threeparttable} % add notes below tables
+\renewcommand\TPTrlap{}		% add margins on the side of the notes
+	\renewcommand\TPTnoteSettings{%
+	\setlength\leftmargin{5 pt}%
+	\setlength\rightmargin{5 pt}%
+}
+\usepackage[
+center, format=plain,
+font=normalsize,
+nooneline,
+labelfont={bf}
+]{caption} 				% change format of captions of tables and graphs 
+%USED IN MPHIL: \usepackage[labelfont=bf,labelsep = period, singlelinecheck=off,justification=raggedright]{caption}, other specifications which are nice: labelformat = parens -> number in paranthesis 
+
+
+%\usepackage{threeparttablex} % for "ThreePartTable" environment, helps to combine threepart and longtable
+
+% Allow line breaks with \\ in column headings of tables
+\newcommand{\clb}[3][c]{%
+	\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+
+% allow line breaks with \\ in row titles
+\usepackage{multirow}
+
+\newcommand{\rlb}[3][c]{%
+\multirow{2}{*}{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}}% optional argument: b = bottom or t= top alignment
+
+
+\usepackage[singlelinecheck=on]{subcaption}%both together help to have subfigures
+\usepackage{wrapfig}				% wrap text around figure
+
+
+\usepackage{rotating}				% rotating figures & tables
+\usepackage{enumerate}				% change appearance of the enumerator
+\usepackage{paralist, enumitem}		% better enumerations
+\setlist{noitemsep}					% no additional vertical spacing for enurations
+%--------------------------------------------------------------------
+%	MATH
+%--------------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsfonts} % more math symbols and commands
+\let\vec\mathbf				 % make vector bold, with no arrow and not in italic
+
+%--------------------------------------------------------------------
+%	LANGUAGE SPECIFICS
+%--------------------------------------------------------------------
+\usepackage[american]{babel} % man­ages cul­tur­ally-de­ter­mined ty­po­graph­i­cal (and other) rules, and hy­phen­ation pat­terns
+\usepackage{csquotes} % language specific quotations
+
+%--------------------------------------------------------------------
+%	BIBLIOGRAPHY & CITATIONS
+%--------------------------------------------------------------------
+\usepackage{csquotes} % language specific quotations
+\usepackage{etex}		% some more Tex functionality
+\usepackage[nottoc]{tocbibind} %add bibliography to TOC
+\usepackage[authoryear, round, comma]{natbib} %biblatex
+
+%--------------------------------------------------------------------
+%	PATHS
+%--------------------------------------------------------------------
+\makeatletter
+\def\input@path{{../../analysis/output/tables/}}	%PATH TO TABLES
+%or: \def\input@path{{/path/to/folder/}{/path/to/other/folder/}}
+\makeatother
+\graphicspath{{../../analysis/output/graphs/mobile_phone_exploration/}}		% PATH TO GRAPHS
+
+%--------------------------------------------------------------------
+%	LAYOUT
+%--------------------------------------------------------------------
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=3cm]{geometry}
+\usepackage{pdflscape} % lscape.sty Produce landscape pages in a (mainly) portrait document.
+
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\newcommand\natalia[1]{\textcolor{orange}{#1}}
+
+% CAPTIAL LETTERS FOR SECTION CAPTIONS
+%\usepackage{sectsty}
+%\sectionfont{\normalfont\scshape\centering\textbf}
+%\renewcommand{\thesection}{\Roman{section}.}
+%\renewcommand{\thesubsection}{\Alph{subsection}.}%\thesection\Alph{subsection}.
+%\subsectionfont{\itshape}
+%\subsubsectionfont{\scshape}
+%\newcommand\relphantom[1]{\mathrel{\phantom{#1}}}
+%\setlength\topmargin{0.1in} \setlength\headheight{0.1in}
+%\setlength\headsep{0in} \setlength\textheight{9.2in}
+%\setlength\textwidth{6.3in} \setlength\oddsidemargin{0.1in}
+%\setlength\evensidemargin{0.1in}
+
+\hypersetup{
+  colorlinks  = true,
+  citecolor   = darkblue,
+ 	linkcolor   = darkblue,
+  urlcolor    = darkblue 
+} % macht die URLS blau   
+     
+\usepackage{lettrine}	% First letter capitalized
+
+% have date in month year format (i.e. omit the day in dates)
+\usepackage{datetime}
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+%--------------------------------------------------------------------
+%	AUTHOR & TITLE
+%--------------------------------------------------------------------
+\title{Mobile Phone Data \\ Investigate Soccer Games \& HH Climate Strike 21.Feb 2020}
+\author{Marc Fabel}
+
+\date{\monthyeardate\today}
+
+
+
+
+
+
+
+%--------------------------------------------------------------------
+%	BEGIN DOCUMENT
+%--------------------------------------------------------------------
+\begin{document}
+
+
+
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{Soccer Games}\end{center}}
+\vspace*{\fill}\clearpage
+
+
+
+\begin{figure}[H]\centering\caption{Munich}
+	\includegraphics[width=0.6\linewidth]{soccer_residualized_inbound_movements_munich}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[H]\centering\caption{Freiburg}
+	\includegraphics[width=0.6\linewidth]{soccer_residualized_inbound_movements_freiburg}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+\begin{figure}[H]\centering\caption{Dortmund}
+	\includegraphics[width=0.6\linewidth]{soccer_residualized_inbound_movements_dortmund}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+
+
+% Munich 
+\begin{figure}[H]\centering
+	\includegraphics[width=\linewidth]{maps/munich_01_25_incl_not_categorized.png}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+
+% Freibrug
+\begin{figure}[H]\centering
+	\includegraphics[width=\linewidth]{maps/freiburg_02_22.png}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+
+%Dortmund 
+\begin{figure}[H]\centering
+	\includegraphics[width=\linewidth]{maps/dortmund_02_01.png}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+
+
+
+
+\newpage
+\vspace*{\fill}
+{\Huge \begin{center}\textbf{Climate Strike Hamburg}\end{center}}
+\vspace*{\fill}\clearpage
+
+
+
+
+\begin{figure}[H]\centering
+	\includegraphics[width=\linewidth]{maps/hamburg_02_21_oepnv_full_model_corona2.png}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]\centering
+	\includegraphics[width=0.8\linewidth]{histogram_residuals_oepnv_HH_2020_02_21}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+\begin{figure}[H]\centering
+	\includegraphics[width=0.8\linewidth]{histogram_residuals_oepnv_top10pct_HH_2020_02_21}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+
+\begin{figure}[H]\centering
+	\includegraphics[width=\linewidth]{maps/hamburg_02_21_nc_full_model_corona2.png}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+
+
+
+
+\begin{figure}[H]\centering
+	\includegraphics[width=0.7\linewidth]{HH_res_p_full_inb}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[H]\centering
+	\includegraphics[width=0.7\linewidth]{HH_res_p_full_within}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+\begin{figure}[H]\centering
+	\includegraphics[width=0.7\linewidth]{HH_res_p_full_inb_within}
+	\begin{minipage}{\linewidth}
+	\end{minipage}
+\end{figure}
+
+\end{document}
