@@ -30,6 +30,7 @@ z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source
 z_media_figures =   '/Users/marcfabel/Desktop/twitter_fff_figures/'
 z_prefix =          'greta_cons_'
 z_figures_diss =    '/Users/marcfabel/econ/greta_consumption/analysis/output/graphs/descriptive/'
+z_media_output =    '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/temp/twitter_print_media/'
 
 
 # work directories (LOCAL)
@@ -100,7 +101,10 @@ for activist in z_list_activists:
 
 
 
-
+# export 2019 greta weekly to gen graph in stata
+dfs['greta_w'].loc['2019'].to_csv(z_media_output+ z_prefix + 
+   'greta_2019_weekly_favorites_retweets.csv',
+   sep=';', encoding='UTF-8', index=True)
 
 
 

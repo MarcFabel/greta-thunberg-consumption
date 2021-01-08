@@ -28,14 +28,15 @@ import pandas as pd
 
 
 # HOME directories
-#z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
-
+z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
+z_prefix =          'greta_cons_'
+z_media_output =    '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/temp/twitter_print_media/'
 
 
 # work directories (LOCAL)
-z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
-z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
-z_prefix =          'greta_cons_'
+#z_media_input =     'C:/Users/fabel/Dropbox/greta_cons_Dx/analysis/data/source/media/'
+#z_media_figures =   'W:/EoCC/analysis/output/graphs/descriptive/'
+#z_prefix =          'greta_cons_'
 
 ###############################################################################
 #           Read in Data
@@ -111,6 +112,14 @@ articles['art_fff_ratio_ma7'] = articles.art_fff_ratio.rolling(window=7).mean()
 articles['art_school_ma3'] = articles.art_school.rolling(window=3).mean()
 articles['art_school_ratio_ma3'] = articles.art_school_ratio.rolling(window=3).mean()
 articles['art_school_ratio_ma7'] = articles.art_school_ratio.rolling(window=7).mean()
+
+
+
+# export 2019 fff to gen graph in stata
+articles[['art_fff_ratio', 'art_fff_ratio_ma3', 'art_fff_ratio_ma7']].loc['2019'].to_csv(
+    z_media_output+ z_prefix + 'fff_ratio_2019_with_ma.csv',
+   sep=';', encoding='UTF-8', index=True)
+
 
 
 ###############################################################################
