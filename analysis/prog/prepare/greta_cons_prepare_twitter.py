@@ -29,6 +29,7 @@ style.use('seaborn-white')
 z_media_input =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/media/twitter/'
 z_media_figures =   '/Users/marcfabel/Desktop/twitter_fff_figures/'
 z_prefix =          'greta_cons_'
+z_figures_diss =    '/Users/marcfabel/econ/greta_consumption/analysis/output/graphs/descriptive/'
 
 
 # work directories (LOCAL)
@@ -234,33 +235,33 @@ for activist in z_list_activists[1:]:
     temp = z_list_activists.copy()[1:] # list w/o greta
     temp.remove(activist)
 
-    axs[num].plot(dfs[activist+ '_w'].index.values, dfs[activist+ '_w']['favorites'],
+    axs[num].plot(dfs[activist+ '_w'].loc['2019'].index.values, dfs[activist+ '_w'].loc['2019']['favorites'],
             linewidth=2, alpha=0.99, label=z_dict_keys_sl[activist],
             color=z_dict_activists_color[activist])
     for other_activists in temp:
-         axs[num].plot(dfs[other_activists+'_w'].index.values,
-                 dfs[other_activists+ '_w']['favorites'],
+         axs[num].plot(dfs[other_activists+'_w'].loc['2019'].index.values,
+                 dfs[other_activists+ '_w'].loc['2019']['favorites'],
                  color='grey', linewidth=0.3, alpha=0.7)
 #    axs[num].legend(loc='upper center')
-    axs[num].xaxis.set_major_locator(mdates.MonthLocator(interval=4))
-    axs[num].xaxis.set_minor_locator(mdates.YearLocator())
-    axs[num].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    axs[num].xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
+    axs[num].xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+    #axs[num].xaxis.set_minor_locator(mdates.YearLocator())
+    axs[num].xaxis.set_major_formatter(mdates.DateFormatter('%b%y'))
+    #axs[num].xaxis.set_minor_formatter(mdates.DateFormatter('\n%Y'))
     axs[num].spines['right'].set_visible(False)
     axs[num].spines['top'].set_visible(False)
     axs[num].set_title(z_dict_keys_sl[activist], fontsize=11,
        color=z_dict_activists_color[activist])
     num+=1
 
-plt.savefig(z_media_figures + z_prefix + 'twitter_favorites_spaghetti_wo_greta.pdf',
+plt.savefig(z_figures_diss + z_prefix + 'twitter_favorites_spaghetti_wo_greta_2019.pdf',
             bbox_inches = 'tight')
 
 
-
+  
 
 ##########  Graph : favorites and retweets Greta only #########################
 
-temp = dfs['greta_w'].copy()
+temp = dfs['greta_w'].loc['2019'].copy()
 
 
 # without events
@@ -374,7 +375,7 @@ plt.savefig(z_media_figures + z_prefix + 'twitter_greta_favorites_counts_weekly.
 ###############################################################################
 #           NLP
 ###############################################################################
-greta = dfs['greta'].copy()
+greta = dfs['greta'].loc['2019'].copy()
 
 
 ## classify language of tweet
@@ -496,7 +497,10 @@ fig = plt.figure(
 plt.imshow(wc.recolor(color_func=grey_color_func, random_state=3), interpolation = 'bilinear')
 plt.axis('off')
 plt.tight_layout(pad=0)
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_word_cloud.pdf')
+plt.savefig(z_figures_diss + z_prefix + 'twitter_greta_word_cloud.pdf')
+
+
+
 
 
 
@@ -513,16 +517,18 @@ dfwords = pd.DataFrame(words, columns=['words'])
 dfwords['counts'] = 1
 words_nr = dfwords.groupby(['words']).sum()
 words_nr.sort_values(['counts'], inplace=True, ascending=False)
-words_nr = words_nr[:39]
+words_nr = words_nr[:20]
 
 # bar
 fig, ax = plt.subplots()
 ax = sns.barplot(words_nr.index, words_nr.counts, palette='Blues_d') #
 ax.set(xlabel='', ylabel='Number of uses')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_words.pdf')
+plt.savefig(z_figures_diss + z_prefix + 'twitter_greta_frequency_common_words.pdf')
 
 
 
@@ -554,7 +560,7 @@ dfhashtags['counts'] = 1
 hashtags_nr = dfhashtags.groupby(['hashtags']).sum()
 hashtags_nr.sort_values(['counts'], inplace=True, ascending=False)
 # keep if hashtag is appearing at least 5 times
-hashtags_nr = hashtags_nr[hashtags_nr.counts >= 5]
+hashtags_nr = hashtags_nr[:10]
 
 # bar
 fig, ax = plt.subplots()
@@ -565,7 +571,7 @@ ax.spines['right'].set_visible(False)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_hashtags.pdf')
+plt.savefig(z_figures_diss + z_prefix + 'twitter_greta_frequency_common_hashtags.pdf')
 
 
 
@@ -610,9 +616,9 @@ ax.spines['right'].set_visible(False)
 for item in ax.get_xticklabels():
      item.set_rotation(90)
 plt.tight_layout()      # makes room for the x-label (as it is quite wide)
-fig.text(.1, -0.25, txt, ha='left', wrap=True, fontsize=7)
+#fig.text(.1, -0.25, txt, ha='left', wrap=True, fontsize=7)
 
-plt.savefig(z_media_figures + z_prefix + 'twitter_greta_frequency_common_mentions.pdf',
+plt.savefig(z_figures_diss + z_prefix + 'twitter_greta_frequency_common_mentions.pdf',
             bbox_inches = 'tight')
 
 
@@ -756,7 +762,7 @@ fig, [[ax1, ax2], [ax3, ax4]] = plt.subplots(nrows=2, ncols=2, figsize=(8,6))
 fig.subplots_adjust(hspace = .5)
 sns.despine()
 fig = plt.gcf()
-fig.suptitle('Sentiment and length of tweets [GretaThunberg]', fontsize=16)
+#fig.suptitle('Sentiment and length of tweets [GretaThunberg]', fontsize=16)
 
 ax1.axvline(polarity_df.polarity.mean(), color='darkred', alpha=c_opacity, linestyle='dashed')
 ax1.axvline(polarity_df.polarity.median(), color='darkblue', alpha=c_opacity, linestyle='dashed')
@@ -790,7 +796,7 @@ ax3.set_title('Character count')
 ax4.set_title('Word count')
 
 
-plt.savefig(z_media_figures + z_prefix + 'twitter_activists_scatter_polarity_subjectivity_word_count.pdf',
+plt.savefig(z_figures_diss + z_prefix + 'twitter_activists_scatter_polarity_subjectivity_word_count.pdf',
              bbox_inches='tight')
 
 
