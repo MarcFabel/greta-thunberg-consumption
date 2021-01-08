@@ -1,0 +1,59 @@
+
+% GRETA_CONS_APPENDIX_FIGURES
+
+
+%--------------------------------------------
+% Greta tweets - top words, hashtags, mentions
+\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{figure}[H]
+		\centering
+		\caption{Most widely used words, hashtags, and mentions in Greta Thunberg's 2019 tweets}
+		\label{fig_greta_cons:twitter_greta_thunberg_top_words_hashtags_mentions}
+		
+		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{word cloud}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_word_cloud.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{top words}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_words.pdf}
+		\end{subfigure}
+	
+		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{top hashtags}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_hashtags.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{top mentions}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_mentions.pdf}
+		\end{subfigure}
+		\scriptsize
+		\begin{minipage}{0.95\linewidth}
+			\scriptsize{\emph{Notes:} Panel a displays a word cloud of Greta Thunberg's tweets. The larger a word is depicted, the more frequent it is used by Greta Thunberg in her tweets. The lowercased keywords are from the subset of words after removing urls, hashtags, mentions, digits, punctuation, and stopwords. Panels b, c, and d show the frequency of the most common words, hashtags, and mentions. The people behind the Twitter accounts are: @$\_$NikkiHenderson, @Sailing$\_$LaVaga, @elayna$\_$c (sailors), @KevinClimate (Professor of energy and climate change), @Luisamneubauer (German climate activist), @AnunaDe (Belgian climate activist), @GeorgeMonbiot (British writer and political activist), @jrockstrom (Director of Potsdam Institute), @SKAVLANTVShow (Scandinavian talk show), @MichaelEMann (Professor of Atmospheric Science).\newline\emph{Source:} Own representation with data from Twitter.}
+		\end{minipage}
+	\end{figure}
+	\vspace*{\fill}\clearpage
+\end{landscape}
+\restoregeometry
+%--------------------------------------------
+% Greta tweets - sentiment and length of tweets
+\vspace*{\fill}
+\begin{figure}[H]
+	\centering\caption{Sentiment and length of Greta Thunberg's tweets}
+	\label{fig_greta_cons:twitter_greta_sentiment_length}
+	\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_activists_scatter_polarity_subjectivity_word_count.pdf}
+	\begin{minipage}{0.99\linewidth}
+		\scriptsize{\emph{Notes:} The two top panels show the conditional distribution of the tweets' sentiment. Greta Thunberg's tweets tend to be more positively formulated (polarity values larger than zero), with the right balance between objective and subjective language. Her tweets contain on average 135 characters and a bit more than 20 words.\newline\emph{Source:} Own representation with data from Twitter.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
+% twitter likes of German FFF ICONS
+\vspace*{\fill}
+\begin{figure}[H]
+	\centering\caption{The twitter feed of influential German FFF activists}\label{fig_greta_cons:twitter_favorites_activists}
+	\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_wo_greta_2019.pdf}
+	\begin{minipage}{0.99\linewidth}
+		\scriptsize{\emph{Notes:} The figure plots the weekly number of likes [in thousand] of influential German climate activists and groups over the year 2019.\newline\emph{Source:} Own representation with data from Twitter.}
+	\end{minipage}
+\end{figure}
+\vspace*{\fill}\clearpage
+%--------------------------------------------
