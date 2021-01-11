@@ -27,6 +27,7 @@
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{patterns}
 \usetikzlibrary{arrows}
+\usetikzlibrary{automata,positioning}
 \usepackage{eurosym}		% Eurosymbol
 
 % Have sections in TOC, but not in text
@@ -242,45 +243,65 @@ see coverage of Greta Thunberg in print media (daily and weekly outlets) in Figu
 
 
 
+% notes 
+movement initiated by Greta Thunberg, who initiated them in August 2018
+she stands as noone else as 
 
-%--------------------------------------------
-% Genios Greta Thunberg
-\begin{figure}[H]\centering
-	\caption{Time series of the number of articles about Greta Thunberg per 1,000 articles, 2019}\label{fig_greta_cons:genios_greta_per_1000_2019}
-	%\includegraphics[width=0.9\linewidth]{descriptive/greta_cons_genios_greta_per_1000_2019}
-	\begin{minipage}{\linewidth}
-		\scriptsize{\emph{Notes:} The blue line is from a moving average with window of 3 days}
-	\end{minipage}
-\end{figure}
+school climate strike movement (FFF)
+`The Greta Effect' (e.g. The Guardian )Influence on the world stage
 
-%--------------------------------------------
-\begin{figure}[H]\centering
-	\caption{Time series of the number of articles about Greta Thunberg per 1,000 articles, 2019} \label{fig_greta_cons:genios_greta_per_1000_events_2019}
-	%\includegraphics[width=0.9\linewidth]{descriptive/greta_cons_genios_greta_per_1000_events_2019}
-	\begin{minipage}{\linewidth}
-		\scriptsize{\emph{Notes:} The blue line is from a moving average with window of 3 days. The green lines/areas indicate important events: 1) Katowice (climate conference 3.12.2018-14.12.2018), 2) Davos (world economic forum 23.01.2019-25.01.2019), 3) Hamburg (climate strike 01.03.2019), 4) Worldwide (climate strikes, more than 1.4 million people involved 15.03.2019), 5) Berlin (climate strike 29.03.2019), 6) Strasbourg (speech EU 16.04.2019), 7) 2nd Global Climate Strike(24.05.2019),	8) Journey across Atlantic (14.08.-28.08.2019) 9) NY (UN climate action summit 23.09.-29.09.2019), 10) Madrid (UN climate change conference 02.12.-13.12.2019).}
-	\end{minipage}
-\end{figure}
+prizes 
+two consecutive nominations for the Nobel Peace Prize (2019 \& 2020)
+
+
+
+
+
 
 
 \newpage
-\begin{figure}[t]
-	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Print media}
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_fff_print_media_articles_2019.pdf}
+
+
+
+
+\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{figure}[H]\centering\caption{Important events surrounding FFF and perception in (social) media}
+
+		
+		
+	
+	
+	
+	
+	\begin{subfigure}[h]{0.9\linewidth}\centering\caption{Print media}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_background_timeline_elections_events.pdf}
 	\end{subfigure}
-	\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Twitter}
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_gt_favorites_retweets_2019.pdf}
-	\end{subfigure}
-	\begin{minipage}{\linewidth}
-		\scriptsize{\emph{Notes:}  Print media: any article containing the keywords Fridays for Future (in various notations) and climate strike. moving average}
-	\end{minipage}
-\end{figure}
+	
+	
+	\par\bigskip\smallskip % force a bit of vertical whitespace
+		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Print media}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_fff_print_media_articles_2019.pdf}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Twitter feed of Greta Thunberg}
+			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_gt_favorites_retweets_2019.pdf}
+		\end{subfigure}
+		
+		\begin{minipage}{\linewidth}
+			\scriptsize{\emph{Notes:} Panel a presents a timeline of relevant events over the year 2019. Above the timeline, the scheme lists elections that fall in the sample period (election for the European Parliament, Brandenburg, Saxony, and Thuringia). Below the timeline, there is a series of important events, either far-reaching strikes or critical milestones for Greta Thunberg. Panel b shows the daily share of articles that cover FFF (per thousand articles). An article is defined to report about FFF if it contains at least the keyword `Fridays for Future' (in various notations) or `climate strike'. The blue line stems from a moving average with a window of three days. Panel c plots the weekly number of favorites and retweets of Greta Thunberg's tweets (in thousand).\newline \emph{Source:} Own representation with data from Genios and Twitter.}
+		\end{minipage}
+	\end{figure}
+	\vspace*{\fill}\clearpage
+\end{landscape}
+\restoregeometry
 
 
 
 
+To DO: 
 
-
+finish footnotes, check regressions, make timeline graph, write background section
 
 
 
