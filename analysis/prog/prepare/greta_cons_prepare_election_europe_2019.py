@@ -11,7 +11,10 @@ Inputs:
     -  ew19_wbz_ergebnisse.xlsx                     [input]   
 
 Outputs:
-    - election_eu2019_municipality_prepared.csv     [intermediate]
+    - election_eu2019_ags5_prepared.csv             [intermediate]
+    
+Update:
+    14.01.2021 preparation on ags5 & 8, before only 8 level - harmonize variable names
 
 """
 
@@ -62,20 +65,49 @@ elec = elec[[
 z_region_identifiers = ['land', 'regierungsbezirk', 'kreis', 'verbandsgemeinde', 'gemeinde',
        'kennziffer_briefwahlzugehörigkeit', 'wahlbezirk', 'bezirksart']
 elec[z_region_identifiers] = elec[z_region_identifiers].astype(str)
-elec['ags'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2) + elec['gemeinde'].str.zfill(3)
+elec['ags8'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2) + elec['gemeinde'].str.zfill(3)
+elec['ags5'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2)
 elec.drop(['land', 'regierungsbezirk', 'kreis', 'gemeinde'], axis=1, inplace=True)
 
 
 
-# aggregate to municipality level
-elec = elec.groupby(['ags']).sum()
+# aggregate to municipality level & district level
+elec_ags5 = elec.groupby(['ags5']).sum()
+elec_ags8 = elec.groupby(['ags8']).sum()
+
 
 
 # generate share of vote for each party: 
-z_list_parties = elec.columns.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig']).tolist()
+z_list_parties = elec_ags5.columns.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig']).tolist()
 for party in z_list_parties:
-    elec[party] = (elec[party] / elec['gültig'])*100
+    elec_ags5[party] = (elec_ags5[party] / elec_ags5['gültig'])*100
+    elec_ags8[party] = (elec_ags8[party] / elec_ags8['gültig'])*100
 
+
+# generate turnout
+elec_ags5['voter_turnout'] = (elec_ags5['gültig'] / elec_ags5['wahlberechtigte_(a)']) *100 
+elec_ags5.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig'], axis=1, inplace=True)
+elec_ags8['voter_turnout'] = (elec_ags8['gültig'] / elec_ags8['wahlberechtigte_(a)']) *100 
+elec_ags8.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig'], axis=1, inplace=True)
+
+
+# generate others (parties column)
+z_list_other_parties = elec_ags5.columns.drop(['cdu', 'spd', 'grüne', 'die_linke', 'afd', 'csu', 'fdp', 'freie_wähler', 'voter_turnout']).tolist()
+elec_ags5['others'] = elec_ags5[z_list_other_parties].sum(axis=1)
+elec_ags5.drop(z_list_other_parties, axis=1, inplace=True)
+
+#harmonize variable names
+elec_ags5['union'] = elec_ags5['cdu'] + elec_ags5['csu']
+elec_ags5.drop(['cdu', 'csu'], axis=1, inplace=True)
+elec_ags5.rename(columns={'grüne'       :'the_greens',
+                  'die_linke'   :'the_left',
+                  'freie_wähler':'free_voters'},inplace=True)
+    
+#reorder columns
+elec_ags5 = elec_ags5[['voter_turnout', 'union', 'spd', 'the_greens',
+                       'the_left', 'afd', 'fdp', 'free_voters', 'others' ]]
+    
 
 # Read out
-elec.to_csv(z_election_output + 'election_eu2019_municipality_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
+elec_ags5.to_csv(z_election_output + 'election_eu2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
+#elec_ags8.to_csv(z_election_output + 'election_eu2019_ags8_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')

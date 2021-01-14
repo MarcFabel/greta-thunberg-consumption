@@ -99,17 +99,3 @@ strikes.to_csv(z_strike_intermediate + z_prefix + 'fff_strikes_biggest_cities_so
 
 
 
-
-
-
-###############################################################################
-#           Append data from RA
-###############################################################################
-
-df_ra = pd.read_excel(z_strike_input + 'ordnungsamt_hiwi/' + 'Data.xlsx')
-
-
-new_strikes = df.merge
-
-
-

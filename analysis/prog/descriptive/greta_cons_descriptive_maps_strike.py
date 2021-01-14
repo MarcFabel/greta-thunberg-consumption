@@ -36,7 +36,10 @@ import matplotlib.pyplot as plt
 z_data              = '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/'
 z_path_admin        = z_data + 'source/shapes/vg250_2019-01-01.geo84.shape.ebenen/vg250_ebenen/'
 z_shape_intermed    = z_data + 'intermediate/shapes/'
-z_strike_intermed   = '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/fff_strikes/'
+z_shape_wahl        = z_data + 'source/shapes/bundestagswahlkreise/'
+z_strike_intermed   = z_data + 'intermediate/fff_strikes/'
+z_strike_source     = z_data + 'source/fff_strikes/ordnungsamt_hiwi/'
+z_strike_output     = z_data + 'final/fff_strikes/'
 z_output_figures    = '/Users/marcfabel/econ/greta_consumption/analysis/output/graphs/descriptive/'
 z_prefix            = 'greta_cons_'
 
@@ -64,6 +67,10 @@ kreise = gp.read_file(z_path_admin + 'VG250_KRS.shp')
 # bula_borders
 bula_borders = gp.read_file(z_shape_intermed + 'VG250_bula_borders.shp')
 
+# wahlkreise
+wahlkreise = gp.read_file(z_shape_wahl + 'Geometrie_Wahlkreise_19DBT_VG250_geo.shp')
+
+
 
 # Teralytics shapes  ##########################################################
 z_teralytics_fn = 'source/shapes/teralytics/deldd-1-taeglich-aktualisierte-langdistanz-reisen-ifo-institut-shapes.shp'
@@ -74,34 +81,139 @@ teralytics = gp.read_file(z_data + z_teralytics_fn)
 # Strike - files ##############################################################
 
 # internet strikes
-df = pd.read_csv(z_strike_intermed + 'greta_cons_fff_strikes_internet_geocoordinates_all_strikes.csv')
-df.rename(columns={'jointg_lat':'latitude', 'jointg_lon':'longitude'}, inplace=True)
-strikes_internet = gp.GeoDataFrame(df,geometry=gp.points_from_xy(df.longitude, df.latitude)).set_crs(epsg=z_epsg_wgs84)
-strikes_internet.plot(figsize=(8, 8))
+df_internet = pd.read_csv(z_strike_intermed + 'greta_cons_fff_strikes_internet_geocoordinates_all_strikes.csv', delimiter=';')
+df_internet = df_internet.applymap(lambda s:s.lower() if type(s) == str else s)
+df_internet['source'] = 'fff_webiste'
+
 
 # big cities
-df = pd.read_csv(z_strike_intermed + 'greta_cons_fff_strikes_biggest_cities_social_media_geocoordinates.csv', delimiter=';')
-strikes_cities = gp.GeoDataFrame(df,geometry=gp.points_from_xy(df.longitude, df.latitude)).set_crs(epsg=z_epsg_wgs84)
+df_cities = pd.read_csv(z_strike_intermed + 'greta_cons_fff_strikes_biggest_cities_social_media_geocoordinates.csv', delimiter=';')
+df_cities = df_cities.applymap(lambda s:s.lower() if type(s) == str else s)
+df_cities['source'] = 'social_media'
+
 
 # ordnungsamt
-df = pd.read_csv(z_strike_intermed + 'greta_cons_FFF_strikes_ordnungsaemter_geocoordinates_all_strikes_wahlkreise.csv', delimiter=';')
-df.rename(columns={'jointg_lat':'latitude', 'jointg_lon':'longitude'}, inplace=True)
-strikes_ordnungsamt = gp.GeoDataFrame(df,geometry=gp.points_from_xy(df.longitude, df.latitude)).set_crs(epsg=z_epsg_wgs84)
+df_ordnungsamt = pd.read_csv(z_strike_intermed + 'greta_cons_fff_strikes_ordnungsamt_geocoordinates_all_strikes.csv', delimiter=';')
+df_ordnungsamt.sort_values(by=['municipality', 'month', 'day'], inplace=True)
+df_ordnungsamt = df_ordnungsamt.applymap(lambda s:s.lower() if type(s) == str else s)
+df_ordnungsamt['source'] = 'ordnungsamt'
+df_ordnungsamt.rename(columns={'expectedparticipants':'expected_participants',
+                                'numberofparticipants':'number_of_participants'},
+                        inplace=True)
+
+
+# make participants columns workable (use average when there is a range)
+for column in ['expected_participants', 'number_of_participants']:
+    temp = df_ordnungsamt[column]
+    temp = temp.str.split(pat='-', expand=True)
+    temp = temp.apply(pd.to_numeric)
+    temp['expected'] = (temp[0] + temp[1])/2
+    temp['expected'].fillna(temp[0], inplace=True)
+    df_ordnungsamt[column] = temp['expected']
+
+
+
+# old
+#df = pd.read_csv(z_strike_intermed + 'greta_cons_FFF_strikes_ordnungsaemter_geocoordinates_all_strikes_wahlkreise.csv', delimiter=';')
+#df.rename(columns={'jointg_lat':'latitude', 'jointg_lon':'longitude'}, inplace=True)
+#strikes_ordnungsamt = gp.GeoDataFrame(df,geometry=gp.points_from_xy(df.longitude, df.latitude)).set_crs(epsg=z_epsg_wgs84)
+
+
+
+#drop doublings in other data-sets
+doublings = df_ordnungsamt.merge(df_cities, on=['municipality','day','month','year'], how='inner')
+doublings = doublings[['municipality','day','month','year']].copy()
+doublings.drop_duplicates(inplace=True)
+df_cities = df_cities.merge(doublings, on=['municipality','day','month','year'], how='left', indicator=True)
+df_cities = df_cities[df_cities['_merge'] == 'left_only']
+
+doublings = df_ordnungsamt.merge(df_internet, on=['municipality','day','month','year'], how='inner')
+doublings = doublings[['municipality','day','month','year']].copy()
+doublings.drop_duplicates(inplace=True)
+df_internet = df_internet.merge(doublings, on=['municipality','day','month','year'], how='left', indicator=True)
+df_internet = df_internet[df_internet['_merge'] == 'left_only']
+
+
+
 
 
 
 # Append strikes and take 2019 only ###########################################
-strikes = strikes_internet[['day', 'month', 'year', 'geometry']].copy()
-strikes = strikes.append(strikes_cities[['day', 'month', 'year', 'geometry']])
-strikes = strikes.append(strikes_ordnungsamt[['day', 'month', 'year', 'geometry']])
+z_cols = ['day', 'month', 'year', 'state', 'plz', 'municipality', 'location', 'latitude', 'longitude', 'source']
 
-strikes = strikes.loc[strikes['year'] == 2019]
-
-
-
+df_strikes = df_ordnungsamt[z_cols + ['expected_participants', 'number_of_participants']].copy()
+df_strikes = df_strikes.append(df_cities[z_cols])
+df_strikes = df_strikes.append(df_internet[z_cols])
+df_strikes = df_strikes.loc[df_strikes['year'] == 2019]
 
 
-# Residualized_strikes
+
+#ordnungsamt     1966
+#fff_webiste     1592
+#social_media     385
+
+
+
+# unify states
+df_strikes['state'].replace({'bayern'                   :'bavaria',
+                              'baden-wuerttemberg'      :'baden-württemberg',
+                              'hessen'                  :'hesse',
+                              'mecklenburg-vorpommern'  :'mecklenburg western pomerania',
+                              'niedersachsen'           :'lower saxony',
+                              'nordrhein-westfalen'     :'north rhine-westphalia',
+                              'rheinland-pfalz'         :'rhineland palatinate',
+                              'sachsen'                 :'saxony',
+                              'sachsen-anhalt'          :'saxony-anhalt'}, inplace=True)
+
+
+
+    
+
+    
+
+# use coordinates
+strikes = gp.GeoDataFrame(df_strikes,geometry=gp.points_from_xy(df_strikes.longitude, df_strikes.latitude)).set_crs(epsg=z_epsg_wgs84)
+    
+    
+#single strike sources    
+strikes_internet = gp.GeoDataFrame(df_internet,geometry=gp.points_from_xy(df_internet.longitude, df_internet.latitude)).set_crs(epsg=z_epsg_wgs84)
+strikes_cities = gp.GeoDataFrame(df_cities,geometry=gp.points_from_xy(df_cities.longitude, df_cities.latitude)).set_crs(epsg=z_epsg_wgs84)
+strikes_ordnungsamt = gp.GeoDataFrame(df_ordnungsamt,geometry=gp.points_from_xy(df_ordnungsamt.longitude, df_ordnungsamt.latitude)).set_crs(epsg=z_epsg_wgs84)
+
+
+
+
+
+# merge spatially with kreise & wahlkreise to know in which ags they lie
+strikes_ags = gp.sjoin(strikes, kreise[['AGS', 'geometry']], how='left', op='within')
+strikes_ags.drop('index_right', axis=1, inplace=True)
+
+
+strikes_ags = gp.sjoin(strikes_ags, wahlkreise[['WKR_NR', 'geometry']],
+                       how='left', op='within')
+strikes_ags.drop('index_right', axis=1, inplace=True)
+
+
+strikes_ags = gp.sjoin(strikes_ags, teralytics[['FID', 'geometry']])
+strikes_ags.drop('index_right', axis=1, inplace=True)
+
+
+strikes_ags.rename(columns={'AGS':'ags5',
+                            'WKR_NR':'wkr_nr',
+                            'FID':'teralytics_id'}, inplace=True)
+
+
+# export strike database
+strikes_ags.sort_values(by=['ags5','month','day'], inplace=True)
+strikes_ags.to_csv(z_strike_output + z_prefix + 'fff_all_strikes_ags5_wkr_teralyticsid.csv',
+                   sep=';', encoding='UTF-8', index=False)    
+    
+
+
+
+
+
+# Residualized_strikes ########################################################
 resid_places_ols = pd.read_csv(z_data+'temp/greta_cons_resid_ols_selected_places.csv',
                            delimiter=';', dtype={'startid':object,'endid':object},
                            parse_dates=['date'], infer_datetime_format=True)
@@ -130,7 +242,6 @@ resid_times = resid_times_ols.merge(resid_times_poisson,
                                     on=['date', 'endid', 'count'])
 
 
-# change order of columns
 
 
 

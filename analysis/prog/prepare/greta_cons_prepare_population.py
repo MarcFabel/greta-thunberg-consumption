@@ -20,6 +20,10 @@ Inputs:
 Outputs:
      population_ags5_prepared.csv'         [intermediate]
      population_ags8_prepared.csv'         [intermediate]
+     
+     
+Updates:
+    13.01.2021      correct: Hamburg & Berlin missing in outputs
 
 """
 
@@ -28,9 +32,16 @@ import pandas as pd
 
 
 # work directories (SERVER)
-z_regional_source =             'W:/EoCC/analysis/data/source/population/'
-z_regional_intermediate =       'W:/EoCC/analysis/data/intermediate/population/'
+#z_regional_source =             'W:/EoCC/analysis/data/source/population/'
+#z_regional_intermediate =       'W:/EoCC/analysis/data/intermediate/population/'
+#z_prefix =                      'greta_cons'
+
+
+# work directories (HOME)
+z_regional_source =             '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/source/population/'
+z_regional_intermediate =       '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/intermediate/population/'
 z_prefix =                      'greta_cons'
+
 
 
 
@@ -73,6 +84,10 @@ pop_raw = pop_raw[['ags', 'ags_name', 'pop_t', 'pop_0_2_t', 'pop_3_5_t', 'pop_6_
                    'pop_65_74_t', 'pop_74+_t']]
 
 
+# correct Hamburg and Berlin to be in ags8
+pop_raw['ags'] = pop_raw['ags'].replace({'02':'02000000','11':'11000000'})
+
+
 # prepare ags8 population
 pop_ags8 = pop_raw.loc[pop_raw['ags'].str.len() == 8]
 pop_ags8 = pop_ags8.loc[pop_ags8['pop_t'] != '-'] # keep only values with entries (the data set contains deprecated ags keys)
@@ -81,6 +96,9 @@ z_pop_cols = pop_raw.columns.drop(['ags', 'ags_name', 'pop_t']).tolist()
 pop_ags8[z_pop_cols] = pop_ags8[z_pop_cols].replace('-', '0')
 pop_ags8['ags_name'] = pop_ags8['ags_name'].str.lstrip() # remove preceding space
 
+
+# correct Hamburg and Berlin to be in ags8
+pop_raw['ags'] = pop_raw['ags'].replace({'02000000':'02000','11000000':'11000'})
 
 # prepare ags5 population
 pop_ags5 = pop_raw.loc[pop_raw['ags'].str.len() == 5]
