@@ -35,7 +35,8 @@ z_election_output =      'W:/EoCC/analysis/data/intermediate/elections/'
 ###############################################################################
 #           Prepare Election Data
 ###############################################################################
-z_list_result_parties = list(range(18,93+1))[1::4]                             # only landesstimme in percent
+#z_list_result_parties = list(range(18,93+1))[1::4]                             # only landesstimme in percent
+z_list_result_parties = list(range(18,93+1))[0::4]                             # only landesstimme in absolute numbers
 z_list_select_columns = sorted([3,4,6,9,14,15] + z_list_result_parties)        # regional identifiers + parties
 
 elec = pd.read_excel(z_election_input + 'Thueringen_LT_Gemeindeebene.xlsx', skiprows=7,
@@ -57,6 +58,7 @@ elec.columns = ['kreis','gemeinde','name','wahlberechtigte', 'ungueltig', 'guelt
 # generate ags
 elec = elec.loc[(elec.kreis !=0)] # use onlz rows with kreis-information
 elec['ags'] = '160' + elec.kreis.astype(str) + elec.gemeinde.astype(str).str.zfill(3)
+elec['ags5'] = '160' + elec.kreis.astype(str)
 elec.drop(['kreis','gemeinde'], axis=1, inplace=True)
 
 
@@ -69,8 +71,41 @@ elec = elec.loc[elec.wahlberechtigte != 0]
 
 
 # aggregate to municipality level
-elec = elec.groupby(['ags']).sum()
+elec = elec.groupby(['ags5']).sum()
+
+
+
+
+# generate others column
+z_list_others = elec.columns.drop(['wahlberechtigte', 'gueltig', 'cdu', 'die_linke', 'spd', 'afd',
+       'gruene', 'fdp']).to_list()
+elec['others'] = elec[z_list_others].sum(axis=1)
+elec.drop(z_list_others, axis=1, inplace=True)
+
+
+# define results as fractions
+z_list_parties = ['spd', 'cdu', 'die_linke', 'afd', 'gruene',
+	                  'fdp', 'others']
+for club in z_list_parties:
+	     elec[club] = (elec[club]/elec['gueltig'])*100
+
+
+
+# harmonize variables
+elec['voter_turnout'] = (elec['gueltig']/elec['wahlberechtigte']*100)         
+
+elec.rename(columns={'cdu':'union',
+                    'die_linke':'the_left',
+                    'gruene':'the_greens'}, inplace=True)
+elec.drop(['wahlberechtigte', 'gueltig'], axis=1, inplace=True)
+
+
+
+elec = elec[['voter_turnout', 'union', 'spd', 'the_greens',
+                               'the_left', 'afd', 'fdp', 'others']]       
+
+
 
 
 # write-out
-elec.to_csv(z_election_output + 'election_thueringen2019_ags_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')
+elec.to_csv(z_election_output + 'election_thueringen2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')

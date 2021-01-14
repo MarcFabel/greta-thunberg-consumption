@@ -11,7 +11,7 @@ Inputs:
     -  Brandenburg_LT_Gemeindeebene.xlsx                     [input]
 
 Outputs:
-    - election_brandenburg2019_ags_prepared.csv              [intermediate]
+    - election_brandenburg2019_ags5_prepared.csv              [intermediate]
 
 Comment:
      Two municipalitiy names were adjusted in the source data, such that there
@@ -26,14 +26,14 @@ import pandas as pd
 
 # paths (WORK LOCAL)
 
-z_election_input =       'W:/EoCC/analysis/data/source/elections/landtag_brandenburg_2019/'
-z_election_output =      'W:/EoCC/analysis/data/intermediate/elections/'
+#z_election_input =       'W:/EoCC/analysis/data/source/elections/landtag_brandenburg_2019/'
+#z_election_output =      'W:/EoCC/analysis/data/intermediate/elections/'
 
 
 
 # paths (SERVER)
-#z_election_input =      'W:/EoCC/analysis/data/source/elections/landtag_brandenburg_2019/'
-
+z_election_input =      'W:/EoCC/analysis/data/source/elections/landtag_brandenburg_2019/'
+z_election_output =     'W:/EoCC/analysis/data/intermediate/elections/'
 
 
 ###############################################################################
@@ -110,11 +110,7 @@ for kreis in range(len(z_list_regions)):
 	elec.dropna(subset=['region'], inplace=True)
 
 
-	# define results as fractions
-	z_list_parties = ['spd', 'cdu', 'die_linke', 'afd', 'gruene', 'freie_waehler',
-	                  'fdp', 'sonstige']
-	for club in z_list_parties:
-	     elec[club] = (elec[club]/elec['gueltig'])*100
+
 
 
 	# delete kreis total
@@ -129,16 +125,52 @@ for kreis in range(len(z_list_regions)):
 
 
 
+
+
+
+
 # match with ags information    ###############################################
 
 # match with ags information
 results.rename(columns={'region':'gemeinde'}, inplace=True)
 df_final = results.merge(municipality_ags_keys[['gemeinde', 'ags']], on=['gemeinde'], how='left', indicator=False)
-
-
 df_final.drop('gemeinde', axis=1, inplace=True)
+df_final['wahlberechtigte'] = pd.to_numeric(df_final['wahlberechtigte'])
 
 
+# correct ags for Potsdam Mittelmark
+df_final['ags2'] = df_final['ags'].astype(str).str[:2]
+
+df_final['ags'].loc[df_final['ags2'] == '69'] = '12069XXX'
+
+
+
+# aggregate on ags5
+df_final['ags5'] = df_final['ags'].astype(str).str[:5]
+df_final_ags5 = df_final.groupby(['ags5']).sum()
+
+
+
+# define results as fractions
+z_list_parties = ['spd', 'cdu', 'die_linke', 'afd', 'gruene', 'freie_waehler',
+	                  'fdp', 'sonstige']
+for club in z_list_parties:
+	     df_final_ags5[club] = (df_final_ags5[club]/df_final_ags5['gueltig'])*100
+
+
+
+# harmonize variabel names
+df_final_ags5['voter_turnout'] = (df_final_ags5['gueltig']/df_final_ags5['wahlberechtigte']*100)         
+
+df_final_ags5.rename(columns={'cdu':'union',
+                              'die_linke':'the_left',
+                              'gruene':'the_greens',
+                              'freie_waehler':'free_voters',
+                              'sonstige':'others'}, inplace=True)
+df_final_ags5.drop(['wahlberechtigte', 'gueltig'], axis=1, inplace=True)
+df_final_ags5 = df_final_ags5[['voter_turnout', 'union', 'spd', 'the_greens',
+                               'the_left', 'afd', 'fdp', 'free_voters', 'others']]
+    
 
 # write-out
-df_final.to_csv(z_election_output + 'election_brandenburg2019_ags_prepared.csv', sep=';', encoding='UTF-8', index=False, float_format='%.1f')
+df_final_ags5.to_csv(z_election_output + 'election_brandenburg2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=False, float_format='%.1f')

@@ -11,7 +11,7 @@ Inputs:
     -  Sachsen_LT_Gemeindeebene.xlsx                     [input]
 
 Outputs:
-    - election_thueringen2019_ags_prepared.csv              [intermediate]
+    - election_thueringen2019_ags5_prepared.csv              [intermediate]
 
 """
 
@@ -20,15 +20,12 @@ import pandas as pd
 
 
 
-# paths (WORK LOCAL)
+# paths (WORK LOCAL & SERVER)
 
 z_election_input =       'W:/EoCC/analysis/data/source/elections/landtag_sachsen_2019/'
 z_election_output =      'W:/EoCC/analysis/data/intermediate/elections/'
 
 
-
-# paths (SERVER)
-#z_election_input =      'W:/EoCC/analysis/data/source/elections/landtag_sachsen_2019/'
 
 
 
@@ -50,26 +47,59 @@ for umlaut, replacement in {'ä':'ae', 'ü':'ue', 'ö':'oe', 'ß':'ss'}.items():
 
 elec = elec[[
      'ags', 'ortname',
-       'wahlberechtigte', 'ungueltige_2', 'gueltige_2',
+       'wahlberechtigte',  'gueltige_2',
 
-       'wahlbeteiligung',
-       'cdu_2_in_%', 'die_linke_2_in_%', 'spd_2_in_%', 'afd_2_in_%',
-       'gruene_2_in_%', 'npd_2_in_%', 'fdp_2_in_%', 'freie_waehler_2_in_%',
-       'tierschutzpartei_2_in_%', 'piraten_2_in_%', 'die_partei_2_in_%',
-       'bueso_2_in_%', 'adpm_2_in_%', 'blaue_#teampetry_2_in_%', 'kpd_2_in_%',
-       'oedp_2_in_%', 'die_humanisten_2_in_%', 'pdv_2_in_%',
-       'gesundheitsforschung_2_in_%']]
+       
+       'cdu_2', 'die_linke_2', 'spd_2', 'afd_2',
+       'gruene_2', 'npd_2', 'fdp_2', 'freie_waehler_2',
+       'tierschutzpartei_2', 'piraten_2', 'die_partei_2',
+       'bueso_2', 'adpm_2', 'blaue_#teampetry_2', 'kpd_2',
+       'oedp_2', 'die_humanisten_2', 'pdv_2',
+       'gesundheitsforschung_2']]
 
 # adjust column names
-elec.columns = elec.columns.str.replace('_2_in_%','')
 elec.columns = elec.columns.str.replace('_2','')
 
+
+elec['ags5'] = elec['ags'].astype(str).str[:5]
 
 
 
 # aggregate to municipality level
-elec = elec.groupby(['ags']).sum()
+elec = elec.groupby(['ags5']).sum()
+
+
+# generate others column
+z_list_others = elec.columns.drop(['ags', 'wahlberechtigte', 'gueltige', 'cdu', 'die_linke', 'spd', 'afd',
+       'gruene', 'fdp', 'freie_waehler',]).to_list()
+elec['others'] = elec[z_list_others].sum(axis=1)
+elec.drop(z_list_others, axis=1, inplace=True)
+
+
+# define results as fractions
+z_list_parties = ['spd', 'cdu', 'die_linke', 'afd', 'gruene', 'freie_waehler',
+	                  'fdp', 'others']
+for club in z_list_parties:
+	     elec[club] = (elec[club]/elec['gueltige'])*100
+
+
+
+# harmonize variables
+elec['voter_turnout'] = (elec['gueltige']/elec['wahlberechtigte']*100)         
+
+elec.rename(columns={'cdu':'union',
+                    'die_linke':'the_left',
+                    'gruene':'the_greens',
+                    'freie_waehler':'free_voters'}, inplace=True)
+elec.drop(['ags', 'wahlberechtigte', 'gueltige'], axis=1, inplace=True)
+
+
+
+elec = elec[['voter_turnout', 'union', 'spd', 'the_greens',
+                               'the_left', 'afd', 'fdp', 'free_voters', 'others']]         
+         
+        
 
 
 # write-out
-elec.to_csv(z_election_output + 'election_sachsen2019_ags_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')
+elec.to_csv(z_election_output + 'election_sachsen2019_ag5s_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')
