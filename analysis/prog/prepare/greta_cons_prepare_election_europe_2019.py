@@ -12,6 +12,9 @@ Inputs:
 
 Outputs:
     - election_eu2019_municipality_prepared.csv     [intermediate]
+    
+Update:
+    14.01.2021 preparation on ags5 & 8, before only 8 level
 
 """
 
@@ -62,20 +65,34 @@ elec = elec[[
 z_region_identifiers = ['land', 'regierungsbezirk', 'kreis', 'verbandsgemeinde', 'gemeinde',
        'kennziffer_briefwahlzugehörigkeit', 'wahlbezirk', 'bezirksart']
 elec[z_region_identifiers] = elec[z_region_identifiers].astype(str)
-elec['ags'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2) + elec['gemeinde'].str.zfill(3)
+elec['ags8'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2) + elec['gemeinde'].str.zfill(3)
+elec['ags5'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2)
 elec.drop(['land', 'regierungsbezirk', 'kreis', 'gemeinde'], axis=1, inplace=True)
 
 
 
-# aggregate to municipality level
-elec = elec.groupby(['ags']).sum()
+# aggregate to municipality level & district level
+elec_ags5 = elec.groupby(['ags5']).sum()
+elec_ags8 = elec.groupby(['ags8']).sum()
+
 
 
 # generate share of vote for each party: 
-z_list_parties = elec.columns.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig']).tolist()
+z_list_parties = elec_ags5.columns.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig']).tolist()
 for party in z_list_parties:
-    elec[party] = (elec[party] / elec['gültig'])*100
+    elec_ags5[party] = (elec_ags5[party] / elec_ags5['gültig'])*100
+    elec_ags8[party] = (elec_ags8[party] / elec_ags8['gültig'])*100
+
+
+# generate turnout
+elec_ags5['voter_turnout'] = (elec_ags5['gültig'] / elec_ags5['wahlberechtigte_(a)']) *100 
+elec_ags5.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig'], axis=1, inplace=True)
+elec_ags8['voter_turnout'] = (elec_ags8['gültig'] / elec_ags8['wahlberechtigte_(a)']) *100 
+elec_ags8.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig'], axis=1, inplace=True)
+
+
 
 
 # Read out
-elec.to_csv(z_election_output + 'election_eu2019_municipality_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
+elec_ags5.to_csv(z_election_output + 'election_eu2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
+elec_ags8.to_csv(z_election_output + 'election_eu2019_ags8_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
