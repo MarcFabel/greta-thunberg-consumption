@@ -61,13 +61,21 @@ elec = elec[[
        'gesundheitsforschung', 'volt', 'ungekürzte_wahlbezirksbezeichnung']]
 
 
-# make string vars with correct length (bula, bezirk, kreis) & generate ags
+# make string vars with correct length (bula, bezirk, kreis) 
 z_region_identifiers = ['land', 'regierungsbezirk', 'kreis', 'verbandsgemeinde', 'gemeinde',
        'kennziffer_briefwahlzugehörigkeit', 'wahlbezirk', 'bezirksart']
 elec[z_region_identifiers] = elec[z_region_identifiers].astype(str)
+
+
+# Berlin districts should be labeled as one ags
+elec.loc[elec['land'] == '11', 'regierungsbezirk'] = '0'
+elec.loc[elec['land'] == '11', 'kreis'] = '00'
+
+# generate ags
 elec['ags8'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2) + elec['gemeinde'].str.zfill(3)
 elec['ags5'] = elec['land'].str.zfill(2) + elec['regierungsbezirk'] + elec['kreis'].str.zfill(2)
 elec.drop(['land', 'regierungsbezirk', 'kreis', 'gemeinde'], axis=1, inplace=True)
+
 
 
 
@@ -92,7 +100,7 @@ elec_ags8.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig'], axis=1, inplace=
 
 
 # generate others (parties column)
-z_list_other_parties = elec_ags5.columns.drop(['cdu', 'spd', 'grüne', 'die_linke', 'afd', 'csu', 'fdp', 'freie_wähler', 'voter_turnout']).tolist()
+z_list_other_parties = elec_ags5.columns.drop(['cdu', 'spd', 'grüne', 'die_linke', 'afd', 'csu', 'fdp', 'voter_turnout']).tolist()
 elec_ags5['others'] = elec_ags5[z_list_other_parties].sum(axis=1)
 elec_ags5.drop(z_list_other_parties, axis=1, inplace=True)
 
@@ -100,12 +108,11 @@ elec_ags5.drop(z_list_other_parties, axis=1, inplace=True)
 elec_ags5['union'] = elec_ags5['cdu'] + elec_ags5['csu']
 elec_ags5.drop(['cdu', 'csu'], axis=1, inplace=True)
 elec_ags5.rename(columns={'grüne'       :'the_greens',
-                  'die_linke'   :'the_left',
-                  'freie_wähler':'free_voters'},inplace=True)
+                  'die_linke'   :'the_left'},inplace=True)
     
 #reorder columns
 elec_ags5 = elec_ags5[['voter_turnout', 'union', 'spd', 'the_greens',
-                       'the_left', 'afd', 'fdp', 'free_voters', 'others' ]]
+                       'the_left', 'afd', 'fdp', 'others' ]]
     
 
 # Read out
