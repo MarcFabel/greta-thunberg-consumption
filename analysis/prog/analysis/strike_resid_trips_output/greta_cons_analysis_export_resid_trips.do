@@ -97,3 +97,24 @@
 	collapse (sum) res* count, by(date endid)
 	
 	export delimited using "$data_temp/mobile_phone_resid_strikes/greta_cons_resid_poisson_selected_times.csv", delimiter(";") replace
+	
+	
+	
+	
+// try out new (desired) model	(until now just ols1)
+	use "$data_temp/greta_cons_trips_resids_desired_model.dta", replace
+	
+	
+	keep if endid == "006266500" & date==td(21jun2019) || ///
+			endid == "006253500" & date==td(22jun2019) || ///
+			endid == "006257100" & date==td(02aug2019) || ///
+			endid == "006268300" & date==td(30nov2019) || ///
+			endid == "006242203" & date==td(29mar2019) || ///
+			endid == "006278202" & date==td(01mar2019)
+			
+			//Aachen, Garzweiler, Luebbenau, Jenschwalde, Berlin, Hamburg
+			
+	export delimited using "$data_temp/mobile_phone_resid_strikes/greta_cons_resid_desired_selected_places.csv", delimiter(";") replace
+
+
+
