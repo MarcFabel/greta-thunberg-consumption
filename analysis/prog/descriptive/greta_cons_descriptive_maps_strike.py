@@ -29,6 +29,7 @@ Outputs:
 import geopandas as gp
 import pandas as pd
 import matplotlib.pyplot as plt
+from shapely.geometry import Point
 
 
 
@@ -222,6 +223,11 @@ resid_places_poisson = pd.read_csv(z_data+'temp/greta_cons_resid_poisson_selecte
                            delimiter=';', dtype={'startid':object,'endid':object},
                            parse_dates=['date'], infer_datetime_format=True)
 
+resid_places_ols2 = pd.read_csv(z_data+'temp/greta_cons_resid_desired_selected_places.csv',
+                           delimiter=';', dtype={'startid':object,'endid':object},
+                           parse_dates=['date'], infer_datetime_format=True)
+
+
 
 
 
@@ -237,6 +243,8 @@ resid_times_poisson = pd.read_csv(z_data+'temp/greta_cons_resid_poisson_selected
 # combine ols & poisson
 resid_places = resid_places_ols.merge(resid_places_poisson, 
                                       on=['date', 'startid', 'endid', 'count'])
+resid_places = resid_places.merge(resid_places_ols2,
+                                  on=['date', 'startid', 'endid', 'count'])
 
 resid_times = resid_times_ols.merge(resid_times_poisson,
                                     on=['date', 'endid', 'count'])
@@ -315,7 +323,6 @@ for num in range(12):
 
 
 
-
 aachen = teralytics.merge(resid_places.loc[resid_places['endid']=='006266500'], 
                           right_on=['startid'], left_on=['FID'], how='outer')
 berlin = teralytics.merge(resid_places.loc[resid_places['endid']=='006242203'], 
@@ -329,6 +336,8 @@ garzweiler = teralytics.merge(resid_places.loc[resid_places['endid']=='006253500
 
 
 
+
+
 # other scheme that are working
 # headtailbreaks
 # naturalbreaks
@@ -337,10 +346,10 @@ garzweiler = teralytics.merge(resid_places.loc[resid_places['endid']=='006253500
 
 
 
-# plot Aachen strike 2019  
+# plot Aachen strike 2019 
 aachen.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens', 
             edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_ols_interaction_small', scheme='fisher_jenks', legend=True,
+            column='res_ols_desired', scheme='fisher_jenks', legend=True,
             legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
 plt.axis('off')
 
@@ -349,7 +358,7 @@ plt.axis('off')
     
 berlin.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
             edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_p_interaction_small', scheme='fisher_jenks', legend=True,
+            column='res_ols_desired', scheme='fisher_jenks', legend=True,
             legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
 plt.axis('off')
 
@@ -357,11 +366,23 @@ plt.axis('off')
     
 hamburg.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
              edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_p_interaction_large', scheme='fisher_jenks', legend=True,
+            column='res_ols_desired', scheme='fisher_jenks', legend=True,
             legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
 plt.axis('off')
 
 
+lubbenau.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+             edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols_desired', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+plt.axis('off')
+
+
+garzweiler.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+             edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols_desired', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+plt.axis('off')
 
 
 
@@ -480,8 +501,166 @@ plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
 
 
 
+###############################################################################
+# PLOTS WITH ALL RESIDUAL SPECIFICATIONS
+###############################################################################
+
+
+df_resids =  pd.read_csv(z_data+'temp/greta_cons_resid_all_models.csv',
+                           delimiter=';', dtype={'startid':object,'endid':object},
+                           parse_dates=['date'], infer_datetime_format=True)
+df_resids = df_resids.set_index(['date'])
 
 
 
 
+# loop through resid_specification
+z_dict_resids = {'res_ols':'OLS, no interaction',
+                 'res_ols_interaction_small':'OLS, interaction w/ week+month',
+                 'res_ols_interaction_large':'OLS, fully interacted',
+                 'res_ols_desired':'OLS, only interactions',
+                 'res_p':'Poisson, no interaction',
+                 'res_p_interaction_small':'Poisson, interaction w/ week+month',
+                 'res_p_interaction_large':'Poisson, fully interacted',
+                 'res_p_int_only_w':'Poisson, only interactions',
+                 }
+
+
+
+
+
+# plot Hamburg
+hamburg = teralytics.merge(df_resids.loc['2019-03-01'], 
+                          right_on=['startid'], left_on=['FID'], how='outer')
+hamburg_pt = gp.GeoSeries(Point((hamburg.longitude.mean(), hamburg.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+
+f, ax = plt.subplots(figsize=(11, 10)) 
+hamburg.plot(ax=ax, figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens', 
+            edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_p_int_only_w', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+hamburg_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+plt.axis('off')
+
+
+
+
+f, axs = plt.subplots(2, 4, figsize=(21, 15)) 
+axs = axs.ravel()
+num = 0
+for spec in list(z_dict_resids.keys()):
+     
+    hamburg.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+             edgecolor=z_c_lightgray, linewidth=0.3,
+            column=spec, scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+    hamburg_pt.plot(ax=axs[num], marker='o', color='red', markersize=20)
+    axs[num].axis('off')
+    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+    num = num + 1
+plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+                'resid_trips_hamburg.png',
+            bbox_inches = 'tight', dpi=200)
+
+
+
+
+
+# plot Berlin
+berlin = teralytics.merge(df_resids.loc['2019-03-29'], 
+                          right_on=['startid'], left_on=['FID'], how='outer')
+berlin_pt = gp.GeoSeries(Point((berlin.longitude.mean(), berlin.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+
+
+f, axs = plt.subplots(2, 4, figsize=(21, 15)) 
+axs = axs.ravel()
+num = 0
+for spec in list(z_dict_resids.keys()):
+     
+    berlin.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+             edgecolor=z_c_lightgray, linewidth=0.3,
+            column=spec, scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+    berlin_pt.plot(ax=axs[num], marker='o', color='red', markersize=20)
+    axs[num].axis('off')
+    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+    num = num + 1
+plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+                'resid_trips_berlin.png',
+            bbox_inches = 'tight', dpi=200)
+
+
+
+
+# plot aachen
+aachen = teralytics.merge(df_resids.loc['2019-06-21'], 
+                          right_on=['startid'], left_on=['FID'], how='outer')
+aachen_pt = gp.GeoSeries(Point((aachen.longitude.mean(), aachen.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+
+
+f, axs = plt.subplots(2, 4, figsize=(21, 15)) 
+axs = axs.ravel()
+num = 0
+for spec in list(z_dict_resids.keys()):
+     
+    aachen.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+             edgecolor=z_c_lightgray, linewidth=0.3,
+            column=spec, scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+    aachen_pt.plot(ax=axs[num], marker='o', color='red', markersize=20)
+    axs[num].axis('off')
+    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+    num = num + 1
+plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+                'resid_trips_aachen.png',
+            bbox_inches = 'tight', dpi=200)
+
+
+
+
+# plots of different cities for global climate strikes ########################
+gcs = teralytics.merge(df_resids.loc['2019-03-15'], 
+                          right_on=['startid'], left_on=['FID'], how='outer')
+
+# define points 
+
+cities_list = gcs['municipality'].drop_duplicates().to_list()
+
+
+
+temp = gcs.loc[gcs['municipality']==cities_list[2]]
+temp_pt = gp.GeoSeries(Point((temp.longitude.mean(), temp.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+
+
+
+fig, ax = plt.subplots(figsize=(8,8))
+temp.plot(ax=ax, missing_kwds={'color': 'lightgrey'}, cmap = 'Greens', 
+            edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower left'})
+temp_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+plt.axis('off')
+
+
+
+
+temp.plot(figsize=(10,10), cmap = 'Greens', column='res_ols')
+
+
+
+for spec in list(z_dict_resids.keys()):
+    print(spec)
+    
+    f, ax = plt.subplots(figsize=(10, 10))      
+    temp.plot(ax=ax, missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+             edgecolor=z_c_lightgray, linewidth=0.3,
+            column=spec, scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+    
+    
+    temp_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+    
+    
+    ax.axis('off')
+    ax.set_title(z_dict_resids[spec], fontweight='bold') 
 
