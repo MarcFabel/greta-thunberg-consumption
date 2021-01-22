@@ -108,4 +108,4 @@ elec = elec[['voter_turnout', 'union', 'spd', 'the_greens',
 
 
 # write-out
-elec.to_csv(z_election_output + 'election_thueringen2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')
+elec.to_csv(z_election_output + 'election_thueringen2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')

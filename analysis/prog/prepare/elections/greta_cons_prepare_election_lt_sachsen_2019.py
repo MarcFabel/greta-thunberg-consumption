@@ -71,14 +71,13 @@ elec = elec.groupby(['ags5']).sum()
 
 # generate others column
 z_list_others = elec.columns.drop(['ags', 'wahlberechtigte', 'gueltige', 'cdu', 'die_linke', 'spd', 'afd',
-       'gruene', 'fdp', 'freie_waehler',]).to_list()
+       'gruene', 'fdp']).to_list()
 elec['others'] = elec[z_list_others].sum(axis=1)
 elec.drop(z_list_others, axis=1, inplace=True)
 
 
 # define results as fractions
-z_list_parties = ['spd', 'cdu', 'die_linke', 'afd', 'gruene', 'freie_waehler',
-	                  'fdp', 'others']
+z_list_parties = ['spd', 'cdu', 'die_linke', 'afd', 'gruene', 'fdp', 'others']
 for club in z_list_parties:
 	     elec[club] = (elec[club]/elec['gueltige'])*100
 
@@ -89,17 +88,16 @@ elec['voter_turnout'] = (elec['gueltige']/elec['wahlberechtigte']*100)
 
 elec.rename(columns={'cdu':'union',
                     'die_linke':'the_left',
-                    'gruene':'the_greens',
-                    'freie_waehler':'free_voters'}, inplace=True)
+                    'gruene':'the_greens'}, inplace=True)
 elec.drop(['ags', 'wahlberechtigte', 'gueltige'], axis=1, inplace=True)
 
 
 
 elec = elec[['voter_turnout', 'union', 'spd', 'the_greens',
-                               'the_left', 'afd', 'fdp', 'free_voters', 'others']]         
+                               'the_left', 'afd', 'fdp', 'others']]         
          
         
 
 
 # write-out
-elec.to_csv(z_election_output + 'election_sachsen2019_ag5s_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.1f')
+elec.to_csv(z_election_output + 'election_sachsen2019_ag5s_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
