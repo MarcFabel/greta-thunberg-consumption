@@ -12,9 +12,11 @@ Inputs:
 
 Outputs:
     - election_eu2019_ags5_prepared.csv             [intermediate]
+    - election_eu2019_ags8_prepared.csv             [intermediate]
     
 Update:
     14.01.2021 preparation on ags5 & 8, before only 8 level - harmonize variable names
+    24.01.2021 adjust ags8 preparation to ags5, which was more advanced
 
 """
 
@@ -103,18 +105,26 @@ elec_ags8.drop(['wahlberechtigte_(a)', 'ungültig', 'gültig'], axis=1, inplace=
 z_list_other_parties = elec_ags5.columns.drop(['cdu', 'spd', 'grüne', 'die_linke', 'afd', 'csu', 'fdp', 'voter_turnout']).tolist()
 elec_ags5['others'] = elec_ags5[z_list_other_parties].sum(axis=1)
 elec_ags5.drop(z_list_other_parties, axis=1, inplace=True)
+elec_ags8['others'] = elec_ags8[z_list_other_parties].sum(axis=1)
+elec_ags8.drop(z_list_other_parties, axis=1, inplace=True)
+
 
 #harmonize variable names
 elec_ags5['union'] = elec_ags5['cdu'] + elec_ags5['csu']
 elec_ags5.drop(['cdu', 'csu'], axis=1, inplace=True)
-elec_ags5.rename(columns={'grüne'       :'the_greens',
-                  'die_linke'   :'the_left'},inplace=True)
+elec_ags5.rename(columns={'grüne':'the_greens', 'die_linke':'the_left'},inplace=True)
+elec_ags8['union'] = elec_ags8['cdu'] + elec_ags8['csu']
+elec_ags8.drop(['cdu', 'csu'], axis=1, inplace=True)
+elec_ags8.rename(columns={'grüne':'the_greens', 'die_linke':'the_left'},inplace=True)
+
     
 #reorder columns
 elec_ags5 = elec_ags5[['voter_turnout', 'union', 'spd', 'the_greens',
+                       'the_left', 'afd', 'fdp', 'others' ]]
+elec_ags8 = elec_ags8[['voter_turnout', 'union', 'spd', 'the_greens',
                        'the_left', 'afd', 'fdp', 'others' ]]
     
 
 # Read out
 elec_ags5.to_csv(z_election_output + 'election_eu2019_ags5_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
-#elec_ags8.to_csv(z_election_output + 'election_eu2019_ags8_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
+elec_ags8.to_csv(z_election_output + 'election_eu2019_ags8_prepared.csv', sep=';', encoding='UTF-8', index=True, float_format='%.3f')
