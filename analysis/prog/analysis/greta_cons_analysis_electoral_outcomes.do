@@ -1,49 +1,28 @@
 
 	
 	
-	
+	/*
 	// graphical impression 
-	foreach var_spec of varlist r_cum_res_p_interaction_small{
-		twoway scatter the_greens `var_spec' if election == "eu", color(navy%20) m(o) || ///
-			scatter the_greens `var_spec' if election == "brandenburg", color(maroon%40) m(D) || ///
-			scatter the_greens `var_spec' if election == "saxony", color(forest_green%40) m(S) || ///
-			scatter the_greens `var_spec' if election == "thuringia", color(dkorange%40) m(T) || ///
-			lfit the_greens `var_spec' if election == "eu", color(navy%30) lp(dash) || ///
-			lfit the_greens `var_spec' if election == "brandenburg", color(maroon%30) lp(dash) || ///
-			lfit the_greens `var_spec' if election == "saxony", color(forest_green%30) lp(dash) || ///
-			lfit the_greens `var_spec' if election == "thuringia", color(dkornage%30) lp(dash) ///
+	foreach var_spec of varlist r_cum_res_ols {
+		twoway scatter fd_the_greens `var_spec' if election == "eu", color(navy%20) m(o) || ///
+			scatter fd_the_greens `var_spec' if election == "brandenburg", color(maroon%40) m(D) || ///
+			scatter fd_the_greens `var_spec' if election == "saxony", color(forest_green%40) m(S) || ///
+			scatter fd_the_greens `var_spec' if election == "thuringia", color(dkorange%40) m(T) || ///
+			lfit fd_the_greens `var_spec' if election == "eu", color(navy%30) lp(dash) || ///
+			lfit fd_the_greens `var_spec' if election == "brandenburg", color(maroon%30) lp(dash) || ///
+			lfit fd_the_greens `var_spec' if election == "saxony", color(forest_green%30) lp(dash) || ///
+			lfit fd_the_greens `var_spec' if election == "thuringia", color(dkornage%30) lp(dash) ///
 			scheme(s1mono) plotregion(color(white)) ///
 			legend(label(1 "eu") label(2 "b") label(3 "sa") label(4 "th") pos(2) ring(0) col(2) ///
 			region(color(none)) size(small) order(1 2 3 4))  ///
 			ytitle("Election results the greens") xtitle("Participation index")
 	}
-	
+	*/
 	
 	
 	// regression
 	use "$data_temp/greta_cons_strikes_participation_election_outcomes.dta", clear
-	
-	
-	
-	
-	
-	
-	// compare standardized specificationsz
-	eststo clear
-	foreach y of varlist the_greens_st {
-		qui eststo a1: reg `y' r_cum_res_ols_st i.bula i.election_num
-		qui eststo a2: reg `y' r_cum_res_ols_int_small_st i.bula i.election_num
-		qui eststo a3: reg `y' r_cum_res_ols_int_large_st i.bula i.election_num
-		qui eststo a4: reg `y' r_cum_res_ols_int_only_st i.bula i.election_num
-		
-		qui eststo a5: reg `y' r_cum_res_p_st i.bula i.election_num
-		qui eststo a6: reg `y' r_cum_res_p_int_small_st i.bula i.election_num
-		qui eststo a7: reg `y' r_cum_res_p_int_large_st i.bula i.election_num
-		qui eststo a8: reg `y' r_cum_res_p_int_only_st i.bula i.election_num
-	}
-	esttab a*,  													///
-		se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*) 		
-		
+
 	
 	
 	
@@ -64,33 +43,59 @@
 	eststo clear
 	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {
 	disp "`row'"
-		qui eststo a1: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num
-		qui eststo a2: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num
+		qui eststo a1: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t]
+		qui eststo a2: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t]
 		
 		esttab a*, ///
-		se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*)
+		se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*) ///
+		sfmt( %12.0fc)	b(%12.4f) se(%12.4f) nonote  nonumbers ///
+		coeflabels(r_cum_res_`row'_st "`row'")
 	}
 	
 	
-	
+	/*
 	// adding controls
 	use "$data_temp/greta_cons_strikes_participation_election_outcomes.dta", clear
 	
+
+	
+	// population weights
+	eststo clear
+	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {
+		disp "`row'"
+		qui eststo a1: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t]
+		qui eststo a2: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t]
+		qui eststo a4: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num $x_pop 	[pw=pop_t]
+		qui eststo a6: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num $x_ue $x_sectors 	[pw=pop_t]
+		qui eststo a8: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num $x_educ 	[pw=pop_t]
+		
+		esttab a*, ///
+		se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*) ///
+		sfmt( %12.0fc)	b(%12.4f) se(%12.4f) nonote  nonumbers ///
+		coeflabels(r_cum_res_`row'_st "`row'")
+		
+	}
+	
+
+	// use current measure
+	/*
 	eststo clear 
 	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {
 		disp "`row'"
-		qui eststo a1: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num 
-		qui eststo a2: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num 
-		qui eststo a3: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num $x_pop
-		qui eststo a4: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num $x_pop
-		qui eststo a5: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num $x_ue $x_sectors
-		qui eststo a6: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num $x_ue $x_sectors
-		qui eststo a7: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num $x_educ
-		qui eststo a8: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num $x_educ
+		qui eststo a1: reg the_greens_st 	r_res_`row'_st i.bula i.election_num 	[pw=pop_t]
+		qui eststo a2: reg fd_the_greens_st r_res_`row'_st i.bula i.election_num 	[pw=pop_t]
+		qui eststo a3: reg the_greens_st 	r_res_`row'_st i.bula i.election_num $x_pop	[pw=pop_t]
+		qui eststo a4: reg fd_the_greens_st r_res_`row'_st i.bula i.election_num $x_pop	[pw=pop_t]
+		qui eststo a5: reg the_greens_st 	r_res_`row'_st i.bula i.election_num $x_ue $x_sectors	[pw=pop_t]
+		qui eststo a6: reg fd_the_greens_st r_res_`row'_st i.bula i.election_num $x_ue $x_sectors	[pw=pop_t]
+		qui eststo a7: reg the_greens_st 	r_res_`row'_st i.bula i.election_num $x_educ	[pw=pop_t]
+		qui eststo a8: reg fd_the_greens_st r_res_`row'_st i.bula i.election_num $x_educ	[pw=pop_t]
 		
 		esttab a*, ///
-		se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*)
-	}
+		se star(* 0.10 ** 0.05 *** 0.01) keep(r_res_*)
+	}*/
+	
+	
 	
 	
 	
