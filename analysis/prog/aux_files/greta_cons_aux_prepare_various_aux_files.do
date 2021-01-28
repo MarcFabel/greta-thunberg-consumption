@@ -51,5 +51,8 @@
 	 qui save "$data_final/regional_database/greta_cons_regional_database_ags5_prepared.dta", replace
 
 
-	
+	// conversion table ags5 -> ags8 ***********************************************
+	use "$regional_intermediate/regional_variables_ags8", clear
+	keep ags8 ags5 ags8_name
+	qui save "$data_temp/greta_cons_conversion_ags8_ags5_2019.dta", replace
 	
