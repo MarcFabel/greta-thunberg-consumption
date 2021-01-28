@@ -177,7 +177,7 @@
 	
 	
 	* keep if region is in certain distance
-	keep if tripdistancekm <= 100
+	keep if tripdistancekm <= 75
 	
 	* keep only positive residuals
 	foreach var of varlist res* {
@@ -323,7 +323,7 @@
 	// standardize variables	
 	qui ds date ags5 ags_name count election pop_density_cat    , not
 	foreach var of varlist `r(varlist)' {
-		qui summ `var'
+		qui summ `var'  [fw=pop_t]
 		qui gen `var'_st = (`var' - `r(mean)')/`r(sd)' 
 	}	
 	
