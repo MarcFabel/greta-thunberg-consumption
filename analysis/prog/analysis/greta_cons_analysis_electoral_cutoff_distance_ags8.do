@@ -8,7 +8,12 @@
 	global tables 					"$path\output\tables"
 	global data_final				"$path/data/final"
 	global tables_temp				"$path/output/temp"
+	global graphs					"$path/output/graphs"
 
+	
+	* magic numbers
+	global t_90		  = 1.645
+	global t_95   	  = 1.960
 	
 	
 ********************************************************************************
@@ -259,10 +264,93 @@ forval distance = 1/800 {
 	}
 	
 	* save number of observations
+
+} // end: loop over distance
+
+
+
+********************************************************************************
+*	Visualisation
+********************************************************************************	
+	
+	import delimited "$tables_temp/distance_cutoffs_ALL_STRIKES.csv", stripquote(yes) clear 
+	qui gen temp = _n 
+	qui drop if temp == 1
+	qui drop temp
+	
+	qui gen spec = substr(v1,2,.)
+	qui gen beta_ = substr(v2,2,.)
+	qui gen se_ = substr(v3,2,.)
+	qui drop v*
+	qui destring * , replace
+	
+	* change format 
+	qui gen obs_ = beta_[_n+1]
+	qui drop if spec == "N"
+	qui gen temp = cond(spec == "ols", 1, 0) // identify first estimation per distance
+	qui gen distance = sum(temp)
+	drop temp
+	reshape wide beta_ se_ obs_, i(distance) j(spec) string
+	
+	
+	* generate Confidence intervals
+	foreach spec in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {	
+		qui gen ci90l_`spec' = beta_`spec' - $t_90 * se_`spec'
+		qui gen ci90h_`spec' = beta_`spec' + $t_90 * se_`spec'
+		qui gen ci95l_`spec' = beta_`spec' - $t_95 * se_`spec'
+		qui gen ci95h_`spec' = beta_`spec' + $t_95 * se_`spec' 
+		qui gen t_`spec' = beta_`spec'/se_`spec'
+	}
 	
 	
 	
-	} // end: loop over distance
+	* over all distances
+	keep if distance <= 400
+	foreach spec in  "ols" {
+		
+		capture drop temp*
+		qui summ ci95h_`spec'
+		qui gen templ = 0.145
+		qui summ ci95l_`spec'
+		qui gen temph = -0.05
+
+		twoway rarea templ temph distance if distance <= 100, color(forest_green%40) lcolor(navy%0) || ///
+			rspike ci95l_`spec' ci95h_`spec' distance, color(gs6%20) || ///
+			rspike ci90l_`spec' ci90h_`spec' distance, color(gs3%20) || ///
+			scatter beta_`spec' distance, color(gs3%10) m(o) ///
+			yline(0,lp(dash) lcolor(black%30)) ///
+			legend(off) ///
+			ytitle("") xtitle("") ///
+			ylabel(,nolabel noticks) xlabel(,nolabel noticks) ///
+			scheme(s1mono) plotregion(color(white)) ///
+			xsize(5) ysize(3)
+			
+		graph export "$graphs/greta_cons_cutoff_distance_`spec'_all.pdf", as(pdf) replace
+	}
+	
+	
+	* first trial graph
+	keep if distance <= 100
+	*qui gen odd = mod(distance,2)
+	*drop if odd == 1
+	
+	foreach spec in  "ols" {	
+
+		twoway rspike ci95l_`spec' ci95h_`spec' distance, color(gs12%70) || ///
+			rspike ci90l_`spec' ci90h_`spec' distance, color(navy) || ///
+			scatter beta_`spec' distance, color(maroon) m(O) ///
+			yline(0,lp(dash)) ///
+			legend(off) ///
+			ytitle("Estimate") xtitle("Distance [km]") ///
+			scheme(s1mono) plotregion(color(white))
+			
+			graph export "$graphs/greta_cons_cutoff_distance_`spec'_100.pdf", as(pdf) replace
+	}
+	
+	
+	
+	"ols"      
+	
 	
 	
 	
