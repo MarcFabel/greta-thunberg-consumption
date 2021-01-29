@@ -52,6 +52,20 @@
 		coeflabels(r_cum_res_`row'_st "`row'")
 	}
 	
+	* column for regression table
+	eststo clear
+	qui eststo a2: reg fd_the_greens_st r_cum_res_ols_st i.bula i.election_num  	[pw=pop_t]
+	qui estadd scalar Nn = e(N)
+	
+	esttab a*, ///
+			se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*) ///
+			nonote  nonumbers noobs ///
+			coeflabels(r_cum_res_ols "ols") ///
+			scalars("Nn Observations" "r2_a \$R^2$") 					///
+			sfmt(%12.0fc %12.3f ) b(%12.4f) se(%12.4f)
+	
+	
+	
 	
 	/*
 	// adding controls

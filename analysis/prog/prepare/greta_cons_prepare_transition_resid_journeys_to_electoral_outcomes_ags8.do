@@ -33,7 +33,7 @@
 	
 	
 	* keep if region is in certain distance
-	keep if tripdistancekm <= 75
+	*keep if tripdistancekm <= 75
 	
 	* keep only positive residuals
 	foreach var of varlist res* {
