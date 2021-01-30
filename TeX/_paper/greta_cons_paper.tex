@@ -3,7 +3,7 @@
 %--------------------------------------------------------------------
 \documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
 \usepackage{fullpage} % leaves less space at margins of page
-\usepackage[onehalfspacing]{setspace} % determine line pitch to 1.5
+
 
 %--------------------------------------------------------------------
 %	INPUT
@@ -186,7 +186,7 @@ labelfont={bf}
 %--------------------------------------------------------------------
 \title{– For the Greta Good –\\The Rise of Environmental Awareness
 	through Child-to-Parent Value Transmission}
-\author{ }
+\author{Marc Fabel}
 
 \date{Last modified: \today}
 
@@ -231,6 +231,11 @@ labelfont={bf}
 
 
 
+
+literature: 
+\begin{itemize}
+	\item mobile-phone based tracking data: \cite{dave2020contagion}
+\end{itemize}
 
 
 
@@ -300,20 +305,20 @@ two consecutive nominations for the Nobel Peace Prize (2019 \& 2020)
 	
 	
 	
-	\begin{subfigure}[h]{0.9\linewidth}\centering\caption{Print media}
+	\begin{subfigure}[h]{0.85\linewidth}\centering\caption{Print media}
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_background_timeline_elections_events.pdf}
 	\end{subfigure}
 	
 	
 	\par\bigskip\smallskip % force a bit of vertical whitespace
-		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Print media}
+		\begin{subfigure}[h]{0.43\linewidth}\centering\caption{Print media}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_fff_print_media_articles_2019.pdf}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.48\linewidth}\centering\caption{Twitter feed of Greta Thunberg}
+		\begin{subfigure}[h]{0.43\linewidth}\centering\caption{Twitter feed of Greta Thunberg}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_gt_favorites_retweets_2019.pdf}
 		\end{subfigure}
 		
-		\begin{minipage}{\linewidth}
+		\begin{minipage}{0.86\linewidth}
 			\scriptsize{\emph{Notes:} Panel a presents a timeline of relevant events over the year 2019. Above the timeline, the scheme lists elections that fall in the sample period (election for the European Parliament, Brandenburg, Saxony, and Thuringia). Below the timeline, there is a series of important events, either far-reaching strikes or critical milestones for Greta Thunberg. Panel b shows the daily share of articles that cover FFF (per thousand articles). An article is defined to report about FFF if it contains at least the keyword `Fridays for Future' (in various notations) or `climate strike'. The blue line stems from a moving average with a window of three days. Panel c plots the weekly number of favorites and retweets of Greta Thunberg's tweets (in thousand).\newline \emph{Source:} Own representation with data from Genios and Twitter.}
 		\end{minipage}
 	\end{figure}
@@ -324,9 +329,7 @@ two consecutive nominations for the Nobel Peace Prize (2019 \& 2020)
 
 
 
-To DO: 
 
-finish footnotes, check regressions, make timeline graph, write background section
 
 
 
@@ -412,7 +415,14 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 
 3,943 strikes (1,966 authorities, 1,592 fff website and web-archive, 385 social media- filling up information for largest cities that were missing in the database)
 
-
+% temporal variation of strike number across sources
+\begin{figure}[H]\centering
+	\caption{Number of strikes across sources}\label{fig_greta_cons:number_strikes_per_source}
+	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_number_strikes_per_source}
+	\begin{minipage}{0.8\linewidth}
+		\scriptsize{\emph{Notes:} daily number of strikes}
+	\end{minipage}
+\end{figure}
 
 
 \subsection{Weather Data}
@@ -449,9 +459,48 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 \subsection{Granular Measurement of Strike Participation}
 
 
+
+% fig: strike participation for selected strikes
+\begin{figure}[H]\centering
+	\caption{Strike participation for selected strikes}
+	\label{fig_greta_cons:strike_participation_hh_ber}
+	% Hamburg
+	\begin{subfigure}[h]{0.45\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_hh_ols.png}
+	\end{subfigure}
+	%Berlin
+	\begin{subfigure}[h]{0.45\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_ber_ols.png}
+	\end{subfigure}
+%	%Aachen
+%	\begin{subfigure}[h]{0.4\linewidth}\centering
+%		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_aa_ols.png}
+%	\end{subfigure}
+	\begin{minipage}{0.9\linewidth}
+		\scriptsize{\emph{Notes:} Residualized movements [in thousand].}
+	\end{minipage}
+\end{figure}
+
+
+for Hamburg, alternative participation measures shown in Figure \ref{fig_greta_cons:strike_participation_hh_different_measure}
+
+
+
+
+
+
+
+
+
+
+
+
+\clearpage
 \subsection{Associations with Election Outcomes [Helmut]}
 
 
+
+mention \cite{cantoni2020persistence}
 
 
 % Tab - first results - assocation strike part & greens
@@ -577,8 +626,8 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 \newpage
 
 
-%\bibliographystyle{ecca_edited}%previous style-chicago
-%\bibliography{greta_cons_bibliography}
+\bibliographystyle{ecca_edited}%previous style-chicago
+\bibliography{greta_cons_bibliography}
 
 
 
