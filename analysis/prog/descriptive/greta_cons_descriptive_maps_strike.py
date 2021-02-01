@@ -28,7 +28,9 @@ Outputs:
 
 import geopandas as gp
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 from shapely.geometry import Point
 
 
@@ -41,6 +43,7 @@ z_shape_wahl        = z_data + 'source/shapes/bundestagswahlkreise/'
 z_strike_intermed   = z_data + 'intermediate/fff_strikes/'
 z_strike_source     = z_data + 'source/fff_strikes/ordnungsamt_hiwi/'
 z_strike_output     = z_data + 'final/fff_strikes/'
+z_biv_map           = z_data + 'final/bivariate_maps/'
 z_output_figures    = '/Users/marcfabel/econ/greta_consumption/analysis/output/graphs/descriptive/'
 z_prefix            = 'greta_cons_'
 
@@ -275,7 +278,7 @@ strikes.plot(ax=ax, marker='o', color=z_c_darkred, markersize=3, zorder=3)
 
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'fff_strikes_2019.png',
-            bbox_inches = 'tight', dpi=250)
+            bbox_inches = 'tight', dpi=175)
 
 
 
@@ -302,7 +305,7 @@ for num in range(12):
     axs[num].set_title(dict_month_name[month], fontweight='bold')
 
 plt.savefig(z_output_figures + z_prefix + 'fff_strikes_months.png',
-            bbox_inches = 'tight', dpi=300)
+            bbox_inches = 'tight', dpi=200)
 
 
 
@@ -373,7 +376,7 @@ hamburg_pt.plot(ax=ax, marker='o', color='red', markersize=20)
 ax.set_title('A. Hamburg', fontweight='bold')
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'strike_participation_hh_ols.png',
-            bbox_inches = 'tight', dpi=300)
+            bbox_inches = 'tight', dpi=150)
 
 
 
@@ -394,7 +397,7 @@ for spec in list(z_dict_resids.keys()):
     num = num + 1
 plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
                 'resid_trips_hamburg.png',
-            bbox_inches = 'tight', dpi=200)
+            bbox_inches = 'tight', dpi=150)
     
 
 
@@ -414,7 +417,7 @@ for spec in list(z_dict_resids.keys()):
     plt.axis('off')
     plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
                 'strike_participation_hh_spec_'+spec+'.png',
-            bbox_inches = 'tight', dpi=200)
+            bbox_inches = 'tight', dpi=150)
     
 
 
@@ -444,7 +447,7 @@ berlin_pt.plot(ax=ax, marker='o', color='red', markersize=20)
 ax.set_title('B. Berlin', fontweight='bold')
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'strike_participation_ber_ols.png',
-            bbox_inches = 'tight', dpi=300)
+            bbox_inches = 'tight', dpi=150)
 
 
 
@@ -464,7 +467,7 @@ for spec in list(z_dict_resids.keys()):
     num = num + 1
 plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
                 'resid_trips_berlin.png',
-            bbox_inches = 'tight', dpi=200)
+            bbox_inches = 'tight', dpi=150)
 
 
 
@@ -561,6 +564,219 @@ for spec in list(z_dict_resids.keys()):
     
     ax.axis('off')
     ax.set_title(z_dict_resids[spec], fontweight='bold') 
+
+
+
+################################################################################
+## MAPS - CORRELATION RESULtS GREENS AND INDEX
+################################################################################
+
+# county level
+    
+    
+# municipality level
+df = pd.read_excel(z_biv_map + 'greta_cons_greens_strike_index_eu_election_ags8.xlsx',
+                   dtype={'ags8':str})
+
+
+temp = municipalities.merge(df, 
+                          right_on=['ags8'], left_on=['AGS'], how='outer')
+
+
+# plot greens share
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
+temp.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.05,
+            column='the_greens_raw', scheme='quantiles', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+ax.set_title('A. Vote share The Greens\n in 2019 EU election', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'the_greens_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+# plot fd_greens share
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
+temp.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Reds', edgecolor=z_c_lightgray, linewidth=0.05,
+            column='fd_the_greens_raw', scheme='quantiles', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+ax.set_title('B. First-differences vote share\n The Greens in 2019 EU election', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'fd_the_greens_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+# Participation index
+f, ax = plt.subplots(figsize=(11, 14)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
+temp.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Blues', edgecolor=z_c_lightgray, linewidth=0.05,
+            column='cum_res_ols', scheme='quantiles', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+ax.set_title('C. Participation index', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'particiaption_index_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+# Correlation
+corr = temp[['AGS', 'fd_the_greens_t', 'cum_res_ols_t', 'geometry']]
+corr[['fd_the_greens_t', 'cum_res_ols_t']] = corr[['fd_the_greens_t', 'cum_res_ols_t']].astype(str)
+
+corr['corr_class'] = corr['fd_the_greens_t'].str[0:1] + '-' + corr['cum_res_ols_t'].str[0:1]
+corr['corr_class'].replace({'n-n':np.nan}, inplace=True)
+
+
+# replace elements off the main diagonale with nans
+corr['corr_class_diag'] = corr['corr_class'].copy()
+corr['corr_class_diag'].replace({'2-1':np.nan,
+                                 '3-1':np.nan,
+                                 '1-2':np.nan,                         
+                                 '3-2':np.nan,
+                                 '1-3':np.nan,
+                                 '2-3':np.nan,
+                                 'n-n':np.nan}, inplace=True)
+    
+    
+dict_bivariate_color_scale = {
+'3-3' : '#3F2949', # high fd_greens, high index
+'2-3' : '#435786',
+'1-3' : '#4885C1', # low fd_greens, high index
+'3-2' : '#77324C',
+'2-2' : '#806A8A', # medium fd_greens, medium index
+'1-2' : '#89A1C8',
+'3-1' : '#AE3A4E', # high fd_greens, low index
+'2-1' : '#BC7C8F',
+'1-1' : '#CABED0', # low fd_greens, low index
+np.nan: 'white'
+}
+
+# plot
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='white', linewidth=0.6, zorder=3)
+corr.plot(ax=ax, edgecolor='white', linewidth=0.05,
+            column='corr_class', 
+            categorical=True,
+            color=corr['corr_class'].map(dict_bivariate_color_scale))
+ax.set_title('D. Correlation between $\Delta$The Greens\' vote share\nand strike participation', fontweight='bold')
+plt.axis('off')
+# text
+ax.text(5.5 , 54.5, 'violet areas mean\nhigh participation and\nhigh $\Delta$ vote share', fontsize=8) # Hamburg
+ax.text(5.5 , 48.5, 'red areas mean\nlow participation and\nhigh $\Delta$ vote share', fontsize=8) # Schwarzwald
+ax.text(10.5, 54.7, 'gray areas mean\nlow participation and\nlow $\Delta$ vote share', fontsize=8) # Sachsen-Anhalt
+ax.text(12.9, 49.7, 'blue areas mean\nhigh participation and\nlow $\Delta$ vote share', fontsize=8) # bayern
+
+# arrows
+style = "Simple, tail_width=0.1, head_width=4, head_length=8"
+kw = dict(arrowstyle=style, color="k")
+a1 = patches.FancyArrowPatch((7.5, 54.5), (10, 53.5), connectionstyle="arc3,rad=.1", zorder=4, **kw)
+a2 = patches.FancyArrowPatch((6.4 , 48.4), (8.25, 47.7), connectionstyle="arc3,rad=.2", zorder=4, **kw)
+a3 = patches.FancyArrowPatch((12.3, 54.6), (12.1, 52.3), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
+a4 = patches.FancyArrowPatch((12.9, 49.7), (12.5, 48.6), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
+for a in [a1, a2, a3, a4]:
+    plt.gca().add_patch(a)
+
+plt.savefig(z_output_figures + z_prefix + 'corr_particiaption_greens_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+
+################################################################################
+## Plots - soccer validation
+################################################################################
+
+
+z_soccer_path = '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/qgis_soccer_exercise/data/'
+
+
+
+
+# MUNICH ######################################################################
+munich = pd.read_csv(z_soccer_path + 'munich_25jan2020.csv', sep=';', dtype={'start_ags':str})
+muc_pt = gp.GeoSeries(Point((11.6226, 48.2183))).set_crs(epsg=z_epsg_wgs84)
+soc_muc = kreise.merge(munich, right_on='start_ags', left_on='AGS', how='outer')
+soc_muc['res_small'] = soc_muc['res_small']/1000
+
+
+# fig
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.4, zorder=3)
+soc_muc.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_small', scheme='fisher_jenks', k=4, legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+muc_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('A. Munich, January 25, 2020\n (vs. Schalke, Gelsenkirchen)', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'soccer_muc_jan25.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+# Dortmund  ###################################################################
+dortmund = pd.read_csv(z_soccer_path + 'DTM_01feb2020.csv', sep=';', dtype={'start_ags':str})
+dtm_pt = gp.GeoSeries(Point((7.449883, 51.491560))).set_crs(epsg=z_epsg_wgs84)
+soc_dtm = kreise.merge(dortmund, right_on='start_ags', left_on='AGS', how='outer')
+soc_dtm['res_small'] = soc_dtm['res_small']/1000
+
+
+# fig
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.4, zorder=3)
+soc_dtm.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_small', scheme='fisher_jenks', k=4, legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+dtm_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('B. Dortmund, February 01, 2020\n (vs. Union Berlin)', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'soccer_dtm_feb01.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+# Freiburg ##################################################################
+fri = pd.read_csv(z_soccer_path + 'FRI_22feb2020.csv', sep=';', dtype={'start_ags':str})
+fri_pt = gp.GeoSeries(Point((7.988788, 47.988788))).set_crs(epsg=z_epsg_wgs84)
+soc_fri = kreise.merge(fri, right_on='start_ags', left_on='AGS', how='outer')
+soc_fri['res_small'] = soc_fri['res_small']/1000
+
+
+# fig
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.4, zorder=3)
+soc_fri.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_small', scheme='fisher_jenks', k=4, legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+fri_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('C. Freiburg, February 22, 2020\n (vs. Dusseldorf)', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'soccer_fri_feb22.png',
+            bbox_inches = 'tight', dpi=100)
+
+
 
 
 
