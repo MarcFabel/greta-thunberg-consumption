@@ -57,7 +57,7 @@
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
-% map: strikes 2019 across months
+% data - map: strikes 2019 across months
 \vspace*{\fill}
 \begin{figure}[H]\centering
 	\caption{Strikes in 2019, variation across months}\label{fig_greta_cons:fff_strikes_months}
@@ -67,3 +67,64 @@
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
+%--------------------------------------------
+% analysis strike particpation robustness: alternative participation measures
+\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
+\begin{landscape}
+	\vspace*{\fill}
+	\begin{figure}[H]\centering
+		\caption{Strike participation using alternative participation measures}
+		\label{fig_greta_cons:strike_participation_hh_different_measure}
+		% Hamburg
+		\begin{subfigure}[h]{0.22\linewidth}\centering
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.22\linewidth}\centering
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_small}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.22\linewidth}\centering
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_only}
+		\end{subfigure}
+		
+		\begin{subfigure}[h]{0.22\linewidth}\centering
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.22\linewidth}\centering
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_small}
+		\end{subfigure}
+		\begin{subfigure}[h]{0.22\linewidth}\centering
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
+		\end{subfigure}
+		
+		
+		\begin{minipage}{0.9\linewidth}
+			\scriptsize{\emph{Notes:} Residualized movements [in thousand].}
+		\end{minipage}
+	\end{figure}
+	\vspace*{\fill}\clearpage
+\end{landscape}
+\restoregeometry
+%--------------------------------------------
+% analysis strike particpation validation: soccer games
+
+\begin{figure}[H]\centering
+	\caption{Participation soccer games}
+	\label{fig_greta_cons:participation_soccer_games}
+	% greens
+	\begin{subfigure}[h]{0.45\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_soccer_muc_jan25.png}
+	\end{subfigure}
+	% fd_greens
+	\begin{subfigure}[h]{0.45\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_soccer_dtm_feb01.png}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_soccer_fri_feb22.png}
+	\end{subfigure}
+	
+	\begin{minipage}{0.9\linewidth}
+		\scriptsize{\emph{Notes:} fisher jenks}
+	\end{minipage}
+\end{figure}
+
+

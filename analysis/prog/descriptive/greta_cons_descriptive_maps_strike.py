@@ -28,7 +28,9 @@ Outputs:
 
 import geopandas as gp
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 from shapely.geometry import Point
 
 
@@ -41,6 +43,7 @@ z_shape_wahl        = z_data + 'source/shapes/bundestagswahlkreise/'
 z_strike_intermed   = z_data + 'intermediate/fff_strikes/'
 z_strike_source     = z_data + 'source/fff_strikes/ordnungsamt_hiwi/'
 z_strike_output     = z_data + 'final/fff_strikes/'
+z_biv_map           = z_data + 'final/bivariate_maps/'
 z_output_figures    = '/Users/marcfabel/econ/greta_consumption/analysis/output/graphs/descriptive/'
 z_prefix            = 'greta_cons_'
 
@@ -62,11 +65,17 @@ z_c_darkred   = '#94122c'
 
 # Admin shapes  ###############################################################
 
+# gemeinde
+municipalities = gp.read_file(z_path_admin + 'VG250_GEM.shp')
+
+
 # kreise
 kreise = gp.read_file(z_path_admin + 'VG250_KRS.shp')
 
 # bula_borders
 bula_borders = gp.read_file(z_shape_intermed + 'VG250_bula_borders.shp')
+bula_borders2 = gp.read_file(z_shape_intermed + 'VG250_bula_borders_plus_outer.shp')
+bula = gp.read_file(z_shape_intermed + 'VG250_bulas.shp')
 
 # wahlkreise
 wahlkreise = gp.read_file(z_shape_wahl + 'Geometrie_Wahlkreise_19DBT_VG250_geo.shp')
@@ -262,12 +271,14 @@ resid_times = resid_times_ols.merge(resid_times_poisson,
 
 # all strikes in 2019 #########################################################
 f, ax = plt.subplots(figsize=(11, 15))
-kreise.plot(ax=ax, color=z_c_lightgray, edgecolor='white', linewidth=0.15)
-bula_borders.plot(ax=ax, color='white', linewidth=0.6)
-strikes.plot(ax=ax, marker='o', color=z_c_darkred, markersize=2)
+#municipalities.plot(ax=ax, color=z_c_lightgray, edgecolor='white', linewidth=0.1)
+kreise.plot(ax=ax, color=z_c_lightgray, edgecolor='white', linewidth=0.2, zorder=1)
+bula_borders.plot(ax=ax, color='white', linewidth=0.8, zorder=2)
+strikes.plot(ax=ax, marker='o', color=z_c_darkred, markersize=3, zorder=3)
+
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'fff_strikes_2019.png',
-            bbox_inches = 'tight', dpi=250)
+            bbox_inches = 'tight', dpi=175)
 
 
 
@@ -294,7 +305,7 @@ for num in range(12):
     axs[num].set_title(dict_month_name[month], fontweight='bold')
 
 plt.savefig(z_output_figures + z_prefix + 'fff_strikes_months.png',
-            bbox_inches = 'tight', dpi=300)
+            bbox_inches = 'tight', dpi=200)
 
 
 
@@ -316,193 +327,8 @@ for num in range(12):
 
 
 
-
 ###############################################################################
 # Plots - strike participation
-###############################################################################
-
-
-
-aachen = teralytics.merge(resid_places.loc[resid_places['endid']=='006266500'], 
-                          right_on=['startid'], left_on=['FID'], how='outer')
-berlin = teralytics.merge(resid_places.loc[resid_places['endid']=='006242203'], 
-                          right_on=['startid'], left_on=['FID'], how='outer')
-hamburg = teralytics.merge(resid_places.loc[resid_places['endid']=='006278202'], 
-                          right_on=['startid'], left_on=['FID'], how='outer')
-lubbenau = teralytics.merge(resid_places.loc[resid_places['endid']=='006257100'], 
-                          right_on=['startid'], left_on=['FID'], how='outer')
-garzweiler = teralytics.merge(resid_places.loc[resid_places['endid']=='006253500'], 
-                          right_on=['startid'], left_on=['FID'], how='outer')
-
-
-
-
-
-# other scheme that are working
-# headtailbreaks
-# naturalbreaks
-# 'userdefined' classification_kwds={'bins':[200, 500, 10000]},
-
-
-
-
-# plot Aachen strike 2019 
-aachen.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens', 
-            edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_ols_desired', scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-plt.axis('off')
-
-
-
-    
-berlin.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-            edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_ols_desired', scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-plt.axis('off')
-
-
-    
-hamburg.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_ols_desired', scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-plt.axis('off')
-
-
-lubbenau.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_ols_desired', scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-plt.axis('off')
-
-
-garzweiler.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_ols_desired', scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-plt.axis('off')
-
-
-
-
-
-# loop through resid_specification
-z_dict_resids = {'res_ols':'OLS, no interaction',
-                 'res_ols_interaction_small':'OLS, interaction w/ week+month',
-                 'res_ols_interaction_large':'OLS, fully interacted',
-                 'res_p':'Poisson, no interaction',
-                 'res_p_interaction_small':'Poisson, interaction w/ week+month',
-                 'res_p_interaction_large':'Poisson, fully interacted'}
-
-
-
-# Aachen
-f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
-axs = axs.ravel()
-num = 0
-for spec in list(z_dict_resids.keys()):
-     
-    aachen.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column=spec, scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-    axs[num].axis('off')
-    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
-    num = num + 1
-plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
-                'resid_trips_aachen.png',
-            bbox_inches = 'tight', dpi=200)
-
-    
-# Berlin
-f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
-axs = axs.ravel()
-num = 0
-for spec in list(z_dict_resids.keys()):
-     
-    berlin.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column=spec, scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-    axs[num].axis('off')
-    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
-    num = num + 1
-plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
-                'resid_trips_berlin.png',
-            bbox_inches = 'tight', dpi=200)
-    
-    
-# Hamburg
-f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
-axs = axs.ravel()
-num = 0
-for spec in list(z_dict_resids.keys()):
-     
-    hamburg.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column=spec, scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-    axs[num].axis('off')
-    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
-    num = num + 1
-plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
-                'resid_trips_hamburg.png',
-            bbox_inches = 'tight', dpi=200)
-
-
-
-
-
-f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
-axs = axs.ravel()
-num = 0
-for spec in list(z_dict_resids.keys()):
-     
-    lubbenau.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column=spec, scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-    axs[num].axis('off')
-    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
-    num = num + 1
-plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
-                'resid_trips_lubbenau.png',
-            bbox_inches = 'tight', dpi=200)
-
-
-
-
-
-f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
-axs = axs.ravel()
-num = 0
-for spec in list(z_dict_resids.keys()):
-     
-    garzweiler.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column=spec, scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
-    axs[num].axis('off')
-    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
-    num = num + 1
-plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
-                'resid_trips_garzweiler.png',
-            bbox_inches = 'tight', dpi=200)
-
-
-
-
-
-
-
-
-
-
-
-###############################################################################
-# PLOTS WITH ALL RESIDUAL SPECIFICATIONS
 ###############################################################################
 
 
@@ -516,62 +342,116 @@ df_resids = df_resids.set_index(['date'])
 
 # loop through resid_specification
 z_dict_resids = {'res_ols':'OLS, no interaction',
-                 'res_ols_interaction_small':'OLS, interaction w/ week+month',
-                 'res_ols_interaction_large':'OLS, fully interacted',
-                 'res_ols_desired':'OLS, only interactions',
+                 'res_ols_int_small':'OLS, partial interaction',
+                 'res_ols_int_only':'OLS, fully interacted',
                  'res_p':'Poisson, no interaction',
-                 'res_p_interaction_small':'Poisson, interaction w/ week+month',
-                 'res_p_interaction_large':'Poisson, fully interacted',
-                 'res_p_int_only_w':'Poisson, only interactions',
+                 'res_p_int_small':'Poisson, partial interaction',
+                 'res_p_int_only':'Poisson, fully interacted',
                  }
+# removed as it is not used in the paper
+#'res_ols_int_large':'OLS, fully interacted',
+#'res_p_int_large':'Poisson, fully interacted',
 
 
 
-
-
-# plot Hamburg
+# Hamburg   ###################################################################
 hamburg = teralytics.merge(df_resids.loc['2019-03-01'], 
                           right_on=['startid'], left_on=['FID'], how='outer')
 hamburg_pt = gp.GeoSeries(Point((hamburg.longitude.mean(), hamburg.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+for spec in list(z_dict_resids.keys()):
+    hamburg[spec] = hamburg[spec]/1000
 
+
+
+# single ols plot
 f, ax = plt.subplots(figsize=(11, 10)) 
-hamburg.plot(ax=ax, figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens', 
-            edgecolor=z_c_lightgray, linewidth=0.3,
-            column='res_p_int_only_w', scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.3, zorder=3)
+hamburg.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
 hamburg_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('A. Hamburg', fontweight='bold')
 plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'strike_participation_hh_ols.png',
+            bbox_inches = 'tight', dpi=150)
 
 
 
-
-f, axs = plt.subplots(2, 4, figsize=(21, 15)) 
+# matrix for all specifications 
+f, axs = plt.subplots(2, 3, figsize=(20, 15)) 
 axs = axs.ravel()
 num = 0
 for spec in list(z_dict_resids.keys()):
      
-    hamburg.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
-             edgecolor=z_c_lightgray, linewidth=0.3,
-            column=spec, scheme='fisher_jenks', legend=True,
-            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+    hamburg.plot(ax=axs[num], missing_kwds={'color': 'lightgrey', 'label':'missing'},
+                 cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+                 column=spec, scheme='fisher_jenks', legend=True,
+                 legend_kwds={'fontsize':4, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
     hamburg_pt.plot(ax=axs[num], marker='o', color='red', markersize=20)
     axs[num].axis('off')
     axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
     num = num + 1
 plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
                 'resid_trips_hamburg.png',
-            bbox_inches = 'tight', dpi=200)
+            bbox_inches = 'tight', dpi=150)
+    
+
+
+    
+# save specifications individually
+for spec in list(z_dict_resids.keys()):
+    f, ax = plt.subplots(figsize=(11, 10))
+    bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.3, zorder=3)
+    hamburg.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column=spec, scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+    hamburg_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+    ax.set_title(z_dict_resids[spec], fontweight='bold')
+    plt.axis('off')
+    plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+                'strike_participation_hh_spec_'+spec+'.png',
+            bbox_inches = 'tight', dpi=150)
+    
 
 
 
 
 
-# plot Berlin
+# Berlin    ###################################################################
 berlin = teralytics.merge(df_resids.loc['2019-03-29'], 
                           right_on=['startid'], left_on=['FID'], how='outer')
 berlin_pt = gp.GeoSeries(Point((berlin.longitude.mean(), berlin.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+for spec in list(z_dict_resids.keys()):
+    berlin[spec] = berlin[spec]/1000
 
 
+
+
+# single ols plot
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.3, zorder=3)
+berlin.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+berlin_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('B. Berlin', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'strike_participation_ber_ols.png',
+            bbox_inches = 'tight', dpi=150)
+
+
+
+# matrix for all specifications
 f, axs = plt.subplots(2, 4, figsize=(21, 15)) 
 axs = axs.ravel()
 num = 0
@@ -587,7 +467,7 @@ for spec in list(z_dict_resids.keys()):
     num = num + 1
 plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
                 'resid_trips_berlin.png',
-            bbox_inches = 'tight', dpi=200)
+            bbox_inches = 'tight', dpi=150)
 
 
 
@@ -596,8 +476,29 @@ plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
 aachen = teralytics.merge(df_resids.loc['2019-06-21'], 
                           right_on=['startid'], left_on=['FID'], how='outer')
 aachen_pt = gp.GeoSeries(Point((aachen.longitude.mean(), aachen.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
+for spec in list(z_dict_resids.keys()):
+    aachen[spec] = aachen[spec]/1000
 
 
+
+# single ols plot
+f, ax = plt.subplots(figsize=(11, 10)) 
+aachen.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+aachen_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('C. Aachen', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'strike_participation_aa_ols.png',
+            bbox_inches = 'tight', dpi=300)
+
+
+
+
+# matrix for all specifications
 f, axs = plt.subplots(2, 4, figsize=(21, 15)) 
 axs = axs.ravel()
 num = 0
@@ -663,4 +564,404 @@ for spec in list(z_dict_resids.keys()):
     
     ax.axis('off')
     ax.set_title(z_dict_resids[spec], fontweight='bold') 
+
+
+
+################################################################################
+## MAPS - CORRELATION RESULtS GREENS AND INDEX
+################################################################################
+
+# county level
+    
+    
+# municipality level
+df = pd.read_excel(z_biv_map + 'greta_cons_greens_strike_index_eu_election_ags8.xlsx',
+                   dtype={'ags8':str})
+
+
+temp = municipalities.merge(df, 
+                          right_on=['ags8'], left_on=['AGS'], how='outer')
+
+
+# plot greens share
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
+temp.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.05,
+            column='the_greens_raw', scheme='quantiles', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+ax.set_title('A. Vote share The Greens\n in 2019 EU election', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'the_greens_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+# plot fd_greens share
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
+temp.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Reds', edgecolor=z_c_lightgray, linewidth=0.05,
+            column='fd_the_greens_raw', scheme='quantiles', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+ax.set_title('B. First-differences vote share\n The Greens in 2019 EU election', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'fd_the_greens_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+# Participation index
+f, ax = plt.subplots(figsize=(11, 14)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
+temp.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Blues', edgecolor=z_c_lightgray, linewidth=0.05,
+            column='cum_res_ols', scheme='quantiles', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+ax.set_title('C. Participation index', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'particiaption_index_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+# Correlation
+corr = temp[['AGS', 'fd_the_greens_t', 'cum_res_ols_t', 'geometry']]
+corr[['fd_the_greens_t', 'cum_res_ols_t']] = corr[['fd_the_greens_t', 'cum_res_ols_t']].astype(str)
+
+corr['corr_class'] = corr['fd_the_greens_t'].str[0:1] + '-' + corr['cum_res_ols_t'].str[0:1]
+corr['corr_class'].replace({'n-n':np.nan}, inplace=True)
+
+
+# replace elements off the main diagonale with nans
+corr['corr_class_diag'] = corr['corr_class'].copy()
+corr['corr_class_diag'].replace({'2-1':np.nan,
+                                 '3-1':np.nan,
+                                 '1-2':np.nan,                         
+                                 '3-2':np.nan,
+                                 '1-3':np.nan,
+                                 '2-3':np.nan,
+                                 'n-n':np.nan}, inplace=True)
+    
+    
+dict_bivariate_color_scale = {
+'3-3' : '#3F2949', # high fd_greens, high index
+'2-3' : '#435786',
+'1-3' : '#4885C1', # low fd_greens, high index
+'3-2' : '#77324C',
+'2-2' : '#806A8A', # medium fd_greens, medium index
+'1-2' : '#89A1C8',
+'3-1' : '#AE3A4E', # high fd_greens, low index
+'2-1' : '#BC7C8F',
+'1-1' : '#CABED0', # low fd_greens, low index
+np.nan: 'white'
+}
+
+# plot
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='white', linewidth=0.6, zorder=3)
+corr.plot(ax=ax, edgecolor='white', linewidth=0.05,
+            column='corr_class', 
+            categorical=True,
+            color=corr['corr_class'].map(dict_bivariate_color_scale))
+ax.set_title('D. Correlation between $\Delta$The Greens\' vote share\nand strike participation', fontweight='bold')
+plt.axis('off')
+# text
+ax.text(5.5 , 54.5, 'violet areas mean\nhigh participation and\nhigh $\Delta$ vote share', fontsize=8) # Hamburg
+ax.text(5.5 , 48.5, 'red areas mean\nlow participation and\nhigh $\Delta$ vote share', fontsize=8) # Schwarzwald
+ax.text(10.5, 54.7, 'gray areas mean\nlow participation and\nlow $\Delta$ vote share', fontsize=8) # Sachsen-Anhalt
+ax.text(12.9, 49.7, 'blue areas mean\nhigh participation and\nlow $\Delta$ vote share', fontsize=8) # bayern
+
+# arrows
+style = "Simple, tail_width=0.1, head_width=4, head_length=8"
+kw = dict(arrowstyle=style, color="k")
+a1 = patches.FancyArrowPatch((7.5, 54.5), (10, 53.5), connectionstyle="arc3,rad=.1", zorder=4, **kw)
+a2 = patches.FancyArrowPatch((6.4 , 48.4), (8.25, 47.7), connectionstyle="arc3,rad=.2", zorder=4, **kw)
+a3 = patches.FancyArrowPatch((12.3, 54.6), (12.1, 52.3), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
+a4 = patches.FancyArrowPatch((12.9, 49.7), (12.5, 48.6), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
+for a in [a1, a2, a3, a4]:
+    plt.gca().add_patch(a)
+
+plt.savefig(z_output_figures + z_prefix + 'corr_particiaption_greens_eu_election_2019_ags8.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+
+################################################################################
+## Plots - soccer validation
+################################################################################
+
+
+z_soccer_path = '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/qgis_soccer_exercise/data/'
+
+
+
+
+# MUNICH ######################################################################
+munich = pd.read_csv(z_soccer_path + 'munich_25jan2020.csv', sep=';', dtype={'start_ags':str})
+muc_pt = gp.GeoSeries(Point((11.6226, 48.2183))).set_crs(epsg=z_epsg_wgs84)
+soc_muc = kreise.merge(munich, right_on='start_ags', left_on='AGS', how='outer')
+soc_muc['res_small'] = soc_muc['res_small']/1000
+
+
+# fig
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.4, zorder=3)
+soc_muc.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_small', scheme='fisher_jenks', k=4, legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+muc_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('A. Munich, January 25, 2020\n (vs. Schalke, Gelsenkirchen)', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'soccer_muc_jan25.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+# Dortmund  ###################################################################
+dortmund = pd.read_csv(z_soccer_path + 'DTM_01feb2020.csv', sep=';', dtype={'start_ags':str})
+dtm_pt = gp.GeoSeries(Point((7.449883, 51.491560))).set_crs(epsg=z_epsg_wgs84)
+soc_dtm = kreise.merge(dortmund, right_on='start_ags', left_on='AGS', how='outer')
+soc_dtm['res_small'] = soc_dtm['res_small']/1000
+
+
+# fig
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.4, zorder=3)
+soc_dtm.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_small', scheme='fisher_jenks', k=4, legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+dtm_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('B. Dortmund, February 01, 2020\n (vs. Union Berlin)', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'soccer_dtm_feb01.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+# Freiburg ##################################################################
+fri = pd.read_csv(z_soccer_path + 'FRI_22feb2020.csv', sep=';', dtype={'start_ags':str})
+fri_pt = gp.GeoSeries(Point((7.988788, 47.988788))).set_crs(epsg=z_epsg_wgs84)
+soc_fri = kreise.merge(fri, right_on='start_ags', left_on='AGS', how='outer')
+soc_fri['res_small'] = soc_fri['res_small']/1000
+
+
+# fig
+f, ax = plt.subplots(figsize=(11, 10)) 
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.4, zorder=3)
+soc_fri.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_small', scheme='fisher_jenks', k=4, legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+fri_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('C. Freiburg, February 22, 2020\n (vs. Dusseldorf)', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'soccer_fri_feb22.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+
+
+
+
+################################################################################
+## Plots - strike participation
+################################################################################
+#
+#
+#
+#aachen = teralytics.merge(resid_places.loc[resid_places['endid']=='006266500'], 
+#                          right_on=['startid'], left_on=['FID'], how='outer')
+#berlin = teralytics.merge(resid_places.loc[resid_places['endid']=='006242203'], 
+#                          right_on=['startid'], left_on=['FID'], how='outer')
+#hamburg = teralytics.merge(resid_places.loc[resid_places['endid']=='006278202'], 
+#                          right_on=['startid'], left_on=['FID'], how='outer')
+#lubbenau = teralytics.merge(resid_places.loc[resid_places['endid']=='006257100'], 
+#                          right_on=['startid'], left_on=['FID'], how='outer')
+#garzweiler = teralytics.merge(resid_places.loc[resid_places['endid']=='006253500'], 
+#                          right_on=['startid'], left_on=['FID'], how='outer')
+#
+#
+#
+#
+#
+## other scheme that are working
+## headtailbreaks
+## naturalbreaks
+## 'userdefined' classification_kwds={'bins':[200, 500, 10000]},
+#
+#
+#
+#
+## plot Aachen strike 2019 
+## replace negative values with zero
+#aachen.loc[aachen['res_ols']<0, 'res_ols'] = 0
+#
+#aachen['res_ols'] = aachen['res_ols'] /1000
+#
+#aachen.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens', 
+#            edgecolor=z_c_lightgray, linewidth=0.3,
+#            column='res_ols', scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#plt.axis('off')
+#
+#
+#
+#    
+#berlin.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#            edgecolor=z_c_lightgray, linewidth=0.3,
+#            column='res_ols_desired', scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#plt.axis('off')
+#
+#
+#    
+#hamburg.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column='res_ols_desired', scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#plt.axis('off')
+#
+#
+#lubbenau.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column='res_ols_desired', scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#plt.axis('off')
+#
+#
+#garzweiler.plot(figsize=(8, 8), missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column='res_ols_desired', scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#plt.axis('off')
+#
+#
+#
+#
+#
+## loop through resid_specification
+#z_dict_resids = {'res_ols':'OLS, no interaction',
+#                 'res_ols_interaction_small':'OLS, interaction w/ week+month',
+#                 'res_ols_interaction_large':'OLS, fully interacted',
+#                 'res_p':'Poisson, no interaction',
+#                 'res_p_interaction_small':'Poisson, interaction w/ week+month',
+#                 'res_p_interaction_large':'Poisson, fully interacted'}
+#
+#
+#
+## Aachen
+#f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
+#axs = axs.ravel()
+#num = 0
+#for spec in list(z_dict_resids.keys()):
+#     
+#    aachen.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column=spec, scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#    axs[num].axis('off')
+#    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+#    num = num + 1
+#plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+#                'resid_trips_aachen.png',
+#            bbox_inches = 'tight', dpi=200)
+#
+#    
+## Berlin
+#f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
+#axs = axs.ravel()
+#num = 0
+#for spec in list(z_dict_resids.keys()):
+#     
+#    berlin.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column=spec, scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#    axs[num].axis('off')
+#    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+#    num = num + 1
+#plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+#                'resid_trips_berlin.png',
+#            bbox_inches = 'tight', dpi=200)
+#    
+#    
+## Hamburg
+#f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
+#axs = axs.ravel()
+#num = 0
+#for spec in list(z_dict_resids.keys()):
+#     
+#    hamburg.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column=spec, scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#    axs[num].axis('off')
+#    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+#    num = num + 1
+#plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+#                'resid_trips_hamburg.png',
+#            bbox_inches = 'tight', dpi=200)
+#
+#
+#
+#
+#
+#f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
+#axs = axs.ravel()
+#num = 0
+#for spec in list(z_dict_resids.keys()):
+#     
+#    lubbenau.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column=spec, scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#    axs[num].axis('off')
+#    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+#    num = num + 1
+#plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+#                'resid_trips_lubbenau.png',
+#            bbox_inches = 'tight', dpi=200)
+#
+#
+#
+#
+#
+#f, axs = plt.subplots(2, 3, figsize=(21, 15)) 
+#axs = axs.ravel()
+#num = 0
+#for spec in list(z_dict_resids.keys()):
+#     
+#    garzweiler.plot(ax=axs[num], missing_kwds={'color': 'lightgrey'}, cmap = 'Greens',
+#             edgecolor=z_c_lightgray, linewidth=0.3,
+#            column=spec, scheme='fisher_jenks', legend=True,
+#            legend_kwds={'fontsize':'x-small', 'loc':'lower right'})
+#    axs[num].axis('off')
+#    axs[num].set_title(z_dict_resids[spec], fontweight='bold') 
+#    num = num + 1
+#plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+#                'resid_trips_garzweiler.png',
+#            bbox_inches = 'tight', dpi=200)
+#
+
+
 
