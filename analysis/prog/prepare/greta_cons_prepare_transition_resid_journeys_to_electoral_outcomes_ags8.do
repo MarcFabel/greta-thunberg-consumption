@@ -190,6 +190,9 @@
 	* gnerate varibales
 	qui gen log_pop = log(pop_t)
 	
+	qui gen the_greens_raw = the_greens
+	qui gen fd_the_greens_raw = fd_the_greens
+	
 	
 	* standardize  variables
 	foreach var of varlist res_* cum_* the_greens fd_the_greens  {
@@ -220,5 +223,19 @@
 	
 	qui save "$data_temp/greta_cons_strike_participation_election_prepared", replace
 	
+	
+	
+	// export for graphical visualization **************************************
+	qui keep if election == "eu"
+	keep ags8 ags8_name cum_res_ols the_greens* fd_the_greens* 
+	
+	// generate quintiles 
+	foreach var of varlist cum_res_ols the_greens* fd_the_greens* {
+		qui xtile `var'_q = `var', n(5)
+		qui xtile `var'_t =  `var', n(3)
+	}
+	
+	 export excel using "$data_final/bivariate_maps/greta_cons_greens_strike_index_eu_election_ags8.xlsx", firstrow(variables) replace
 
+	
 	
