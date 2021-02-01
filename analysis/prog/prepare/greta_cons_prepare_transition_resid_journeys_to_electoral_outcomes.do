@@ -136,6 +136,20 @@
 	res_p_int_small_w res_p_int_small res_p_int_large_w res_p_int_large res_p_int_only_w   res_p_int_only
 	
 	
+	* adjust names to the specifications used later
+	*drop specifications that are not needed
+	drop res_p_int_large res_p_int_small res_p_int_*
+	
+	
+	* rename
+	qui rename res_p_interaction_small   res_p_int_small
+	qui rename res_p_interaction_large   res_p_int_large
+	qui rename res_p_desired 			 res_p_int_only
+	qui rename res_ols_interaction_small res_ols_int_small
+	qui rename res_ols_interaction_large res_ols_int_large
+	qui rename res_ols_desired 			 res_ols_int_only
+	
+	
 	* export 
 	keep if ((date==td(15mar2019) | dat ==td(24may2019) | date==td(20sep2019)) & ///
 	(municipality=="berlin"|municipality=="hamburg"|municipality=="münchen"|municipality=="köln" | ///
