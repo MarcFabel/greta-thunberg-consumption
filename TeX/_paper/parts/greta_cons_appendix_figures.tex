@@ -63,7 +63,7 @@
 	\caption{Strikes in 2019, variation across months}\label{fig_greta_cons:fff_strikes_months}
 	\includegraphics[width=0.99\linewidth]{descriptive/greta_cons_fff_strikes_months.png}
 	\begin{minipage}{0.99\linewidth}
-		\scriptsize{\emph{Notes:} }
+		\scriptsize{\emph{Notes:} The maps show the climate strikes (red dots) used in the analysis over the year 2019. The bold white lines indicate state boundaries and the thin white lines represent county boundaries.}
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
@@ -73,7 +73,7 @@
 \begin{landscape}
 	\vspace*{\fill}
 	\begin{figure}[H]\centering
-		\caption{Strike participation using alternative participation measures}
+		\caption{Strike participation in Hamburg using alternative participation measures}
 		\label{fig_greta_cons:strike_participation_hh_different_measure}
 		% Hamburg
 		\begin{subfigure}[h]{0.22\linewidth}\centering
@@ -95,10 +95,8 @@
 		\begin{subfigure}[h]{0.22\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
 		\end{subfigure}
-		
-		
 		\begin{minipage}{0.9\linewidth}
-			\scriptsize{\emph{Notes:} Residualized movements [in thousand].}
+			\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Hamburg (March, 1). The column indicates how the journeys are residualized. Column 1 uses the baseline specification, column 2 further adds $\vartheta_{ij}$$\times$week and  $\vartheta_{ij}$$\times$month, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
 		\end{minipage}
 	\end{figure}
 	\vspace*{\fill}\clearpage
@@ -108,7 +106,7 @@
 % analysis strike particpation validation: soccer games
 
 \begin{figure}[H]\centering
-	\caption{Participation soccer games}
+	\caption{Validation: Participation soccer games}
 	\label{fig_greta_cons:participation_soccer_games}
 	% greens
 	\begin{subfigure}[h]{0.45\linewidth}\centering
@@ -123,7 +121,7 @@
 	\end{subfigure}
 	
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} fisher jenks}
+		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for soccer matches in Munich, Dortmund, and Freiburg. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the games' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by Teralytics.}
 	\end{minipage}
 \end{figure}
 
