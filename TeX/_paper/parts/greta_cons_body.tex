@@ -127,16 +127,19 @@ Twitter feed of other German FFF icons: Appendix Figure \ref{fig_greta_cons:twit
 \newpage
 \section{Data}\label{sec_greta_cons:data} 
 
-year 2019, 401 districts (\textit{Kreise})
+year 2019, 401 counties (\textit{Kreise})
 
 
 
 \subsection{Mobile-Phone Based Tracking Data}
 
-The mobile-phone based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31\% in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} Teralytics uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year of 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
+The mobile-phone based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31\% in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} 
+
+->
+Teralytics uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year of 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
 
 
-The data reports the daily number of trips between origin-destination pairs.\footnote{Due to data privacy regulations, Teralytics is not allowed to report journeys if there are less than five trips, given the origin-destination pair. We set the missing counts to zero.} The spatial level of aggregation mostly coincides with district borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of journey exceeds 30 km, the data can distinguish between different modes of transport: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent). The vast majority of trips exhibit shorter distances or cannot be attributed to on of the previous transportation modes and fall into the category "not classified" (92.7 percent).
+The data reports the daily number of trips between origin-destination pairs.\footnote{Due to data privacy regulations, Teralytics is not allowed to report journeys if there are less than five trips for a given origin-destination pair.} The spatial level of aggregation mostly coincides with county borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of journey exceeds 30 km, the data can distinguish between different modes of transport: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent). The vast majority of trips exhibit shorter distances or cannot be attributed to on of the previous transportation modes and fall into the category "not classified" (92.7 percent).
 
 
 
@@ -186,19 +189,17 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 \end{figure}
 
 
+
+% weather data
 \subsection{Weather Data}
+The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature.   
 
 
+
+% holidays
 \subsection{Holidays}
+To account for differences in the number of journeys between origin-destination pairs on regular and special days, we include state-level controls for public and school holidays. The data on school holidays is derived from `The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany' (\textit{Kultusminister Konferenz}). The data on public holidays is collected from \url{https://www.schulferien.org/deutschland/feiertage/}. Additionally, we include dummy variables for peculiar days (New Year's Eve and Carnival season), which shift the expected number of journeys between origin-destination pairs.
 
-
-\subsection{Election Outcomes}
-
-
-\subsection{Media Outlets}
-
-
-\subsection{Population Figures and Other Regional Controls}
 
 
 
