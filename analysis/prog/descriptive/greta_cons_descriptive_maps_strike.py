@@ -267,6 +267,10 @@ resid_times = resid_times_ols.merge(resid_times_poisson,
 ###############################################################################
 
 
+# drop fff website
+strikes_all = strikes.copy()
+strikes = strikes.loc[strikes['source']!='fff_webiste']
+
 
 
 # all strikes in 2019 #########################################################
@@ -274,11 +278,11 @@ f, ax = plt.subplots(figsize=(11, 15))
 #municipalities.plot(ax=ax, color=z_c_lightgray, edgecolor='white', linewidth=0.1)
 kreise.plot(ax=ax, color=z_c_lightgray, edgecolor='white', linewidth=0.2, zorder=1)
 bula_borders.plot(ax=ax, color='white', linewidth=0.8, zorder=2)
-strikes.plot(ax=ax, marker='o', color=z_c_darkred, markersize=3, zorder=3)
+strikes_all.plot(ax=ax, marker='o', color=z_c_darkred, markersize=3, zorder=3)
 
 plt.axis('off')
-plt.savefig(z_output_figures + z_prefix + 'fff_strikes_2019.png',
-            bbox_inches = 'tight', dpi=175)
+plt.savefig(z_output_figures + z_prefix + 'fff_strikes_all_2019_200.png',
+            bbox_inches = 'tight', dpi=200)
 
 
 
@@ -300,11 +304,11 @@ for num in range(12):
     month = num + 1
     kreise.plot(ax=axs[num], color=z_c_lightgray)
     bula_borders.plot(ax=axs[num], color='white', linewidth=0.3)
-    strikes.loc[strikes['month'] == month].plot(ax=axs[num], marker='o', color=z_c_darkred, markersize=0.7)
+    strikes_all.loc[strikes_all['month'] == month].plot(ax=axs[num], marker='o', color=z_c_darkred, markersize=0.7)
     axs[num].axis('off')
     axs[num].set_title(dict_month_name[month], fontweight='bold')
 
-plt.savefig(z_output_figures + z_prefix + 'fff_strikes_months.png',
+plt.savefig(z_output_figures + z_prefix + 'fff_strikes_all_months.png',
             bbox_inches = 'tight', dpi=200)
 
 
@@ -373,7 +377,7 @@ hamburg.plot(ax=ax, figsize=(8, 8),
             legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
                          'ncol':6})
 hamburg_pt.plot(ax=ax, marker='o', color='red', markersize=20)
-ax.set_title('A. Hamburg', fontweight='bold')
+ax.set_title('A. Hamburg (March, 1)', fontweight='bold')
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'strike_participation_hh_ols.png',
             bbox_inches = 'tight', dpi=150)
@@ -444,7 +448,7 @@ berlin.plot(ax=ax, figsize=(8, 8),
             legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
                          'ncol':6})
 berlin_pt.plot(ax=ax, marker='o', color='red', markersize=20)
-ax.set_title('B. Berlin', fontweight='bold')
+ax.set_title('B. Berlin (March, 29)', fontweight='bold')
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'strike_participation_ber_ols.png',
             bbox_inches = 'tight', dpi=150)
@@ -592,10 +596,12 @@ temp.plot(ax=ax, figsize=(8, 8),
             column='the_greens_raw', scheme='quantiles', legend=True,
             legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
                          'ncol':6})
-ax.set_title('A. Vote share The Greens\n in 2019 EU election', fontweight='bold')
+ax.set_title('A. Vote share Greens\n in 2019 EU election', fontweight='bold')
 plt.axis('off')
-plt.savefig(z_output_figures + z_prefix + 'the_greens_eu_election_2019_ags8.png',
+plt.savefig(z_output_figures + z_prefix + 'the_greens_eu_election_2019_ags8_100.png',
             bbox_inches = 'tight', dpi=100)
+plt.savefig(z_output_figures + z_prefix + 'the_greens_eu_election_2019_ags8_200.png',
+            bbox_inches = 'tight', dpi=200)
 
 
 
@@ -608,14 +614,16 @@ temp.plot(ax=ax, figsize=(8, 8),
             column='fd_the_greens_raw', scheme='quantiles', legend=True,
             legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
                          'ncol':6})
-ax.set_title('B. First-differences vote share\n The Greens in 2019 EU election', fontweight='bold')
+ax.set_title('B. First-differences vote share Greens\n in 2019 EU election', fontweight='bold')
 plt.axis('off')
-plt.savefig(z_output_figures + z_prefix + 'fd_the_greens_eu_election_2019_ags8.png',
+plt.savefig(z_output_figures + z_prefix + 'fd_the_greens_eu_election_2019_ags8_100.png',
             bbox_inches = 'tight', dpi=100)
+plt.savefig(z_output_figures + z_prefix + 'fd_the_greens_eu_election_2019_ags8_200.png',
+            bbox_inches = 'tight', dpi=200)
 
 
 # Participation index
-f, ax = plt.subplots(figsize=(11, 14)) 
+f, ax = plt.subplots(figsize=(11, 10)) 
 bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.6, zorder=3)
 temp.plot(ax=ax, figsize=(8, 8), 
             missing_kwds={'color': 'lightgrey', 'label':'missing'},
@@ -623,10 +631,12 @@ temp.plot(ax=ax, figsize=(8, 8),
             column='cum_res_ols', scheme='quantiles', legend=True,
             legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
                          'ncol':6})
-ax.set_title('C. Participation index', fontweight='bold')
+ax.set_title('C. Participation index\n at time of 2019 EU election', fontweight='bold')
 plt.axis('off')
-plt.savefig(z_output_figures + z_prefix + 'particiaption_index_eu_election_2019_ags8.png',
+plt.savefig(z_output_figures + z_prefix + 'particiaption_index_eu_election_2019_ags8_100.png',
             bbox_inches = 'tight', dpi=100)
+plt.savefig(z_output_figures + z_prefix + 'particiaption_index_eu_election_2019_ags8_200.png',
+            bbox_inches = 'tight', dpi=200)
 
 
 
@@ -662,33 +672,96 @@ dict_bivariate_color_scale = {
 np.nan: 'white'
 }
 
+
+
+img = plt.imread("/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/legend_bivariate_plot.png")
+
+
 # plot
-f, ax = plt.subplots(figsize=(11, 10)) 
+f, ax = plt.subplots(figsize=(11, 10)) # 11,10 
+ax.imshow(img,extent=[13.3,15.5,46.9,48.2]) # XX YY
+
 bula.plot(ax=ax, facecolor='none', edgecolor='white', linewidth=0.6, zorder=3)
 corr.plot(ax=ax, edgecolor='white', linewidth=0.05,
             column='corr_class', 
             categorical=True,
             color=corr['corr_class'].map(dict_bivariate_color_scale))
-ax.set_title('D. Correlation between $\Delta$The Greens\' vote share\nand strike participation', fontweight='bold')
+ax.set_title('D. Bivariate map\n $\Delta$ Greens and participation index', fontweight='bold')
 plt.axis('off')
 # text
-ax.text(5.5 , 54.5, 'violet areas mean\nhigh participation and\nhigh $\Delta$ vote share', fontsize=8) # Hamburg
-ax.text(5.5 , 48.5, 'red areas mean\nlow participation and\nhigh $\Delta$ vote share', fontsize=8) # Schwarzwald
-ax.text(10.5, 54.7, 'gray areas mean\nlow participation and\nlow $\Delta$ vote share', fontsize=8) # Sachsen-Anhalt
-ax.text(12.9, 49.7, 'blue areas mean\nhigh participation and\nlow $\Delta$ vote share', fontsize=8) # bayern
+ax.text(5.5 , 54.5, 'violet areas mean\nhigh participation and\nhigh $\Delta$ vote share', fontsize=9) # Hamburg
+ax.text(5.42, 48.5, 'red areas mean\nlow participation and\nhigh $\Delta$ vote share', fontsize=9) # NRW
+ax.text(10.5, 54.7, 'gray areas mean\nlow participation and\nlow $\Delta$ vote share', fontsize=9) # Sachsen-Anhalt
+ax.text(12.9, 49.8, 'blue areas mean\nhigh participation and\nlow $\Delta$ vote share', fontsize=9) # bayern
 
 # arrows
 style = "Simple, tail_width=0.1, head_width=4, head_length=8"
 kw = dict(arrowstyle=style, color="k")
 a1 = patches.FancyArrowPatch((7.5, 54.5), (10, 53.5), connectionstyle="arc3,rad=.1", zorder=4, **kw)
-a2 = patches.FancyArrowPatch((6.4 , 48.4), (8.25, 47.7), connectionstyle="arc3,rad=.2", zorder=4, **kw)
+a2 = patches.FancyArrowPatch((5.6 , 49.0), (6.2, 50.9), connectionstyle="arc3,rad=-0.17", zorder=4, **kw) # NRW
 a3 = patches.FancyArrowPatch((12.3, 54.6), (12.1, 52.3), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
 a4 = patches.FancyArrowPatch((12.9, 49.7), (12.5, 48.6), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
 for a in [a1, a2, a3, a4]:
     plt.gca().add_patch(a)
 
-plt.savefig(z_output_figures + z_prefix + 'corr_particiaption_greens_eu_election_2019_ags8.png',
+# default values of map limits
+ax.set_xlim(5.407472085680305, 15.500593916662416)
+ax.set_ylim(46.880710604361724, 55.447796600130616)
+
+plt.savefig(z_output_figures + z_prefix + 'corr_particiaption_greens_eu_election_2019_ags8_200.png',
+            bbox_inches = 'tight', dpi=200)
+plt.savefig(z_output_figures + z_prefix + 'corr_particiaption_greens_eu_election_2019_ags8_100.png',
             bbox_inches = 'tight', dpi=100)
+
+
+
+
+
+
+# temp plot to quickly change arrows, legend and the like
+f, ax = plt.subplots(figsize=(11, 10)) 
+# show legend
+ax.imshow(img,extent=[13.3,15.5,46.9,48.2]) # XX YY
+
+bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.3, zorder=3)
+berlin.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column='res_ols', scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+berlin_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+ax.set_title('B. Berlin (March, 29)', fontweight='bold')
+
+
+# text
+ax.text(5.5 , 54.5, 'violet areas mean\nhigh participation and\nhigh $\Delta$ vote share', fontsize=9) # Hamburg
+ax.text(5.42, 48.5, 'red areas mean\nlow participation and\nhigh $\Delta$ vote share', fontsize=9) # NRW
+ax.text(10.5, 54.7, 'gray areas mean\nlow participation and\nlow $\Delta$ vote share', fontsize=9) # Sachsen-Anhalt
+ax.text(12.9, 49.8, 'blue areas mean\nhigh participation and\nlow $\Delta$ vote share', fontsize=9) # bayern
+
+# arrows
+style = "Simple, tail_width=0.1, head_width=4, head_length=8"
+kw = dict(arrowstyle=style, color="k")
+a1 = patches.FancyArrowPatch((7.5, 54.5), (10, 53.5), connectionstyle="arc3,rad=.1", zorder=4, **kw)
+a2 = patches.FancyArrowPatch((5.6 , 49.0), (6.2, 50.9), connectionstyle="arc3,rad=-0.17", zorder=4, **kw) # NRW
+a3 = patches.FancyArrowPatch((12.3, 54.6), (12.1, 52.3), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
+a4 = patches.FancyArrowPatch((12.9, 49.7), (12.5, 48.6), connectionstyle="arc3,rad=-.1", zorder=4, **kw)
+for a in [a1, a2, a3, a4]:
+    plt.gca().add_patch(a)
+
+ax.set_xlim(5.407472085680305, 15.500593916662416)
+ax.set_ylim(46.880710604361724, 55.447796600130616)
+
+
+
+
+
+
+
+
+
+
 
 
 
