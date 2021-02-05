@@ -133,7 +133,7 @@ year 2019, 401 counties (\textit{Kreise})
 
 \subsection{Mobile-Phone Based Tracking Data}
 
-The mobile-phone based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31\% in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} 
+The mobile-phone based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31 percent in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} 
 
 ->
 Teralytics uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year of 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
@@ -165,8 +165,9 @@ The data reports the daily number of trips between origin-destination pairs.\foo
 
 \subsection{Strike Data}
 
+
 % map: all strikes 2019
-\begin{figure}[H]\centering
+\begin{figure}[t]\centering
 	\caption{Strikes in 2019}\label{fig_greta_cons:fff_strikes_2019}
 	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_fff_strikes_all_2019_200.png}
 	\begin{minipage}{0.8\linewidth}
@@ -180,7 +181,7 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 3,943 strikes (1,966 authorities, 1,592 fff website and web-archive, 385 social media- filling up information for largest cities that were missing in the database; with the help of \texttt{http://web.archive.org/})
 
 % temporal variation of strike number across sources
-\begin{figure}[H]\centering
+\begin{figure}[t]\centering
 	\caption{Number of strikes across sources}\label{fig_greta_cons:number_strikes_per_source}
 	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_number_strikes_per_source_ALL_STRIKES}
 	\begin{minipage}{0.8\linewidth}
@@ -206,26 +207,38 @@ To account for differences in the number of journeys between origin-destination 
 
 % Election Results
 \subsection{Electoral Data}
-build/define dependent variable
-municipality election results
-
-the four elections in 2019 and for first-differenced specifications the corresponding counterparts in 2015.\footnote{In our analysis, we exclude areas that were subject to territory  reforms between the elections 2015-2019. This excludes X\% of the observations.}
-
-
-% data sources
-For the elections for the European Parliament, we use data provided by the Federal Statistical Office and the statistical offices of the Länder. For the state elections in Brandenburg, Saxony, and Thuringia we draw on data from the State Returning Officers (\textit{Landeswahlleiter}) and the statistical offices of the Länder.
-
-
-define dependent variable as the vote share: the number of votes for the Greens divided by total valid votes cast.
+For the European Parliament election, we use data provided by the Federal Statistical Office and the statistical offices of the Länder. For the state elections in Brandenburg, Saxony, and Thuringia, we draw on data from the State Returning Officers (\textit{Landeswahlleiter}) and the statistical offices of the Länder. In our analysis, we use the municipality-level vote share for the Greens as our dependent variable:\footnote{Our analysis excludes municipalities (around 5 percent) that were subject to territorial reforms between the elections 2015-2019.} the number of votes for the Greens divided by the total number of valid votes cast. In addition to the vote shares at the four elections in 2019, we also look at first-differences that use the corresponding counterparts in 2015. In our sample, the average vote share for the Greens is 19.68 percent. Table \ref{tab_greta_cons:data_greens_vote_share} shows that there is quite some heterogeneity across elections.
 
 
 
 
+\begin{table}[ht]\centering
+	\begin{threeparttable}
+		\caption{Vote share for the Greens across elections in 2019}
+		\label{tab_greta_cons:data_greens_vote_share}
+		\begin{tabular*}{.7\linewidth}{@{\extracolsep{\fill}}l*{5}{c}}
+			\toprule
+%			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
 
-
-
-
-
+			&\multicolumn{2}{c}{Greens}&\multicolumn{2}{c}{$\Delta$ Greens}\\
+			&\multicolumn{2}{c}{(2019)}&\multicolumn{2}{c}{(2019-2015)}\\
+			\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+			Election		&	mean		&	sd		&	mean	& sd	&	Obs.	\\
+			\midrule\\
+			
+			EU				&	20.762		&	7.537	&	9.731	& 3.859	&	10,719	\\
+			Brandenburg		&	10.167		&	5.120	&	4.308	& 2.189	&	413		\\
+			Saxony			&	4.937		&	1.906	&	1.305	& 0.905	&	414		\\
+			Thuringia		&	5.318		&	3.407	&	-0.572	& 0.968	&	645		\\  
+			\midrule
+			Total			&	19.676		&	8.234	&	9.113	& 4.325	&	12,191	\\
+			\bottomrule
+		\end{tabular*}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The Table reports the mean and standard deviation for the Green's vote share in 2019 (columns 2 and 3) and the first-differenced vote share for the Greens (columns 4 and 5) across the 2019 elections. The last column reports the number of municipalities per election. 
+		\end{tablenotes} 
+	\end{threeparttable}
+\end{table}
 
 
 
@@ -246,7 +259,7 @@ controls: income, unemployment, demographics
 %--------------------------------------------------------------------
 % MEASUREMENT STRIKE PARTICIPATION
 %--------------------------------------------------------------------
-\newpage
+\clearpage
 \section{Granular Measurement of Strike Participation}\label{sec_greta_cons:measurement_strike_participation}
 
 
