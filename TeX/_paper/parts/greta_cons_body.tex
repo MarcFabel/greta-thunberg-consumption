@@ -168,9 +168,9 @@ The data reports the daily number of trips between origin-destination pairs.\foo
 % map: all strikes 2019
 \begin{figure}[H]\centering
 	\caption{Strikes in 2019}\label{fig_greta_cons:fff_strikes_2019}
-	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_fff_strikes_2019.png}
+	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_fff_strikes_all_2019_200.png}
 	\begin{minipage}{0.8\linewidth}
-		\scriptsize{\emph{Notes:} The map shows the climate strikes (red dots) used in the analysis over the year 2019. The bold white lines indicate state boundaries and the thin white lines represent county boundaries.}
+		\scriptsize{\emph{Notes:} The map shows the climate strikes (red dots) in our data base over the year 2019. The bold white lines indicate state boundaries and the thin white lines represent county boundaries.}
 	\end{minipage}
 \end{figure}
 
@@ -182,11 +182,14 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 % temporal variation of strike number across sources
 \begin{figure}[H]\centering
 	\caption{Number of strikes across sources}\label{fig_greta_cons:number_strikes_per_source}
-	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_number_strikes_per_source}
+	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_number_strikes_per_source_ALL_STRIKES}
 	\begin{minipage}{0.8\linewidth}
 		\scriptsize{\emph{Notes:} The figure shows the daily number of strikes per source. The indicated dates above the spikes mark the four global climate strikes.}
 	\end{minipage}
 \end{figure}
+
+
+we first focus on regions, where there is continuous information
 
 
 
@@ -201,7 +204,41 @@ The weather data is derived from Germany's National Meteorological Service (\tex
 To account for differences in the number of journeys between origin-destination pairs on regular and special days, we include state-level controls for public and school holidays. The data on school holidays is derived from `The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany' (\textit{Kultusminister Konferenz}). The data on public holidays is collected from \url{https://www.schulferien.org/deutschland/feiertage/}. Additionally, we include dummy variables for peculiar days (New Year's Eve and Carnival season), which shift the expected number of journeys between origin-destination pairs.
 
 
+% Election Results
+\subsection{Electoral Data}
+build/define dependent variable
+municipality election results
 
+the four elections in 2019 and for first-differenced specifications the corresponding counterparts in 2015.\footnote{In our analysis, we exclude areas that were subject to territory  reforms between the elections 2015-2019. This excludes X\% of the observations.}
+
+
+% data sources
+For the elections for the European Parliament, we use data provided by the Federal Statistical Office and the statistical offices of the Länder. For the state elections in Brandenburg, Saxony, and Thuringia we draw on data from the State Returning Officers (\textit{Landeswahlleiter}) and the statistical offices of the Länder.
+
+
+define dependent variable as the vote share: the number of votes for the Greens divided by total valid votes cast.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Other Regional Variables}
+The Federal Statistical Office and the statistical offices of the Länder provide a database (\textit{Regionaldatenbank}) of detailed statistics by different subject areas at very granular spatial levels. We draw on this database for various purposes. 
+
+
+weights and independent variable (ratio):Population Figures
+controls: income, unemployment, demographics
+
+%\subsection{Media Outlets}
 
 
 
@@ -275,7 +312,7 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 \begin{itemize}
 	\item relative measure of relative strike participation in municipality $m$ at time period $\tilde{t}$
 	\item where $\sum_{t=1}^{\tilde{t}}\sum_{j=1}^{J} e_{ijt}$ indicates the cumulative strike participation in county $i$ up to time $\tilde{t}$ (e.g. when an election takes place).\footnote{As strike participation should have a positive value, we only select non-negative residuals.} We sum over destinations $j$ to account for the fact that there might be more than one destination with climate strikes where individuals from $i$ are going to.
-	\item the weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[10-34]_m}{\sum_{r=1}^{R}\text{population }[10-34]_r}$, i.e. the share of young people (aged 10-34) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$.
+	\item the weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[minors]_m}{\sum_{r=1}^{R}\text{population }[minors]_r}$, i.e. the share of young people (aged 0-17) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$. -> mention to focus on individuals not allowed to vote to not introduce mechanic effect on the outcome variable
 	\item finally we take the number of cumulative strike participants in municipality $m$ at time period $\tilde{t}$ and divide it by the municipality's population figure to have a relative measure.
 \end{itemize}
 
@@ -332,21 +369,21 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 	\label{fig_greta_cons:spatial_correlation_greens_index}
 	% greens
 	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_the_greens_eu_election_2019_ags8.png}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_the_greens_eu_election_2019_ags8_100.png}
 	\end{subfigure}
 	% fd_greens
 	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_fd_the_greens_eu_election_2019_ags8.png}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_fd_the_greens_eu_election_2019_ags8_100.png}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_particiaption_index_eu_election_2019_ags8.png}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_particiaption_index_eu_election_2019_ags8_100.png}
 	\end{subfigure}
-	\begin{subfigure}[h]{0.47\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/bivariate_map_legend}
+	\begin{subfigure}[h]{0.45\linewidth}\centering
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_corr_particiaption_greens_eu_election_2019_ags8_100.png}
 	\end{subfigure}
 
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The maps show, at the municipality level, (A) the vote share for the Greens in the 2019 election, (B) the first-difference of the vote share for the greens (2019-2015), (C) the strike participation index at the time of the EU election, and (D) the bivariate distribution of the first-differenced vote share for the greens and the participation index. The color scales in panels A-C correspond to quintiles. To generate the bivariate color scale in panel D, we blend the two univariate scales (in terciles, $\Delta$ Greens in red and participation index in blue) into one. Bold lines indicate state boundaries, thin lines represent municipality borders.}
+		\scriptsize{\emph{Notes:} The maps show, at the municipality level, (A) the vote share for the Greens in the 2019 election, (B) the first-difference of the vote share for the greens (2019-2015), (C) the strike participation index at the time of the EU election (standardized), and (D) the bivariate distribution of the first-differenced vote share for the greens and the participation index. The color scales in panels A-C correspond to quintiles. To generate the bivariate color scale in panel D, we blend the two univariate scales (in terciles, $\Delta$ Greens in red and participation index in blue) into one. Bold lines indicate state boundaries, thin lines represent municipality borders.}
 	\end{minipage}
 \end{figure}
 
@@ -365,17 +402,17 @@ mention \cite{cantoni2020persistence}
 				& Greens & $\Delta$ Greens & $\Delta$ Greens \\
 				& 2019		 & 2019-2015		& 2019-2015 \\
 				\midrule
-			  Participation Index [std.]&      0.1327\sym{***}&      0.0570\sym{**}	 	&	0.0626\sym{*}	\\
-										&    (0.0314)         &    (0.0251)         	&	(0.0352)		\\
+			  Participation Index [std.]&      0.1306\sym{***}&      0.0537\sym{**}	 	&	0.0799\sym{**}	\\
+										&    (0.0341)         &    (0.0270)         	&	(0.0340)		\\
 				\\	
-				Observations        	&      12,189         &      12,189         	&	452				\\
-				Adjusted $R^2$         	&       0.570         &       0.755         	&	0.823			\\
+				Observations        	&      12,189         &      12,189         	&	455				\\
+				Adjusted $R^2$         	&       0.569         &       0.754         	&	0.826			\\
 				State FE				& \checkmark 		  & \checkmark       		& \checkmark 		\\
 				Election FE				& \checkmark 		  & \checkmark       		& \checkmark 		\\
 				\bottomrule
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed-effects. Standard errors are clustered at the county level (number of clusters$=400$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed-effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
@@ -392,11 +429,11 @@ mention \cite{cantoni2020persistence}
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
 				& Baseline & Income & Unemployment &  Demographics \\
 				\midrule
-			  Participation Index [std.]&      0.0570\sym{**} &      0.0614\sym{***}&      0.0606\sym{**} &      0.0436\sym{*}  \\
-										&    (0.0251)         	&    (0.0209)         &    (0.0254)         &    (0.0239)         \\
+			  Participation Index [std.]&      0.0537\sym{**} &      0.0439\sym{**} &      0.0560\sym{**} &      0.0422\sym{*}  \\
+										&    (0.0270)         	&    (0.0217)         &    (0.0269)         &    (0.0256)         \\
 				\\
 				Observations        	&      12,189         &      12,185         &      12,066         &      12,189         \\
-				Adjusted $R^2$         	&       0.755         &       0.800         &       0.755         &       0.778         \\			
+				Adjusted $R^2$         	&       0.754         &       0.798         &       0.755         &       0.778         \\			
 				State FE				& \checkmark 		  & \checkmark       & \checkmark 	& \checkmark \\
 				Election FE				& \checkmark 		  & \checkmark       & \checkmark   & \checkmark \\
 				\bottomrule
@@ -437,18 +474,18 @@ mention \cite{cantoni2020persistence}
 				
 				% OLS
 				\multicolumn{4}{l}{\textbf{\textit{Panel A: OLS}}} \\
-				Participation Index [std.]&      0.0570\sym{**} &      0.0586\sym{**} &      0.0497\sym{*}  \\  
-				&    (0.0251)         &    (0.0260)         &    (0.0290)         \\  
+			Participation Index [std.]  &      0.0537\sym{**} &      0.0520\sym{*}  &      0.0483\sym{*}  \\  
+										&    (0.0270)         &    (0.0272)         &    (0.0292)         \\  
 				Observations      		&      12,189         &      12,189         &      12,189         \\  
-				Adjusted $R^2$         	&       0.755         &       0.755         &       0.754         \\ 
+				Adjusted $R^2$         	&       0.754         &       0.754         &       0.754         \\ 
 				State FE				& \checkmark 		  & \checkmark       & \checkmark  \\
 				Election FE				& \checkmark 		  & \checkmark       & \checkmark  \\
 				\\ 
 				
 				% Poisson
 				\multicolumn{4}{l}{\textbf{\textit{Panel B: Poisson}}} \\
-				Participation Index [std.]&      0.0460\sym{*}  &      0.0482\sym{**} &      0.0475		  \\
-				&    (0.0241)         &    (0.0244)         &    (0.0293)         \\
+			Participation Index [std.]	&      0.0541\sym{**} &      0.0469\sym{*}  &      0.0501\sym{*}  \\
+										&    (0.0251)         &    (0.0257)         &    (0.0300)         \\
 				Observations      		&      12,189         &      12,189         &      12,189         \\
 				Adjusted $R^2$         	&       0.754         &       0.754         &       0.754         \\		
 				State FE				& \checkmark 		  & \checkmark       & \checkmark  \\
