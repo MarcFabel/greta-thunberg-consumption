@@ -40,6 +40,8 @@
 	
 	* harmonize variables
 	qui egen pop_10_34 = rowtotal(pop10to15 pop15to17 pop18to19 pop20to24 pop25to29 pop30to34)
+	qui egen pop_10_17 = rowtotal(pop10to15 pop15to17)
+	qui egen pop_kids  = rowtotal(popunder3 pop3to5 pop6to9 pop10to15 pop15to17)
 	qui replace unemployment_rate = unemployment_rate * 100
 	qui rename unemployment_rate ue_rate
 	qui rename poptotal pop_t
@@ -51,12 +53,15 @@
 	
 	* generate municipality share young people
 	bys ags5: egen krs_pop_10_34 = total(pop_10_34)
+	bys ags5: egen krs_pop_10_17 = total(pop_10_17)
+	bys ags5: egen krs_pop_kids = total(pop_kids)
 	qui gen share_munic_pop_10_34 = pop_10_34/krs_pop_10_34
-	drop krs_pop_10_34
-	
+	qui gen share_munic_pop_10_17 = pop_10_17/krs_pop_10_17
+	qui gen share_munic_pop_kids = pop_kids/krs_pop_kids
+	drop krs_pop_10_34 krs_pop_10_17 krs_pop_kids
 	
 	sort ags8
-	order ags8 ags5 ags8_name pop_10_34 share pop_t ue_rate pop_density
+	order ags8 ags5 ags8_name pop_10_34 pop_10_17 share_munic_pop_kids pop_t ue_rate pop_density
 	
 	* correct Hamburg and Berlin
 	qui replace ags5 = "02000" if ags5 == "02"
@@ -90,6 +95,8 @@
 	
 	* harmonize variables
 	qui egen pop_10_34 = rowtotal(pop10to15 pop15to17 pop18to19 pop20to24 pop25to29 pop30to34)
+	qui egen pop_10_17 = rowtotal(pop10to15 pop15to17)
+	qui egen pop_kids  = rowtotal(popunder3 pop3to5 pop6to9 pop10to15 pop15to17)
 	qui replace unemployment_rate = unemployment_rate * 100
 	qui rename unemployment_rate ue_rate
 	qui rename poptotal pop_t
@@ -101,11 +108,15 @@
 	
 	* generate municipality share young people
 	bys ags5: egen krs_pop_10_34 = total(pop_10_34)
+	bys ags5: egen krs_pop_10_17 = total(pop_10_17)
+	bys ags5: egen krs_pop_kids = total(pop_kids)
 	qui gen share_munic_pop_10_34 = pop_10_34/krs_pop_10_34
-	drop krs_pop_10_34
+	qui gen share_munic_pop_10_17 = pop_10_17/krs_pop_10_17
+	qui gen share_munic_pop_kids = pop_kids/krs_pop_kids
+	drop krs_pop_10_34 krs_pop_10_17 krs_pop_kids
 	
 	sort ags8
-	order ags8 ags5 ags8_name pop_10_34 share pop_t ue_rate pop_density
+	order ags8 ags5 ags8_name pop_10_34 pop_10_17 share_munic_pop_kids pop_t ue_rate pop_density
 	
 	
 	qui save "$regional_intermediate/regional_variables_ags8_brandenburg", replace
@@ -138,6 +149,8 @@
 	
 	* harmonize variables
 	qui egen pop_10_34 = rowtotal(pop10to15 pop15to17 pop18to19 pop20to24 pop25to29 pop30to34)
+	qui egen pop_10_17 = rowtotal(pop10to15 pop15to17)
+	qui egen pop_kids  = rowtotal(popunder3 pop3to5 pop6to9 pop10to15 pop15to17)
 	qui replace unemployment_rate = unemployment_rate * 100
 	qui rename unemployment_rate ue_rate
 	qui rename poptotal pop_t
@@ -149,11 +162,15 @@
 	
 	* generate municipality share young people
 	bys ags5: egen krs_pop_10_34 = total(pop_10_34)
+	bys ags5: egen krs_pop_10_17 = total(pop_10_17)
+	bys ags5: egen krs_pop_kids = total(pop_kids)
 	qui gen share_munic_pop_10_34 = pop_10_34/krs_pop_10_34
-	drop krs_pop_10_34
+	qui gen share_munic_pop_10_17 = pop_10_17/krs_pop_10_17
+	qui gen share_munic_pop_kids = pop_kids/krs_pop_kids
+	drop krs_pop_10_34 krs_pop_10_17 krs_pop_kids
 	
 	sort ags8
-	order ags8 ags5 ags8_name pop_10_34 share pop_t ue_rate pop_density
+	order ags8 ags5 ags8_name pop_10_34 pop_10_17 share_munic_pop_kids pop_t ue_rate pop_density
 	
 	qui save "$regional_intermediate/regional_variables_ags8_saxony", replace	
 	
@@ -184,6 +201,8 @@
 	
 	* harmonize variables
 	qui egen pop_10_34 = rowtotal(pop10to15 pop15to17 pop18to19 pop20to24 pop25to29 pop30to34)
+	qui egen pop_10_17 = rowtotal(pop10to15 pop15to17)
+	qui egen pop_kids  = rowtotal(popunder3 pop3to5 pop6to9 pop10to15 pop15to17)
 	qui replace unemployment_rate = unemployment_rate * 100
 	qui rename unemployment_rate ue_rate
 	qui rename poptotal pop_t
@@ -195,11 +214,15 @@
 	
 	* generate municipality share young people
 	bys ags5: egen krs_pop_10_34 = total(pop_10_34)
+	bys ags5: egen krs_pop_10_17 = total(pop_10_17)
+	bys ags5: egen krs_pop_kids = total(pop_kids)
 	qui gen share_munic_pop_10_34 = pop_10_34/krs_pop_10_34
-	drop krs_pop_10_34
+	qui gen share_munic_pop_10_17 = pop_10_17/krs_pop_10_17
+	qui gen share_munic_pop_kids = pop_kids/krs_pop_kids
+	drop krs_pop_10_34 krs_pop_10_17 krs_pop_kids
 	
 	sort ags8
-	order ags8 ags5 ags8_name pop_10_34 share pop_t ue_rate pop_density
+	order ags8 ags5 ags8_name pop_10_34 pop_10_17 share_munic_pop_kids pop_t ue_rate pop_density
 	
 	qui save "$regional_intermediate/regional_variables_ags8_thuringia", replace		
 	

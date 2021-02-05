@@ -1,18 +1,29 @@
 
+	global path   	   			"W:\EoCC\analysis"
+	global data_temp			"$path/data/temp"
+	global tables 					"$path\output\tables"
+
+
 ********************************************************************************
 // ANALYSIS
 ********************************************************************************
 
 	 use "$data_temp/greta_cons_strike_participation_election_prepared", clear
+	 
+	 qui gen rgbz = substr(ags8,1,3)
+	 order rgbz
+	 encode rgbz, gen(rgbz_num)
 
 
+
+	 
 
 	* weighted
 	eststo clear 
 	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {		
-		qui eststo a1: reghdfe the_greens 		cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num) 
+		qui eststo a1: reghdfe the_greens 		cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)  vce(cluster ags5_num)
 		qui estadd scalar Nn = e(N)
-		qui eststo a2: reghdfe fd_the_greens	cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)
+		qui eststo a2: reghdfe fd_the_greens	cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)  vce(cluster ags5_num)
 		qui estadd scalar Nn = e(N)
 		
 		* income
@@ -27,11 +38,14 @@
 		qui eststo a5: reghdfe fd_the_greens	cum_res_`row'   i.d_urban per_young  [pw=pop_t], absorb(i.bula_num i.election_num) vce(cluster ags5_num)
 		qui estadd scalar Nn = e(N)
 		
+
 		
-		* all 
-		*qui eststo a6: reghdfe fd_the_greens	cum_res_`row' log_IncomeperCapita_st ue_rate_st i.d_urban per_young  [pw=pop_t], absorb(i.bula_num i.election_num) vce(cluster ags5_num)
-		
-		*qui eststo a6: reghdfe fd_the_greens	cum_res_`row'  share_university_degree_st  [pw=pop_t], absorb(i.bula_num i.election_num) vce(cluster ags5_num)
+		* essentials
+		/*esttab a*, ///
+			se star(* 0.10 ** 0.05 *** 0.01) keep(cum_res_*) ///
+			nonote  nonumbers noobs  ///
+			coeflabels(cum_res_`row' "`row'") ///
+			 b(%12.4f) se(%12.4f)*/
 		
 		
 		esttab a*, ///

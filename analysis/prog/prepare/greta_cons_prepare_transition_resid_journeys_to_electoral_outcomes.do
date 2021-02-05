@@ -167,7 +167,7 @@
 *	3) generate strike participation index
 ********************************************************************************	
 	
-	use "$data_temp/greta_cons_strikes_with_resids.dta", clear
+	use "$data_temp/greta_cons_strikes_with_resids.dta", clear //_ALL_STRIKES
 	
 	qui rename ags5 endags5
 	
@@ -191,7 +191,7 @@
 	
 	
 	* keep if region is in certain distance
-	keep if tripdistancekm <= 75
+	*keep if tripdistancekm <= 75
 	
 	* keep only positive residuals
 	foreach var of varlist res* {
@@ -224,7 +224,7 @@
 	
 	* ratio cummulative number per population
 	foreach var of varlist cum* {
-		qui gen r_`var' = (`var'/pop_10_34)*100
+		qui gen r_`var' = (`var'/pop_t)*100
 	}
 	
 	qui save "$data_temp/greta_cons_strikes_participation.dta", replace
@@ -337,7 +337,7 @@
 	// standardize variables	
 	qui ds date ags5 ags_name count election pop_density_cat    , not
 	foreach var of varlist `r(varlist)' {
-		qui summ `var'  [fw=pop_t]
+		qui summ `var'  
 		qui gen `var'_st = (`var' - `r(mean)')/`r(sd)' 
 	}	
 	

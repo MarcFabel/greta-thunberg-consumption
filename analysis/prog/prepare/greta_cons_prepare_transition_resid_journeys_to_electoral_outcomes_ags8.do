@@ -9,7 +9,7 @@
 	
 ********************************************************************************
 
-	use "$data_temp/greta_cons_strikes_with_resids_ALL_STRIKES.dta", clear // greta_cons_strikes_with_resids_ALL_STRIKES.dta
+	use "$data_temp/greta_cons_strikes_with_resids.dta", clear // greta_cons_strikes_with_resids_ALL_STRIKES.dta
 	
 	qui rename ags5 endags5
 	
@@ -75,20 +75,17 @@
 	
 	* allocate residuals from districts to municipalities & make per population
 
-	qui merge m:1 ags8 using  "$regional_intermediate/regional_variables_ags8", keepusing(share_munic_pop_10_34 pop_t ags8)
+	qui merge m:1 ags8 using  "$regional_intermediate/regional_variables_ags8", keepusing(share_munic* pop_t ags8)
 	keep if _merge == 3
 	qui drop _merge
 	*order date ags8 ags5 ags8_name pop_10_34
 	
 	foreach var of varlist  res_* cum_*   {
 		* allocate residuals according to weights
-		qui replace `var' = `var' * share_munic_pop_10_34
+		qui replace `var' = `var' * share_munic_pop_kids
 		
 		*per population 
 		qui replace `var' = (`var'/pop_t) *100
-		
-		*qui summ `var'
-		*qui replace `var' = (`var' - `r(mean)')/`r(sd)'
 		
 	}
 	

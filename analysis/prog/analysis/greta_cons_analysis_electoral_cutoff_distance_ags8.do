@@ -9,7 +9,7 @@
 	global data_final				"$path/data/final"
 	global tables_temp				"$path/output/temp"
 	global graphs					"$path/output/graphs"
-
+	
 	
 	* magic numbers
 	global t_90		  = 1.645
@@ -24,7 +24,7 @@
 	eststo clear
 	qui use "$data_temp/greta_cons_strike_participation_election_prepared", clear
 	qui eststo a1: reghdfe fd_the_greens	cum_res_ols [pw=pop_t], absorb(i.bula_num i.election_num)
-	qui esttab a* using "$tables_temp/distance_cutoffs.csv", replace wide ///
+	qui esttab a* using "$tables_temp/distance_cutoffs_ags8.csv", replace wide ///
 		se nostar keep(cum_res_*) ///
 		nomtitles nonumbers  nonote nogaps noline nopar noobs ///
 		sfmt( %12.0fc)	b(%12.4f) se(%12.4f) 
@@ -32,11 +32,11 @@
 		
 
 
-forval distance = 1/800 {
+forval distance = 1/823 { // 800
 	disp `distance'
 
 
-	qui use "$data_temp/greta_cons_strikes_with_resids_ALL_STRIKES.dta", clear // greta_cons_strikes_with_resids_ALL_STRIKES.dta
+	qui use "$data_temp/greta_cons_strikes_with_resids.dta", clear // greta_cons_strikes_with_resids_ALL_STRIKES.dta
 	
 	qui rename ags5 endags5
 	
@@ -102,14 +102,14 @@ forval distance = 1/800 {
 	
 	* allocate residuals from districts to municipalities & make per population
 
-	qui merge m:1 ags8 using  "$regional_intermediate/regional_variables_ags8", keepusing(share_munic_pop_10_34 pop_t ags8)
+	qui merge m:1 ags8 using  "$regional_intermediate/regional_variables_ags8", keepusing(share_munic_pop_* pop_t ags8)
 	qui keep if _merge == 3
 	qui drop _merge
 	*order date ags8 ags5 ags8_name pop_10_34
 	
 	foreach var of varlist  res_* cum_*   {
 		* allocate residuals according to weights
-		qui replace `var' = `var' * share_munic_pop_10_34
+		qui replace `var' = `var' * share_munic_pop_kids
 		
 		*per population 
 		qui replace `var' = (`var'/pop_t) *100
@@ -254,9 +254,9 @@ forval distance = 1/800 {
 	
 	eststo clear 
 	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {		
-		qui eststo a2: reghdfe fd_the_greens	cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)
+		qui eststo a2: reghdfe fd_the_greens	cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)   vce(cluster ags5_num)
 		
-		qui esttab a* using "$tables_temp/distance_cutoffs.csv", append wide ///
+		qui esttab a* using "$tables_temp/distance_cutoffs_ags8.csv", append wide ///
 		se nostar keep(cum_res_*) ///
 		nomtitles nonumbers  nonote nogaps noline nopar ///
 		sfmt( %12.0fc)	b(%12.5f) se(%12.5f) ///
@@ -267,13 +267,13 @@ forval distance = 1/800 {
 
 } // end: loop over distance
 
-
+/*
 
 ********************************************************************************
 *	Visualisation
 ********************************************************************************	
 	
-	import delimited "$tables_temp/distance_cutoffs_ALL_STRIKES.csv", stripquote(yes) clear 
+	import delimited "$tables_temp/distance_cutoffs_notall_kids.csv", stripquote(yes) clear // distance_cutoffs_ALL_STRIKES
 	qui gen temp = _n 
 	qui drop if temp == 1
 	qui drop temp
@@ -325,12 +325,12 @@ forval distance = 1/800 {
 			scheme(s1mono) plotregion(color(white)) ///
 			xsize(5) ysize(3)
 			
-		graph export "$graphs/greta_cons_cutoff_distance_`spec'_all.pdf", as(pdf) replace
+		*graph export "$graphs/greta_cons_cutoff_distance_`spec'_all.pdf", as(pdf) replace
 	}
 	
 	
 	* first trial graph
-	keep if distance <= 100
+	keep if distance <= 75
 	*qui gen odd = mod(distance,2)
 	*drop if odd == 1
 	
@@ -344,7 +344,7 @@ forval distance = 1/800 {
 			ytitle("Estimate") xtitle("Distance [km]") ///
 			scheme(s1mono) plotregion(color(white))
 			
-			graph export "$graphs/greta_cons_cutoff_distance_`spec'_100.pdf", as(pdf) replace
+			*graph export "$graphs/greta_cons_cutoff_distance_`spec'_100.pdf", as(pdf) replace
 	}
 	
 	

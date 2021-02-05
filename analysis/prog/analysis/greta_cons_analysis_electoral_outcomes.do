@@ -23,7 +23,10 @@
 	// regression
 	use "$data_temp/greta_cons_strikes_participation_election_outcomes.dta", clear
 
-	
+	qui encode ags5, gen(ags5_num)
+	qui gen rgbz = substr(ags5,1,3)
+	 order rgbz
+	 encode rgbz, gen(rgbz_num)
 	
 	
 	// generate overview table (rows:part-spec - columns: y-spec & controls)
@@ -41,10 +44,11 @@
 	
 	// greens and FD greens w/o controls
 	eststo clear
-	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {
+	foreach row in "ols" { //  "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only"
 	disp "`row'"
 		qui eststo a1: reg the_greens_st 	r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t]
 		qui eststo a2: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t]
+		qui eststo a3: reg fd_the_greens_st r_cum_res_`row'_st i.bula i.election_num  	[pw=pop_t],  vce(cluster ags5_num)
 		
 		esttab a*, ///
 		se star(* 0.10 ** 0.05 *** 0.01) keep(r_cum_res_*) ///
@@ -54,7 +58,7 @@
 	
 	* column for regression table
 	eststo clear
-	qui eststo a2: reg fd_the_greens_st r_cum_res_ols_st i.bula i.election_num  	[pw=pop_t]
+	qui eststo a2: reg fd_the_greens_st r_cum_res_ols_st i.bula i.election_num  	[pw=pop_t],  vce(cluster ags5_num)
 	qui estadd scalar Nn = e(N)
 	
 	esttab a*, ///
