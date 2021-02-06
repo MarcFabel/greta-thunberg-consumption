@@ -130,32 +130,12 @@ Twitter feed of other German FFF icons: Appendix Figure \ref{fig_greta_cons:twit
 year 2019, 401 counties (\textit{Kreise})
 
 
-
-\subsection{Mobile-Phone Based Tracking Data}
-
-The mobile-phone based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31 percent in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} 
-
-->
-Teralytics uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year of 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
+% mobile phone data
+\subsection{Mobile Phone-Based Tracking Data}
+The mobile phone-based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31 percent in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} The mobile network provider is a popular carrier among young people. To obtain representative mobility patterns, \textit{Teralytics} extrapolates to the entire population with the help of regional market shares. \textit{Teralytics} uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
 
 
-The data reports the daily number of trips between origin-destination pairs.\footnote{Due to data privacy regulations, Teralytics is not allowed to report journeys if there are less than five trips for a given origin-destination pair.} The spatial level of aggregation mostly coincides with county borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of journey exceeds 30 km, the data can distinguish between different modes of transport: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent). The vast majority of trips exhibit shorter distances or cannot be attributed to on of the previous transportation modes and fall into the category "not classified" (92.7 percent).
-
-
-
-
-
-
-\begin{itemize}
-	\item provider is typical carrier for young people - with the help of regional market shares, there is extrapolation to entire population
-\end{itemize}
-
-
-
-
-
-
-%
+The data reports the daily number of trips between origin-destination pairs over the year 2019. Due to data privacy regulations, \textit{Teralytics} cannot report journeys if there are less than five trips for a given origin-destination pair. The spatial level of aggregation mostly coincides with county borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of the journey exceeds 30 km, the data can distinguish between different modes of transportation: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent).\footnote{The distance refers to the linear distance between the centroids of two geographies.} The vast majority of trips exhibit shorter distances or cannot be attributed to one of the previous transportation modes and fall into the category "not classified" (92.7 percent).
 
 
 
@@ -163,6 +143,8 @@ The data reports the daily number of trips between origin-destination pairs.\foo
 
 
 
+
+% strike data
 \subsection{Strike Data}
 
 
@@ -194,15 +176,6 @@ we first focus on regions, where there is continuous information
 
 
 
-% weather data
-\subsection{Weather Data}
-The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature.   
-
-
-
-% holidays
-\subsection{Holidays}
-To account for differences in the number of journeys between origin-destination pairs on regular and special days, we include state-level controls for public and school holidays. The data on school holidays is derived from `The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany' (\textit{Kultusminister Konferenz}). The data on public holidays is collected from \url{https://www.schulferien.org/deutschland/feiertage/}. Additionally, we include dummy variables for peculiar days (New Year's Eve and Carnival season), which shift the expected number of journeys between origin-destination pairs.
 
 
 % Election Results
@@ -218,8 +191,8 @@ For the European Parliament election, we use data provided by the Federal Statis
 		\label{tab_greta_cons:data_greens_vote_share}
 		\begin{tabular*}{.7\linewidth}{@{\extracolsep{\fill}}l*{5}{c}}
 			\toprule
-%			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
-
+			%			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+			
 			&\multicolumn{2}{c}{Greens}&\multicolumn{2}{c}{$\Delta$ Greens}\\
 			&\multicolumn{2}{c}{(2019)}&\multicolumn{2}{c}{(2019-2015)}\\
 			\cmidrule(lr){2-3}\cmidrule(lr){4-5}
@@ -239,6 +212,24 @@ For the European Parliament election, we use data provided by the Federal Statis
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
+
+
+
+
+
+
+
+% weather data
+\subsection{Weather Data}
+The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature.   
+
+
+
+% holidays
+\subsection{Holidays}
+To account for differences in the number of journeys between origin-destination pairs on regular and special days, we include state-level controls for public and school holidays. The data on school holidays is derived from `The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany' (\textit{Kultusminister Konferenz}). The data on public holidays is collected from \url{https://www.schulferien.org/deutschland/feiertage/}. Additionally, we include dummy variables for peculiar days (New Year's Eve and Carnival season), which shift the expected number of journeys between origin-destination pairs.
+
+
 
 
 
@@ -298,7 +289,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 	%		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_aa_ols.png}
 	%	\end{subfigure}
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for two exemplary strikes. The two strikes were both visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the strikes' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by Teralytics.}
+		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for two exemplary strikes. The two strikes were both visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the strikes' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
 	\end{minipage}
 \end{figure}
 
