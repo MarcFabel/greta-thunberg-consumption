@@ -134,7 +134,6 @@ year 2019, 401 counties (\textit{Kreise})
 \subsection{Mobile Phone-Based Tracking Data}
 The mobile phone-based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31 percent in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} The mobile network provider is a popular carrier among young people. To obtain representative mobility patterns, \textit{Teralytics} extrapolates to the entire population with the help of regional market shares. \textit{Teralytics} uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
 
-
 The data reports the daily number of trips between origin-destination pairs over the year 2019. Due to data privacy regulations, \textit{Teralytics} cannot report journeys if there are less than five trips for a given origin-destination pair. The spatial level of aggregation mostly coincides with county borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of the journey exceeds 30 km, the data can distinguish between different modes of transportation: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent).\footnote{The distance refers to the linear distance between the centroids of two geographies.} The vast majority of trips exhibit shorter distances or cannot be attributed to one of the previous transportation modes and fall into the category "not classified" (92.7 percent).
 
 
@@ -142,10 +141,9 @@ The data reports the daily number of trips between origin-destination pairs over
 
 
 
-
-
 % strike data
-\subsection{Strike Data}
+\subsection{Climate Strike Data}
+Our data on climate strikes is self-collected and comes from local authorities, social media, and the website of FFF Germany. All public gatherings such as rallies and demonstrations must be registered in Germany. The registration usually happens at the police, the city council, or other regulatory agencies. The large bulk of our database is retrieved by contacting the respective authorities and requesting a list of all climate strikes that took place in their jurisdictions in 2019. Consequently, we obtained information on the exact location and time of nearly 2,000 strikes. In the next step, we used social media postings (Twitter, Facebook, and Instagram) to fill up missing information for the 20 largest cities that were missing in the database. Searching for information on social media channels gave us almost another 400 climate strikes and ensured that we do not miss any large-scale climate strike. In the last step, we enriched our database with information on almost 1,600 strikes retrieved from the website of FFF Germany. Using the internet archive of \url{http://web.archive.org/}, we could restore snapshots with information on climate strikes for some weeks. The locations where the climate strikes took place are geographically encoded. Figure \ref{fig_greta_cons:fff_strikes_2019} shows a map with all strikes contained in our database. There is quite some variation in the strike behavior across the year as depicted in the maps in Appendix Figure \ref{fig_greta_cons:fff_strikes_months}. The same impression is obtained from Figure \ref{fig_greta_cons:number_strikes_per_source}, which presents the daily number of strikes across the three sources. The highest number of strikes is reported on the global climate strike events (March, May, September, and November). Furthermore, it is visible that the strikes from the FFF website are only available in 19 weeks when the domain was archived. The other sources, however, exhibit more continuity in how they report the number of strikes.\footnote{Because of the extreme volatility of the strikes from the FFF Germany website - no information in most instances vs. detailed regional resolution on others-, we first focus on strikes for which there is more continuous information, i.e. strikes obtained from the authorities and social media.} 
 
 
 % map: all strikes 2019
@@ -157,10 +155,6 @@ The data reports the daily number of trips between origin-destination pairs over
 	\end{minipage}
 \end{figure}
 
-variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_months} in the Appendix
-
-
-3,943 strikes (1,966 authorities, 1,592 fff website and web-archive, 385 social media- filling up information for largest cities that were missing in the database; with the help of \texttt{http://web.archive.org/})
 
 % temporal variation of strike number across sources
 \begin{figure}[t]\centering
@@ -171,8 +165,6 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 	\end{minipage}
 \end{figure}
 
-
-we first focus on regions, where there is continuous information
 
 
 
