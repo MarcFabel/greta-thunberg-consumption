@@ -126,8 +126,9 @@ Twitter feed of other German FFF icons: Appendix Figure \ref{fig_greta_cons:twit
 %--------------------------------------------------------------------
 \newpage
 \section{Data}\label{sec_greta_cons:data} 
+The data set for the analysis draws on data from 2019 and contains all German regions, either on the county (\textit{Kreise}, $N=401$) or municipality (\textit{Gemeinde}, $N=10,719$) level. We combine six sources of data to residualize journeys and to investigate associations between climate strike participation and electoral outcomes.
 
-year 2019, 401 counties (\textit{Kreise})
+
 
 
 % mobile phone data
@@ -194,7 +195,7 @@ For the European Parliament election, we use data provided by the Federal Statis
 			EU				&	20.762		&	7.537	&	9.731	& 3.859	&	10,719	\\
 			Brandenburg		&	10.167		&	5.120	&	4.308	& 2.189	&	413		\\
 			Saxony			&	4.937		&	1.906	&	1.305	& 0.905	&	414		\\
-			Thuringia		&	5.318		&	3.407	&	-0.572	& 0.968	&	645		\\  
+			Thuringia		&	5.318		&	3.407	&	-0.572	& 0.968	&	645		\\
 			\midrule
 			Total			&	19.676		&	8.234	&	9.113	& 4.325	&	12,191	\\
 			\bottomrule
@@ -213,7 +214,7 @@ For the European Parliament election, we use data provided by the Federal Statis
 
 % weather data
 \subsection{Weather Data}
-The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature.   
+The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature. 
 
 
 
@@ -449,7 +450,7 @@ mention \cite{cantoni2020persistence}
 	\caption{Cutoff distances for origins}\label{fig_greta_cons:origin_cutoff_distances}
 	\settototalheight{\dimen0}{\includegraphics[width=0.9\linewidth]{analysis/greta_cons_cutoff_distance_ols_80}}%
 	\includegraphics[width=0.9\linewidth]{analysis/greta_cons_cutoff_distance_ols_80}
-	\llap{\raisebox{\dimen0-1cm}{%  move next graphics to top right corner
+	\llap{\raisebox{\dimen0-1cm}{% move next graphics to top right corner
 			\includegraphics[height=2.2cm]{analysis/greta_cons_cutoff_distance_ols_all}
 	}}
 	\begin{minipage}{0.9\linewidth}
@@ -494,7 +495,7 @@ mention \cite{cantoni2020persistence}
 				\bottomrule
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The column header indicates how the process of residualizing journeys is varied. Column 1 uses the baseline specification presented in Equation \ref{eq_greta_cons:res_journeys}. Column 2 further includes interactions of $\vartheta_{ij}$$\times$week and  $\vartheta_{ij}$$\times$month. Column3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). Panel A (B) contains estimates when estimating Equation \ref{eq_greta_cons:res_journeys} with OLS (Poisson). See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The column header indicates how the process of residualizing journeys is varied. Column 1 uses the baseline specification presented in Equation \ref{eq_greta_cons:res_journeys}. Column 2 further includes interactions of $\vartheta_{ij}$$\times$week and $\vartheta_{ij}$$\times$month. Column3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). Panel A (B) contains estimates when estimating Equation \ref{eq_greta_cons:res_journeys} with OLS (Poisson). See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
