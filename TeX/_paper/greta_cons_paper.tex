@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------
 %	DOCUMENT CLASS
 %--------------------------------------------------------------------
-\documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
+\documentclass[11pt, a4paper, draft]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
 \usepackage{fullpage} % leaves less space at margins of page
 
 
@@ -17,7 +17,7 @@
 \usepackage[breaklinks=true]{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{pdfpages}		% insert pages of external pdf documents
-\setlength{\parskip}{0em}	% vertical spacing for paragraphs
+\setlength{\parskip}{0.75em}	% vertical spacing for paragraphs
 \setlength{\parindent}{0em}	% horizonzal spacing for paragraphs
 \usepackage{tikz}
 \usepackage{tikzscale}		% helps to adjust tikz pictures to textwidth/linewidth
@@ -181,6 +181,8 @@ labelfont={bf}
 %	%\renewcommand{\footrulewidth}{0pt}
 %}
 
+% have long table still on one page in the text
+\renewcommand{\topfraction}{0.8}
 
 %--------------------------------------------------------------------
 %	AUTHOR & TITLE
@@ -188,7 +190,7 @@ labelfont={bf}
 \title{– For the Greta Good –\\The Rise of Environmental Awareness
 	through Child-to-Parent Value Transmission\footnote{Thank you for funding???
 		Lina Leutner, Franziska Wintersteller provided excellent research assistance. All errors and omissions are our own.}}
-\author{Marc Fabel, Helmut Rainer, Maria Waldinger}
+\author{} %Marc Fabel, Helmut Rainer, Maria Waldinger
 
 \date{Last modified: \today}
 

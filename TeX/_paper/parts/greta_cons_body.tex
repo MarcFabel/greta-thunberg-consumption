@@ -243,30 +243,38 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 %--------------------------------------------------------------------
 % MEASUREMENT STRIKE PARTICIPATION
 %--------------------------------------------------------------------
-\clearpage
+\newpage
 \section{Granular Measurement of Strike Participation}\label{sec_greta_cons:measurement_strike_participation}
 
 
 % Residualize journeys %--------------------------------------------------------------------
 \subsection{Residualize Journeys and Combine with Strike Data Base}
+
+In the first part of the empirical analysis, we exploit the mobile phone-based tracking data to measure local strike participation. To determine how many participants attend a climate strike and where they come from, we residualize the number of movements between origins and destinations. We exploit a rich fixed effects model to remove the predictable variation in the number of journeys based on the origin-destination pair, date characteristics, holiday fixed effects, and weather controls. Let $\text{journeys}_{ijt}$ denote the number of journeys between origin $i$ and destination $j$ at time $t$, which in our baseline model is given by 
+
 \begin{align}
-	\text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \gamma_t + \text{weather}_{ijt} + \text{holiday}_{ijt} + \varepsilon_{ijt} \label{eq_greta_cons:res_journeys}
+\text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \underbrace{\varphi_d+\eta_w+\psi_m}_{\gamma_t} + \lambda \mathbf{X}_{ijt}  + \varepsilon_{ijt}. \label{eq_greta_cons:res_journeys}
 \end{align}
 
-\begin{itemize}
-	\item origin-destination pair $ij$ (county-level)
-	\item $\gamma_t$ contains dow, woy, month
-	\item interactions between $\vartheta_{ij} \times \gamma_t$: no interaction, partial interaction(interaction w/ woy and month), and fully interacted
-	\item OLS (baseline) and Poisson as robustness 
-	\item get residual: $e_{ijt} =(\text{journeys}_{ijt} - \widehat{\text{journeys}}_{ijt})$
-	\item match $e_{ijt}$ with set of destinations $j\in\{1,...,J\}$ in which a strike takes place on $t\in\{1,...,T\}$ (mostly Fridays)
-	\item $e_{ijt}$ indicates how many people are coming from county $i$ to strike in county $j$ happening in $t$
-\end{itemize}
+Origin-destination fixed effects are captured by $\vartheta_{ij}$ and account for time-invariant mobility patterns between origin-destination pairs (mostly on the county level with few subclusters). They ensure we use within instead of between origin-destination pair variation over time. The time fixed effects vector $\gamma_t$ contains binary variables for the day-of-the-week ($\varphi_d$), the week-of-the-year ($\eta_w$), and the month ($\psi_m$). It allows to flexibly control for weekly and seasonal mobility patterns. The vector $\mathbf{X}_{ijt} $ includes public as well as school holidays and weather controls, both at the origin and destination geography.\footnote{State-level public holiday controls contain dummy variables for All Saints' Day, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year's Day, Penance Day, Pentecost, and Reformation Day. Furthermore, it contains binary variables for Carnival season and News Year's Eve.\newline County-level weather controls include air temperature, hours of sunshine, and precipitation.} 
+
+
+% robustness - own paragraph
+In a robustness check, we expand the baseline specification by including interactions of $\vartheta_{ij}\times\gamma_t$, i.e. origin-destination-by-day-of-the-week fixed effects, origin-destination-by-week-of-the-year fixed effects, and origin-destination-by-week fixed effects. The interactions allow for systematic changes in the origin-destination-level mobility patterns over the year. However, we refrain from using the interacted version as our baseline specification as the interaction of $\vartheta_{ij}\times\varphi_d$ could potentially absorb the strike participation we want to ultimately identify. Another robustness check estimates Equation \ref{eq_greta_cons:res_journeys} with a Poisson model to account for the discrete nature of the dependent variable.
+
+
+
+% take residuals and combine with strike database
+To obtain the number and origin of people participating in climate strikes, we calculate the difference between the observed number of journeys and the predicted number of journeys conditional on the variables described above $e_{ijt} =(\text{journeys}_{ijt} - \widehat{\text{journeys}}_{ijt})$. The residuals $e_{ijt}$ capture the excess mobility net of the variation stemming from the baseline covariates. In the next step, we match the daily origin-destination-level residuals with our strike data base. The climate strike database contains the precise time and location for the set of destinations $j\in\{1,...,J\}$ in which a strike takes place on $t\in\{1,...,T\}$ (mostly Fridays). Consequently, $e_{ijt}$ indicates how many people are coming from county $i$ to a strike in county $j$ happening on $t$. Figure \ref{fig_greta_cons:strike_participation_hh_ber} shows for two exemplary strikes where individuals are coming from.
+
+% remaining variation on days of the strike can be attributed to people participation in the climate strikes given the date
+
+
 
 
 
 % fig: strike participation for selected strikes
-\begin{figure}[H]\centering
+\begin{figure}[t]\centering
 	\caption{Strike participation for selected strikes}
 	\label{fig_greta_cons:strike_participation_hh_ber}
 	% Hamburg
@@ -338,7 +346,7 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 	\text{Share Greens}_{me} = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{1m} + \xi_{me}\label{eq_greta_cons:vote_share_greens}
 \end{align}
 \begin{itemize}
-	\item $\theta_s$ state fixed-effects, $\tau_e$ election fixed-effects, $\text{Participation Index}_{me}$ participation index up to time when election $e$ takes place, $\mathbf{X}_{1m}$ municipality-levels controls 
+	\item $\theta_s$ state fixed effects, $\tau_e$ election fixed effects, $\text{Participation Index}_{me}$ participation index up to time when election $e$ takes place, $\mathbf{X}_{1m}$ municipality-levels controls 
 	\item all variables standardized
 \end{itemize}
 
@@ -409,7 +417,7 @@ mention \cite{cantoni2020persistence}
 				\bottomrule
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed-effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
