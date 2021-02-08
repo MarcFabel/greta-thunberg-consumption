@@ -353,21 +353,19 @@ As a further check, we validate our approach to identify the origin of people at
 
 
 % PATRICIPATION INDEX %--------------------------------------------------------------------
-\subsection{Participation Index}
+\subsection{Construction of a Strike Participation Index}
+
+After identifying the origin of strike participants, we want to account for the intensity of local participation rates over time. Undoubtedly, there is a difference between regions with continuous strike involvement and regions with one-time events. In this section, we incorporate these considerations by constructing a cumulative municipality-level measure of strike participation across the origin regions. We define our index as follows:
 	
-\begin{itemize}	
-	\item generate participation index for the origin regions
-\end{itemize}
+
 \begin{align}
-	\text{Participation Index}_{m\tilde{t}} = \left( \frac{w_{m}}{\text{population}_{m}} \sum\limits_{t=1}^{\tilde{t}}\sum\limits_{j=1}^{J} e_{ijt}\right) \label{eq_greta_cons:participation_index}
+	\text{Participation Index}_{m\tilde{t}} = \left( \frac{w_{m}}{\text{population}_{m}} \sum\limits_{t=1}^{\tilde{t}}\sum\limits_{j=1}^{J} e_{ijt}\right), \label{eq_greta_cons:participation_index}
 \end{align}
 
-\begin{itemize}
-	\item relative measure of relative strike participation in municipality $m$ at time period $\tilde{t}$
-	\item where $\sum_{t=1}^{\tilde{t}}\sum_{j=1}^{J} e_{ijt}$ indicates the cumulative strike participation in county $i$ up to time $\tilde{t}$ (e.g. when an election takes place).\footnote{As strike participation should have a positive value, we only select non-negative residuals.} We sum over destinations $j$ to account for the fact that there might be more than one destination with climate strikes where individuals from $i$ are going to.
-	\item the weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[minors]_m}{\sum_{r=1}^{R}\text{population }[minors]_r}$, i.e. the share of young people (aged 0-17) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$. -> mention to focus on individuals not allowed to vote to not introduce mechanic effect on the outcome variable
-	\item finally we take the number of cumulative strike participants in municipality $m$ at time period $\tilde{t}$ and divide it by the municipality's population figure to have a relative measure.
-\end{itemize}
+
+where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relative strike participation in origin municipality $m$ at time period $\tilde{t}$. It comprises the following elements: $\sum_{t=1}^{\tilde{t}}\sum_{j=1}^{J} e_{ijt}$ indicates the cumulative strike participation in county $i$ up to time $\tilde{t}$ (for instance when an election takes place).\footnote{We only select non-negative residuals to obtain throughout positive values of strike participation.} We sum over destinations $j$ to account for the fact that individuals residing in $i$ are going to climate strikes in more than one destination. Furthermore, we sum over all times $t\in\{1,...,\tilde{t}\}$ in which county $i$ appears as an origin for a strike in any destination $j$. The weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[minors]_m}{\sum_{r=1}^{R}\text{population }[minors]_r}$, in other words the share of young people (aged 0-17) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$. The weights resemble the idea that strike participation should be higher in municipalities with many young people relative to municipalities with few young people. We restrain our weights to minors, i.e. the population share that is not allowed to vote, with the purpose to not generate associations with electoral outcomes by construction. Finally, we take the number of cumulative strike participants in municipality $m$ at time $\tilde{t}$ and divide it by the municipality's population figure to have a relative measure.
+
+
 
 
 
