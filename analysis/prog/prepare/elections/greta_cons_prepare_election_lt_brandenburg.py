@@ -18,6 +18,8 @@ Comment:
      Two municipalitiy names were adjusted in the source data, such that there
      are no doublings. The affected regions are: Golzow and Mittelmark
 
+Updates: 
+    add fd_voter_turnout
 """
 
 # packages
@@ -49,8 +51,8 @@ z_election_output =     '/Users/marcfabel/Dropbox/greta_cons_Dx/analysis/data/in
 # amtsfrei 
 elec = pd.read_excel(z_election_input + 'Brandenburg_LT_Gemeindeebene_2014.xlsx',
 	                     sheet_name='Zweitstimmen_Gemeinden amtsfrei', skiprows=8,
-                         usecols=[0, 1, 20], converters={0:str})
-elec.columns = ['ags', 'ags_name', 'the_greens_2014']
+                         usecols=[0, 1, 8, 20], converters={0:str})
+elec.columns = ['ags', 'ags_name', 'voter_turnout_2014', 'the_greens_2014']
 elec.dropna(inplace=True)
 #adjust ags
 elec['ags'] = '120' + elec['ags']
@@ -60,8 +62,8 @@ elec['ags'] = '120' + elec['ags']
 
 elec2 = pd.read_excel(z_election_input + 'Brandenburg_LT_Gemeindeebene_2014.xlsx',
 	                     sheet_name='Zweitstimmen_Gemeinden amtsang.', skiprows=8,
-                         usecols=[0, 1, 20], converters={0:str})
-elec2.columns = ['gem_nr', 'ags_name', 'the_greens_2014']
+                         usecols=[0, 1, 8, 20], converters={0:str})
+elec2.columns = ['gem_nr', 'ags_name', 'voter_turnout_2014', 'the_greens_2014']
 elec2.dropna(inplace=True)
 elec2['ags'] = '120' + elec2['gem_nr'].str[0:2] + elec2['gem_nr'].str[-3:]
 elec2.drop('gem_nr', axis=1, inplace=True)
@@ -301,18 +303,23 @@ df_final.ags = df_final.ags.astype(str)
 df_final = df_final.merge(elec_2014, on='ags', how='left', indicator=False)
 
 
-# cities 2014 manually 
+# cities 2014 manually https://www.wahlergebnisse.brandenburg.de/wahlen/LT2014/tabelleAmt.html
 df_final.loc[df_final['ags']=='12051000', 'the_greens_2014'] = 5.8  # brandenburg
 df_final.loc[df_final['ags']=='12052000', 'the_greens_2014'] = 4.5  # cottbus
 df_final.loc[df_final['ags']=='12053000', 'the_greens_2014'] = 5.3  # frankfurt (oder)
-df_final.loc[df_final['ags']=='12054000', 'the_greens_2014'] = 13.6 # pottsdam
+df_final.loc[df_final['ags']=='12054000', 'the_greens_2014'] = 13.6 # potsdam
+
+df_final.loc[df_final['ags']=='12051000', 'voter_turnout_2014'] = 38.2  # brandenburg
+df_final.loc[df_final['ags']=='12052000', 'voter_turnout_2014'] = 49.5  # cottbus
+df_final.loc[df_final['ags']=='12053000', 'voter_turnout_2014'] = 46.2  # frankfurt (oder)
+df_final.loc[df_final['ags']=='12054000', 'voter_turnout_2014'] = 55.7  # potsdam
 
 df_final['fd_the_greens'] = df_final['the_greens'] - df_final['the_greens_2014']
-
+df_final['fd_voter_turnout'] = df_final['voter_turnout'] - df_final['voter_turnout_2014']
 
 
 df_final = df_final[['ags', 'voter_turnout', 'union', 'spd', 'the_greens',
-                               'the_left', 'afd', 'fdp', 'others', 'fd_the_greens']]
+                               'the_left', 'afd', 'fdp', 'others', 'fd_the_greens', 'fd_voter_turnout']]
     
 
 # write-out

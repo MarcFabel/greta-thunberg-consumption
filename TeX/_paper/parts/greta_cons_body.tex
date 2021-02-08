@@ -71,13 +71,13 @@ two consecutive nominations for the Nobel Peace Prize (2019 \& 2020)
 	
 	
 	
-	\begin{subfigure}[h]{0.85\linewidth}\centering\caption{Print media}
+	\begin{subfigure}[h]{0.85\linewidth}\centering\caption{Timeline of events}
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_background_timeline_elections_events.pdf}
 	\end{subfigure}
 	
 	
 	\par\bigskip\smallskip % force a bit of vertical whitespace
-		\begin{subfigure}[h]{0.43\linewidth}\centering\caption{Print media}
+		\begin{subfigure}[h]{0.43\linewidth}\centering\caption{Appearance in print media}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_fff_print_media_articles_2019.pdf}
 		\end{subfigure}
 		\begin{subfigure}[h]{0.43\linewidth}\centering\caption{Twitter feed of Greta Thunberg}
@@ -126,47 +126,29 @@ Twitter feed of other German FFF icons: Appendix Figure \ref{fig_greta_cons:twit
 %--------------------------------------------------------------------
 \newpage
 \section{Data}\label{sec_greta_cons:data} 
-
-year 2019, 401 counties (\textit{Kreise})
-
+The data set for the analysis draws on data from 2019 and contains all German regions, either on the county (\textit{Kreise}, $N=401$) or municipality (\textit{Gemeinde}, $N=10,719$) level. We combine six sources of data to residualize journeys and to investigate associations between climate strike participation and electoral outcomes.
 
 
-\subsection{Mobile-Phone Based Tracking Data}
-
-The mobile-phone based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31\% in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} 
-
-->
-Teralytics uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year of 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
 
 
-The data reports the daily number of trips between origin-destination pairs.\footnote{Due to data privacy regulations, Teralytics is not allowed to report journeys if there are less than five trips for a given origin-destination pair.} The spatial level of aggregation mostly coincides with county borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of journey exceeds 30 km, the data can distinguish between different modes of transport: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent). The vast majority of trips exhibit shorter distances or cannot be attributed to on of the previous transportation modes and fall into the category "not classified" (92.7 percent).
+% mobile phone data
+\subsection{Mobile Phone-Based Tracking Data}
+The mobile phone-based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network (market share of 31 percent in 2019).\footnote{source: https://de.statista.com/statistik/daten/studie/3028/umfrage/marktanteile-der-netzbetreiber-am-mobilfunkmarkt-in-deutschland-seit-1998/} The mobile network provider is a popular carrier among young people. To obtain representative mobility patterns, \textit{Teralytics} extrapolates to the entire population with the help of regional market shares. \textit{Teralytics} uses machine learning-based technology to transform mobile signals into number of journeys between two locations. For the year 2019, the data contains 64.4 billion trips. There is a required minimum time between the movements so that they count as a journey and it depends on the mode of transport.\footnote{The required minimum time is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} 
+
+The data reports the daily number of trips between origin-destination pairs over the year 2019. Due to data privacy regulations, \textit{Teralytics} cannot report journeys if there are less than five trips for a given origin-destination pair. The spatial level of aggregation mostly coincides with county borders, only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different regions, which result in more than 260,000 possible origin-destination pairs. If the length of the journey exceeds 30 km, the data can distinguish between different modes of transportation: car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent).\footnote{The distance refers to the linear distance between the centroids of two geographies.} The vast majority of trips exhibit shorter distances or cannot be attributed to one of the previous transportation modes and fall into the category "not classified" (92.7 percent).
 
 
 
 
 
 
-\begin{itemize}
-	\item provider is typical carrier for young people - with the help of regional market shares, there is extrapolation to entire population
-\end{itemize}
+% strike data
+\subsection{Climate Strike Data}
+Our data on climate strikes is self-collected and comes from local authorities, social media, and the website of FFF Germany. All public gatherings such as rallies and demonstrations must be registered in Germany. The registration usually happens at the police, the city council, or other regulatory agencies. The large bulk of our database is retrieved by contacting the respective authorities and requesting a list of all climate strikes that took place in their jurisdictions in 2019. Consequently, we obtained information on the exact location and time of nearly 2,000 strikes. In the next step, we used social media postings (Twitter, Facebook, and Instagram) to fill up missing information for the 20 largest cities that were missing in the database. Searching for information on social media channels gave us almost another 400 climate strikes and ensured that we do not miss any large-scale climate strike. In the last step, we enriched our database with information on almost 1,600 strikes retrieved from the website of FFF Germany. Using the internet archive of \url{http://web.archive.org/}, we could restore snapshots with information on climate strikes for some weeks. The locations where the climate strikes took place are geographically encoded. Figure \ref{fig_greta_cons:fff_strikes_2019} shows a map with all strikes contained in our database. There is quite some variation in the strike behavior across the year as depicted in the maps in Appendix Figure \ref{fig_greta_cons:fff_strikes_months}. The same impression is obtained from Figure \ref{fig_greta_cons:number_strikes_per_source}, which presents the daily number of strikes across the three sources. The highest number of strikes is reported on the global climate strike events (March, May, September, and November). Furthermore, it is visible that the strikes from the FFF website are only available in 19 weeks when the domain was archived. The other sources, however, exhibit more continuity in how they report the number of strikes.\footnote{Because of the extreme volatility of the strikes from the FFF Germany website - no information in most instances vs. detailed regional resolution on others-, we first focus on strikes for which there is more continuous information, i.e. strikes obtained from the authorities and social media.} 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{Strike Data}
 
 % map: all strikes 2019
-\begin{figure}[H]\centering
+\begin{figure}[t]\centering
 	\caption{Strikes in 2019}\label{fig_greta_cons:fff_strikes_2019}
 	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_fff_strikes_all_2019_200.png}
 	\begin{minipage}{0.8\linewidth}
@@ -174,13 +156,9 @@ The data reports the daily number of trips between origin-destination pairs.\foo
 	\end{minipage}
 \end{figure}
 
-variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_months} in the Appendix
-
-
-3,943 strikes (1,966 authorities, 1,592 fff website and web-archive, 385 social media- filling up information for largest cities that were missing in the database; with the help of \texttt{http://web.archive.org/})
 
 % temporal variation of strike number across sources
-\begin{figure}[H]\centering
+\begin{figure}[t]\centering
 	\caption{Number of strikes across sources}\label{fig_greta_cons:number_strikes_per_source}
 	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_number_strikes_per_source_ALL_STRIKES}
 	\begin{minipage}{0.8\linewidth}
@@ -189,13 +167,54 @@ variation across months of the year in Figure \ref{fig_greta_cons:fff_strikes_mo
 \end{figure}
 
 
-we first focus on regions, where there is continuous information
+
+
+
+
+% Election Results
+\subsection{Electoral Data}
+For the European Parliament election, we use data provided by the Federal Statistical Office and the statistical offices of the Länder. For the state elections in Brandenburg, Saxony, and Thuringia, we draw on data from the State Returning Officers (\textit{Landeswahlleiter}) and the statistical offices of the Länder. In our analysis, we use the municipality-level vote share for the Greens as our dependent variable:\footnote{Our analysis excludes municipalities (around 5 percent) that were subject to territorial reforms between the elections 2015-2019.} the number of votes for the Greens divided by the total number of valid votes cast. In addition to the vote shares at the four elections in 2019, we also look at first-differences that use the corresponding counterparts in 2015. In our sample, the average vote share for the Greens is 19.68 percent. Table \ref{tab_greta_cons:data_greens_vote_share} shows that there is quite some heterogeneity across elections.
+
+
+
+
+\begin{table}[ht]\centering
+	\begin{threeparttable}
+		\caption{Vote share for the Greens across elections in 2019}
+		\label{tab_greta_cons:data_greens_vote_share}
+		\begin{tabular*}{.7\linewidth}{@{\extracolsep{\fill}}l*{5}{c}}
+			\toprule
+			%			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+			
+			&\multicolumn{2}{c}{Greens}&\multicolumn{2}{c}{$\Delta$ Greens}\\
+			&\multicolumn{2}{c}{(2019)}&\multicolumn{2}{c}{(2019-2015)}\\
+			\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+			Election		&	mean		&	sd		&	mean	& sd	&	Obs.	\\
+			\midrule\\
+			
+			EU				&	20.762		&	7.537	&	9.731	& 3.859	&	10,719	\\
+			Brandenburg		&	10.167		&	5.120	&	4.308	& 2.189	&	413		\\
+			Saxony			&	4.937		&	1.906	&	1.305	& 0.905	&	414		\\
+			Thuringia		&	5.318		&	3.407	&	-0.572	& 0.968	&	645		\\
+			\midrule
+			Total			&	19.676		&	8.234	&	9.113	& 4.325	&	12,191	\\
+			\bottomrule
+		\end{tabular*}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The Table reports the population-weighted mean and standard deviation for the Green's vote share in 2019 (columns 2 and 3) and the first-differenced vote share for the Greens (columns 4 and 5) across the 2019 elections. The last column reports the number of municipalities per election. 
+		\end{tablenotes} 
+	\end{threeparttable}
+\end{table}
+
+
+
+
 
 
 
 % weather data
 \subsection{Weather Data}
-The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature.   
+The weather data is derived from Germany's National Meteorological Service (\textit{Deutscher Wetterdienst}). To construct the weather controls, we aggregate weather information to the county level using the weighted average (inverse distances) of the values from the individual weather monitors within a certain radius to the county's centroid.\footnote{The maximum radius depends on the weather variable. It is 30 km for precipitation, while it is 50 km for hours of sunshine and maximum air temperature.} We use daily averages of the following weather variables: hours of sunshine, precipitation, and maximum air temperature. 
 
 
 
@@ -204,41 +223,19 @@ The weather data is derived from Germany's National Meteorological Service (\tex
 To account for differences in the number of journeys between origin-destination pairs on regular and special days, we include state-level controls for public and school holidays. The data on school holidays is derived from `The Standing Conference of the Ministers of Education and Cultural Affairs of the Länder in the Federal Republic of Germany' (\textit{Kultusminister Konferenz}). The data on public holidays is collected from \url{https://www.schulferien.org/deutschland/feiertage/}. Additionally, we include dummy variables for peculiar days (New Year's Eve and Carnival season), which shift the expected number of journeys between origin-destination pairs.
 
 
-% Election Results
-\subsection{Electoral Data}
-build/define dependent variable
-municipality election results
-
-the four elections in 2019 and for first-differenced specifications the corresponding counterparts in 2015.\footnote{In our analysis, we exclude areas that were subject to territory  reforms between the elections 2015-2019. This excludes X\% of the observations.}
-
-
-% data sources
-For the elections for the European Parliament, we use data provided by the Federal Statistical Office and the statistical offices of the Länder. For the state elections in Brandenburg, Saxony, and Thuringia we draw on data from the State Returning Officers (\textit{Landeswahlleiter}) and the statistical offices of the Länder.
-
-
-define dependent variable as the vote share: the number of votes for the Greens divided by total valid votes cast.
-
-
-
-
-
-
-
-
-
 
 
 
 
 
 \subsection{Other Regional Variables}
-The Federal Statistical Office and the statistical offices of the Länder provide a database (\textit{Regionaldatenbank}) of detailed statistics by different subject areas at very granular spatial levels. We draw on this database for various purposes. 
+The Federal Statistical Office and the statistical offices of the Länder provide a database (\textit{Regionaldatenbank}) of detailed statistics by different subject areas at very granular spatial levels. We draw on this database for various purposes. First, we extract municipality-level population figures that are used to construct the strike participation index and to weigh the observations when analyzing the associations between strike participation and electoral results. Second, we collect municipality-level information on topics such as per capita income, unemployment rates, and demographic characteristics that are used as controls.
 
 
-weights and independent variable (ratio):Population Figures
-controls: income, unemployment, demographics
 
-%\subsection{Media Outlets}
+
+
+
 
 
 
@@ -252,24 +249,10 @@ controls: income, unemployment, demographics
 
 % Residualize journeys %--------------------------------------------------------------------
 \subsection{Residualize Journeys and Combine with Strike Data Base}
-\begin{align}
-	\text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \gamma_t + \text{weather}_{ijt} + \text{holiday}_{ijt} + \varepsilon_{ijt} \label{eq_greta_cons:res_journeys}
-\end{align}
 
-\begin{itemize}
-	\item origin-destination pair $ij$ (county-level)
-	\item $\gamma_t$ contains dow, woy, month
-	\item interactions between $\vartheta_{ij} \times \gamma_t$: no interaction, partial interaction(interaction w/ woy and month), and fully interacted
-	\item OLS (baseline) and Poisson as robustness 
-	\item get residual: $e_{ijt} =(\text{journeys}_{ijt} - \widehat{\text{journeys}}_{ijt})$
-	\item match $e_{ijt}$ with set of destinations $j\in\{1,...,J\}$ in which a strike takes place on $t\in\{1,...,T\}$ (mostly Fridays)
-	\item $e_{ijt}$ indicates how many people are coming from county $i$ to strike in county $j$ happening in $t$
-\end{itemize}
-
-
-
+%--------------------------------------------
 % fig: strike participation for selected strikes
-\begin{figure}[H]\centering
+\begin{figure}[t]\centering
 	\caption{Strike participation for selected strikes}
 	\label{fig_greta_cons:strike_participation_hh_ber}
 	% Hamburg
@@ -285,14 +268,84 @@ controls: income, unemployment, demographics
 	%		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_aa_ols.png}
 	%	\end{subfigure}
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for two exemplary strikes. The two strikes were both visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the strikes' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by Teralytics.}
+		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for two exemplary strikes. The two strikes were both visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the strikes' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
 	\end{minipage}
 \end{figure}
+%--------------------------------------------
+
+In the first part of the empirical analysis, we exploit the mobile phone-based tracking data to measure local strike participation. To determine how many participants attend a climate strike and where they come from, we residualize the number of movements between origins and destinations. We exploit a rich fixed effects model to remove the predictable variation in the number of journeys based on the origin-destination pair, date characteristics, holiday fixed effects, and weather controls. Let $\text{journeys}_{ijt}$ denote the number of journeys between origin $i$ and destination $j$ at time $t$, which in our baseline model is given by 
+
+\begin{align}
+\text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \underbrace{\varphi_d+\eta_w+\psi_m}_{\gamma_t} + \lambda \mathbf{X}_{ijt}  + \varepsilon_{ijt}. \label{eq_greta_cons:res_journeys}
+\end{align}
+
+Origin-destination fixed effects are captured by $\vartheta_{ij}$ and account for time-invariant mobility patterns between origin-destination pairs (mostly on the county level with few subclusters). They ensure we use within instead of between origin-destination pair variation over time. The time fixed effects vector $\gamma_t$ contains binary variables for the day-of-the-week ($\varphi_d$), the week-of-the-year ($\eta_w$), and the month ($\psi_m$). It allows to flexibly control for weekly and seasonal mobility patterns. The vector $\mathbf{X}_{ijt} $ includes public as well as school holidays and weather controls, both at the origin and destination geography.\footnote{State-level public holiday controls contain dummy variables for All Saints' Day, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year's Day, Penance Day, Pentecost, and Reformation Day. Furthermore, it contains binary variables for Carnival season and News Year's Eve.\newline County-level weather controls include air temperature, hours of sunshine, and precipitation.} The model explains a high proportion of the variance in the number of origin-destination journeys as the adjusted $R^2=0.9696$.
 
 
-for Hamburg, alternative participation measures shown in Figure \ref{fig_greta_cons:strike_participation_hh_different_measure}
+% take residuals and combine with strike database
+To obtain the number and origin of people participating in climate strikes, we calculate the difference between the observed number of journeys and the predicted number of journeys conditional on the variables described above $e_{ijt} =(\text{journeys}_{ijt} - \widehat{\text{journeys}}_{ijt})$. The residuals $e_{ijt}$ capture the excess mobility net of the variation stemming from the baseline covariates. We match the daily origin-destination-level residuals with our strike database in the next step. The climate strike database contains the precise time and location for the set of destinations $j\in\{1,...,J\}$ in which a strike takes place on $t\in\{1,...,T\}$ (mostly Fridays). Consequently, $e_{ijt}$ indicates how many people are coming from origin $i$ to a strike in destination $j$ happening on day $t$. 
 
-validation exercise: where do spectators at soccer games come from -> Figure \ref{fig_greta_cons:participation_soccer_games}
+
+% example Hamburg and Berlin
+Figure \ref{fig_greta_cons:strike_participation_hh_ber} shows intuitively how the resulting strike participation measure looks like for two exemplary strikes in Hamburg and Berlin. Both of the climate strikes were visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people in that geography were coming to one of the two strikes (locations marked in red) net of the variation stemming from the controls discussed above. The color scale classification is obtained by applying the Fisher-Jenks natural breaks algorithm. The algorithm searches for natural breaks in the data by minimizing the variance within clusters and maximizing the variance between clusters \citep{jenks1967data}. In both instances, strike participation is a relatively local phenomenon. The highest excess population flows are coming from adjacent geographies.
+
+
+
+
+
+% robustness - alternative measurements
+We perform several sensitivity tests to assess the robustness of our local strike participation measure. Figure \ref{fig_greta_cons:strike_participation_hh_different_measure} shows maps for the climate strike in Hamburg using alternative participation measures.\footnote{The corresponding maps for the climate strike in Berlin can be found in Appendix Figure \ref{fig_greta_cons:strike_participation_ber_different_measure}.} Throughout the paper, we focus on the baseline specification but present results when using the following alternative strike participation measures. First, we expand the baseline specification by including interactions of $\vartheta_{ij}\times\gamma_t$ in Equation \ref{eq_greta_cons:res_journeys}, i.e. origin-destination-by-day-of-the-week fixed effects, origin-destination-by-week-of-the-year fixed effects, and origin-destination-by-month fixed effects. The interactions have the advantage of allowing for systematic changes in the origin-destination-level mobility patterns over the year. The top row maps illustrate different versions of included interactions when estimating the equation with OLS. Panel A displays the baseline specification as already shown in Figure \ref{fig_greta_cons:strike_participation_hh_ber}. Panel B adds interactions of the origin-destination fixed effects with week and month fixed effects. We refrain from also interacting the origin-destination fixed effects with the day-of-the-week fixed effects because the average strike participation would likely be absorbed by the interacted fixed effects in regions where climate strikes happen every Friday. For completeness, we show a fully interacted version in Panel C. Second, we test the robustness of the strike participation measure by estimating Equation \ref{eq_greta_cons:res_journeys} with a Poisson model to account for the discrete nature of the dependent variable. We do so by also showing the different interaction specifications discussed in the OLS case. Throughout all specifications emerges a picture of remarkable consistency. The models identify roughly the same set of regions where strike participants come from, irrespective of the modeling choices. The levels might be different, but this will not be an issue as we use standardized versions of the strike participation measure.
+
+
+
+% validation exercise soccer
+As a further check, we validate our approach to identify the origin of people attending large-scale public events by investigating the catchment areas for soccer games. In that respect, Figure \ref{fig_greta_cons:participation_soccer_games} presents results for matches happening in Munich, Dortmund, and Freiburg (an example of a large, medium, and small city). Reassuringly, the maps look quite similar to the ones depicting climate strikes and illustrate that the catchment areas lie around the matches' location. However, in comparison to the climate strikes, the catchment areas are more extensive and contain the guest teams' origin.
+
+
+
+
+
+
+
+%--------------------------------------------
+% analysis strike particpation robustness: alternative participation measures
+\afterpage{
+	\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
+	\begin{landscape}
+		\vspace*{\fill}
+		\begin{figure}[H]\centering
+			\caption{Alternative participation measures for the climate strike in Hamburg}
+			\label{fig_greta_cons:strike_participation_hh_different_measure}
+			% Hamburg
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_small}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_only}
+			\end{subfigure}
+			
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_small}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
+			\end{subfigure}
+			\begin{minipage}{0.9\linewidth}
+				\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Hamburg (March, 1). Column 1 uses the baseline specification in Equation \ref{eq_greta_cons:res_journeys}, column 2 further adds $\vartheta_{ij}$$\times\eta_w$ and  $\vartheta_{ij}$$\times\psi_m$, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times\varphi_d$). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
+			\end{minipage}
+		\end{figure}
+		\vspace*{\fill}\clearpage
+	\end{landscape}
+	\restoregeometry
+}
+%--------------------------------------------
+
 
 
 
@@ -300,21 +353,19 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 
 
 % PATRICIPATION INDEX %--------------------------------------------------------------------
-\subsection{Participation Index}
+\subsection{Construction of a Strike Participation Index}
+
+After identifying the origin of strike participants, we want to account for the intensity of local participation rates over time. Undoubtedly, there is a difference between regions with continuous strike involvement and regions with one-time events. In this section, we incorporate these considerations by constructing a cumulative municipality-level measure of strike participation across the origin regions. We define our index as follows:
 	
-\begin{itemize}	
-	\item generate participation index for the origin regions
-\end{itemize}
+
 \begin{align}
-	\text{Participation Index}_{m\tilde{t}} = \left( \frac{w_{m}}{\text{population}_{m}} \sum\limits_{t=1}^{\tilde{t}}\sum\limits_{j=1}^{J} e_{ijt}\right) \label{eq_greta_cons:participation_index}
+	\text{Participation Index}_{m\tilde{t}} = \left( \frac{w_{m}}{\text{population}_{m}} \sum\limits_{t=1}^{\tilde{t}}\sum\limits_{j=1}^{J} e_{ijt}\right), \label{eq_greta_cons:participation_index}
 \end{align}
 
-\begin{itemize}
-	\item relative measure of relative strike participation in municipality $m$ at time period $\tilde{t}$
-	\item where $\sum_{t=1}^{\tilde{t}}\sum_{j=1}^{J} e_{ijt}$ indicates the cumulative strike participation in county $i$ up to time $\tilde{t}$ (e.g. when an election takes place).\footnote{As strike participation should have a positive value, we only select non-negative residuals.} We sum over destinations $j$ to account for the fact that there might be more than one destination with climate strikes where individuals from $i$ are going to.
-	\item the weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[minors]_m}{\sum_{r=1}^{R}\text{population }[minors]_r}$, i.e. the share of young people (aged 0-17) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$. -> mention to focus on individuals not allowed to vote to not introduce mechanic effect on the outcome variable
-	\item finally we take the number of cumulative strike participants in municipality $m$ at time period $\tilde{t}$ and divide it by the municipality's population figure to have a relative measure.
-\end{itemize}
+
+where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relative strike participation in origin municipality $m$ at time period $\tilde{t}$. It comprises the following elements: $\sum_{t=1}^{\tilde{t}}\sum_{j=1}^{J} e_{ijt}$ indicates the cumulative strike participation in county $i$ up to time $\tilde{t}$ (for instance when an election takes place).\footnote{We only select non-negative residuals to obtain throughout positive values of strike participation.} We sum over destinations $j$ to account for the fact that individuals residing in $i$ are going to climate strikes in more than one destination. Furthermore, we sum over all times $t\in\{1,...,\tilde{t}\}$ in which county $i$ appears as an origin for a strike in any destination $j$. The weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[minors]_m}{\sum_{r=1}^{R}\text{population }[minors]_r}$, in other words the share of young people (aged 0-17) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$. The weights resemble the idea that strike participation should be higher in municipalities with many young people relative to municipalities with few young people. We restrain our weights to minors, i.e. the population share that is not allowed to vote, with the purpose to not generate associations with electoral outcomes by construction. Finally, we take the number of cumulative strike participants in municipality $m$ at time $\tilde{t}$ and divide it by the municipality's population figure to have a relative measure.
+
+
 
 
 
@@ -341,7 +392,7 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 	\text{Share Greens}_{me} = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{1m} + \xi_{me}\label{eq_greta_cons:vote_share_greens}
 \end{align}
 \begin{itemize}
-	\item $\theta_s$ state fixed-effects, $\tau_e$ election fixed-effects, $\text{Participation Index}_{me}$ participation index up to time when election $e$ takes place, $\mathbf{X}_{1m}$ municipality-levels controls 
+	\item $\theta_s$ state fixed effects, $\tau_e$ election fixed effects, $\text{Participation Index}_{me}$ participation index up to time when election $e$ takes place, $\mathbf{X}_{1m}$ municipality-levels controls 
 	\item all variables standardized
 \end{itemize}
 
@@ -379,7 +430,7 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_particiaption_index_eu_election_2019_ags8_100.png}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_corr_particiaption_greens_eu_election_2019_ags8_100.png}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_corr_particiaption_greens_eu_election_2019_ags8_200.png}
 	\end{subfigure}
 
 	\begin{minipage}{0.9\linewidth}
@@ -412,7 +463,7 @@ mention \cite{cantoni2020persistence}
 				\bottomrule
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed-effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
@@ -451,11 +502,16 @@ mention \cite{cantoni2020persistence}
 % figure cutoff distances
 \begin{figure}[H]\centering
 	\caption{Cutoff distances for origins}\label{fig_greta_cons:origin_cutoff_distances}
-	\includegraphics[width=0.9\linewidth]{analysis/greta_cons_cutoff_distance_election_outcomes}
+	\settototalheight{\dimen0}{\includegraphics[width=0.9\linewidth]{analysis/greta_cons_cutoff_distance_ols_80}}%
+	\includegraphics[width=0.9\linewidth]{analysis/greta_cons_cutoff_distance_ols_80}
+	\llap{\raisebox{\dimen0-1cm}{% move next graphics to top right corner
+			\includegraphics[height=2.2cm]{analysis/greta_cons_cutoff_distance_ols_all}
+	}}
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The figure reports estimates and confidence intervals of Equation \ref{eq_greta_cons:fd_vote_share_greens} (vertical axis) for different cutoff distances ranging from 0 to 100 kilometers (horizontal axis). The cutoff distance refers to the maximum distance until when counties are considered to be potential origins for a given strike. Gray bars represent 95\% confidence intervals, while blue bars represent 90\% confidence intervals, both arising from clustering standard errors at the county level.}
+		\scriptsize{\emph{Notes:} The figure reports estimates and confidence intervals of Equation \ref{eq_greta_cons:fd_vote_share_greens} (vertical axis) for different cutoff distances ranging from 0 to 80 kilometers (horizontal axis). The cutoff distance refers to the maximum distance until when counties are considered to be potential origins for a given strike. Gray bars represent 95\% confidence intervals, while blue bars represent 90\% confidence intervals, both arising from clustering standard errors at the county level.}
 	\end{minipage}
 \end{figure}
+
 
 
 
@@ -493,7 +549,7 @@ mention \cite{cantoni2020persistence}
 				\bottomrule
 		\end{tabular}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The column header indicates how the process of residualizing journeys is varied. Column 1 uses the baseline specification presented in Equation \ref{eq_greta_cons:res_journeys}. Column 2 further includes interactions of $\vartheta_{ij}$$\times$week and  $\vartheta_{ij}$$\times$month. Column3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). Panel A (B) contains estimates when estimating Equation \ref{eq_greta_cons:res_journeys} with OLS (Poisson). See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The column header indicates how the process of residualizing journeys is varied. Column 1 uses the baseline specification presented in Equation \ref{eq_greta_cons:res_journeys}. Column 2 further includes interactions of $\vartheta_{ij}$$\times$week and $\vartheta_{ij}$$\times$month. Column3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). Panel A (B) contains estimates when estimating Equation \ref{eq_greta_cons:res_journeys} with OLS (Poisson). See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}

@@ -73,30 +73,30 @@
 \begin{landscape}
 	\vspace*{\fill}
 	\begin{figure}[H]\centering
-		\caption{Strike participation in Hamburg using alternative participation measures}
-		\label{fig_greta_cons:strike_participation_hh_different_measure}
+		\caption{Alternative participation measures for the climate strike in Berlin}
+		\label{fig_greta_cons:strike_participation_ber_different_measure}
 		% Hamburg
 		\begin{subfigure}[h]{0.22\linewidth}\centering
-			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols}
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_ols}
 		\end{subfigure}
 		\begin{subfigure}[h]{0.22\linewidth}\centering
-			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_small}
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_ols_int_small}
 		\end{subfigure}
 		\begin{subfigure}[h]{0.22\linewidth}\centering
-			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_only}
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_ols_int_only}
 		\end{subfigure}
 		
 		\begin{subfigure}[h]{0.22\linewidth}\centering
-			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p}
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_p}
 		\end{subfigure}
 		\begin{subfigure}[h]{0.22\linewidth}\centering
-			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_small}
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_p_int_small}
 		\end{subfigure}
 		\begin{subfigure}[h]{0.22\linewidth}\centering
-			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
+			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_p_int_only}
 		\end{subfigure}
 		\begin{minipage}{0.9\linewidth}
-			\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Hamburg (March, 1). The column indicates how the journeys are residualized. Column 1 uses the baseline specification, column 2 further adds $\vartheta_{ij}$$\times$week and  $\vartheta_{ij}$$\times$month, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
+			\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Berlin (March, 29). Column 1 uses the baseline specification in Equation \ref{eq_greta_cons:res_journeys}, column 2 further adds $\vartheta_{ij}$$\times\eta_w$ and  $\vartheta_{ij}$$\times\psi_m$, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times\varphi_d$). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
 		\end{minipage}
 	\end{figure}
 	\vspace*{\fill}\clearpage
@@ -108,11 +108,9 @@
 \begin{figure}[H]\centering
 	\caption{Validation: Participation soccer games}
 	\label{fig_greta_cons:participation_soccer_games}
-	% greens
 	\begin{subfigure}[h]{0.45\linewidth}\centering
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_soccer_muc_jan25.png}
 	\end{subfigure}
-	% fd_greens
 	\begin{subfigure}[h]{0.45\linewidth}\centering
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_soccer_dtm_feb01.png}
 	\end{subfigure}
@@ -121,7 +119,7 @@
 	\end{subfigure}
 	
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for soccer matches in Munich, Dortmund, and Freiburg. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the games' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by Teralytics.}
+		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for soccer matches in Munich, Dortmund, and Freiburg. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the games' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
 	\end{minipage}
 \end{figure}
 

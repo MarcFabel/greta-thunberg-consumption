@@ -17,7 +17,7 @@
 \usepackage[breaklinks=true]{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{pdfpages}		% insert pages of external pdf documents
-\setlength{\parskip}{0em}	% vertical spacing for paragraphs
+\setlength{\parskip}{0.75em}	% vertical spacing for paragraphs
 \setlength{\parindent}{0em}	% horizonzal spacing for paragraphs
 \usepackage{tikz}
 \usepackage{tikzscale}		% helps to adjust tikz pictures to textwidth/linewidth
@@ -89,6 +89,11 @@ labelfont={bf}
 \usepackage{enumerate}				% change appearance of the enumerator
 \usepackage{paralist, enumitem}		% better enumerations
 \setlist{noitemsep}					% no additional vertical spacing for enurations
+
+\usepackage{placeins}				% provides FloatBarrier
+\usepackage{afterpage}				% help with placing figure after the end of page
+\usepackage{flafter}
+
 %--------------------------------------------------------------------
 %	MATH
 %--------------------------------------------------------------------
@@ -181,6 +186,8 @@ labelfont={bf}
 %	%\renewcommand{\footrulewidth}{0pt}
 %}
 
+% have long table still on one page in the text
+\renewcommand{\topfraction}{0.8}
 
 %--------------------------------------------------------------------
 %	AUTHOR & TITLE
@@ -188,7 +195,7 @@ labelfont={bf}
 \title{– For the Greta Good –\\The Rise of Environmental Awareness
 	through Child-to-Parent Value Transmission\footnote{Thank you for funding???
 		Lina Leutner, Franziska Wintersteller provided excellent research assistance. All errors and omissions are our own.}}
-\author{Marc Fabel, Helmut Rainer, Maria Waldinger}
+\author{} %Marc Fabel, Helmut Rainer, Maria Waldinger
 
 \date{Last modified: \today}
 

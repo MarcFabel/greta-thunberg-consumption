@@ -17,10 +17,11 @@ Outputs:
     - election_eu2014_ags5_prepared.csv             [intermediate]
     - election_eu20194_ags8_prepared.csv            [intermediate]    
     
-Update:
+Updates:
     14.01.2021 preparation on ags5 & 8, before only 8 level - harmonize variable names
     24.01.2021 adjust ags8 preparation to ags5, which was more advanced
     24.01.2021 add year 2014
+    08.02.2021 add fd_voter_turnout
 
 """
 
@@ -134,9 +135,10 @@ elec_ags8.to_csv(z_election_output + 'election_eu2014_ags8_prepared.csv', sep=';
 
 
 elec_ags8_2014 = elec_ags8.copy()
-elec_ags8_2014 = elec_ags8_2014[['the_greens']]
+elec_ags8_2014 = elec_ags8_2014[['the_greens', 'voter_turnout']]
 elec_ags8_2014.reset_index(inplace=True)
-elec_ags8_2014.rename(columns={'the_greens':'the_greens_2014'}, inplace=True)
+elec_ags8_2014.rename(columns={'the_greens':'the_greens_2014',
+                               'voter_turnout':'voter_turnout_2014'}, inplace=True)
 
 
 
@@ -239,7 +241,8 @@ elec_ags8.reset_index(inplace=True)
 elec_ags8 = elec_ags8.merge(elec_ags8_2014, on='ags8', how='inner')
 
 elec_ags8['fd_the_greens'] = elec_ags8['the_greens'] - elec_ags8['the_greens_2014']
-elec_ags8.drop(['the_greens_2014'], axis=1, inplace=True)
+elec_ags8['fd_voter_turnout'] = elec_ags8['voter_turnout'] - elec_ags8['voter_turnout_2014']
+elec_ags8.drop(['the_greens_2014', 'voter_turnout_2014'], axis=1, inplace=True)
 
 
 # export active regions

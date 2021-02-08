@@ -345,12 +345,12 @@ df_resids = df_resids.set_index(['date'])
 
 
 # loop through resid_specification
-z_dict_resids = {'res_ols':'OLS, no interaction',
-                 'res_ols_int_small':'OLS, partial interaction',
-                 'res_ols_int_only':'OLS, fully interacted',
-                 'res_p':'Poisson, no interaction',
-                 'res_p_int_small':'Poisson, partial interaction',
-                 'res_p_int_only':'Poisson, fully interacted',
+z_dict_resids = {'res_ols':'A. OLS, no interaction',
+                 'res_ols_int_small':'B. OLS, partial interaction',
+                 'res_ols_int_only':'C. OLS, fully interacted',
+                 'res_p':'D. Poisson, no interaction',
+                 'res_p_int_small':'E. Poisson, partial interaction',
+                 'res_p_int_only':'F. Poisson, fully interacted',
                  }
 # removed as it is not used in the paper
 #'res_ols_int_large':'OLS, fully interacted',
@@ -421,7 +421,7 @@ for spec in list(z_dict_resids.keys()):
     plt.axis('off')
     plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
                 'strike_participation_hh_spec_'+spec+'.png',
-            bbox_inches = 'tight', dpi=150)
+            bbox_inches = 'tight', dpi=100)
     
 
 
@@ -475,8 +475,27 @@ plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
 
 
 
+for spec in list(z_dict_resids.keys()):
+    f, ax = plt.subplots(figsize=(11, 10))
+    bula.plot(ax=ax, facecolor='none', edgecolor='grey', linewidth=0.3, zorder=3)
+    berlin.plot(ax=ax, figsize=(8, 8), 
+            missing_kwds={'color': 'lightgrey', 'label':'missing'},
+            cmap = 'Greens', edgecolor=z_c_lightgray, linewidth=0.3,
+            column=spec, scheme='fisher_jenks', legend=True,
+            legend_kwds={'fontsize':5, 'loc':'lower center', 'frameon':False,
+                         'ncol':6})
+    berlin_pt.plot(ax=ax, marker='o', color='red', markersize=20)
+    ax.set_title(z_dict_resids[spec], fontweight='bold')
+    plt.axis('off')
+    plt.savefig(z_output_figures + 'maps_resid_trips/' + z_prefix +
+                'strike_participation_ber_spec_'+spec+'.png',
+            bbox_inches = 'tight', dpi=100)
+    
 
-# plot aachen
+
+
+
+# Aachen    ###################################################################
 aachen = teralytics.merge(df_resids.loc['2019-06-21'], 
                           right_on=['startid'], left_on=['FID'], how='outer')
 aachen_pt = gp.GeoSeries(Point((aachen.longitude.mean(), aachen.latitude.mean()))).set_crs(epsg=z_epsg_wgs84)
