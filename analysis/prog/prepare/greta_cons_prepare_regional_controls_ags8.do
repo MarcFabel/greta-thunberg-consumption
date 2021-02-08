@@ -26,7 +26,7 @@
 	 merge m:1 AGS using "$regional_source_ags8/Master_Dataset.dta"
 	 keep if _merge == 3
 
-	keep voter_turnout-fd_the_greens AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
+	keep voter_turnout-fd_voter_turnout AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
 	log_IncomeperTP IncomeperCapita log_IncomeperCapita election ///
 	residential commercial green agriculture forest ///
 	per_young support_ratio
@@ -81,7 +81,7 @@
 	 merge m:1 AGS using "$regional_source_ags8/Master_Dataset.dta"
 	 keep if _merge == 3
 
-	keep voter_turnout-fd_the_greens AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
+	keep voter_turnout-fd_voter_turnout AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
 	log_IncomeperTP IncomeperCapita log_IncomeperCapita election ///
 	residential commercial green agriculture forest ///
 	per_young support_ratio
@@ -135,7 +135,7 @@
 	 merge m:1 AGS using "$regional_source_ags8/Master_Dataset.dta"
 	 keep if _merge == 3
 
-	keep voter_turnout-fd_the_greens AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
+	keep voter_turnout-fd_voter_turnout AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
 	log_IncomeperTP IncomeperCapita log_IncomeperCapita election ///
 	residential commercial green agriculture forest ///
 	per_young support_ratio
@@ -187,7 +187,7 @@
 	 merge m:1 AGS using "$regional_source_ags8/Master_Dataset.dta"
 	 keep if _merge == 3
 
-	keep voter_turnout-fd_the_greens AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
+	keep voter_turnout-fd_voter_turnout AGS name  popunder3 - pop25to65 ags_kreis pop_density unemployment_rate ///
 	log_IncomeperTP IncomeperCapita log_IncomeperCapita election ///
 	residential commercial green agriculture forest ///
 	per_young support_ratio

@@ -189,10 +189,12 @@
 	
 	qui gen the_greens_raw = the_greens
 	qui gen fd_the_greens_raw = fd_the_greens
+	qui gen voter_turnout_raw = voter_turnout
+	qui gen fd_voter_turnout_raw = fd_voter_turnout
 	
 	
 	* standardize  variables
-	foreach var of varlist res_* cum_* the_greens fd_the_greens  {
+	foreach var of varlist res_* cum_* the_greens fd_the_greens voter_turnout fd_voter_turnout {
 		qui summ `var' [fw=pop_t]
 		qui replace `var' = (`var' - `r(mean)')/`r(sd)'
 	}
@@ -224,10 +226,10 @@
 	
 	// export for graphical visualization **************************************
 	qui keep if election == "eu"
-	keep ags8 ags8_name cum_res_ols the_greens* fd_the_greens* 
+	keep ags8 ags8_name cum_res_ols the_greens* fd_the_greens* voter_turnout* fd_voter_turnout*
 	
 	// generate quintiles 
-	foreach var of varlist cum_res_ols the_greens* fd_the_greens* {
+	foreach var of varlist cum_res_ols the_greens* fd_the_greens* voter_turnout* fd_voter_turnout* {
 		qui xtile `var'_q = `var', n(5)
 		qui xtile `var'_t =  `var', n(3)
 	}
