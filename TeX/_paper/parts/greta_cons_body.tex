@@ -250,29 +250,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 % Residualize journeys %--------------------------------------------------------------------
 \subsection{Residualize Journeys and Combine with Strike Data Base}
 
-In the first part of the empirical analysis, we exploit the mobile phone-based tracking data to measure local strike participation. To determine how many participants attend a climate strike and where they come from, we residualize the number of movements between origins and destinations. We exploit a rich fixed effects model to remove the predictable variation in the number of journeys based on the origin-destination pair, date characteristics, holiday fixed effects, and weather controls. Let $\text{journeys}_{ijt}$ denote the number of journeys between origin $i$ and destination $j$ at time $t$, which in our baseline model is given by 
-
-\begin{align}
-\text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \underbrace{\varphi_d+\eta_w+\psi_m}_{\gamma_t} + \lambda \mathbf{X}_{ijt}  + \varepsilon_{ijt}. \label{eq_greta_cons:res_journeys}
-\end{align}
-
-Origin-destination fixed effects are captured by $\vartheta_{ij}$ and account for time-invariant mobility patterns between origin-destination pairs (mostly on the county level with few subclusters). They ensure we use within instead of between origin-destination pair variation over time. The time fixed effects vector $\gamma_t$ contains binary variables for the day-of-the-week ($\varphi_d$), the week-of-the-year ($\eta_w$), and the month ($\psi_m$). It allows to flexibly control for weekly and seasonal mobility patterns. The vector $\mathbf{X}_{ijt} $ includes public as well as school holidays and weather controls, both at the origin and destination geography.\footnote{State-level public holiday controls contain dummy variables for All Saints' Day, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year's Day, Penance Day, Pentecost, and Reformation Day. Furthermore, it contains binary variables for Carnival season and News Year's Eve.\newline County-level weather controls include air temperature, hours of sunshine, and precipitation.} 
-
-
-% robustness - own paragraph
-In a robustness check, we expand the baseline specification by including interactions of $\vartheta_{ij}\times\gamma_t$, i.e. origin-destination-by-day-of-the-week fixed effects, origin-destination-by-week-of-the-year fixed effects, and origin-destination-by-week fixed effects. The interactions allow for systematic changes in the origin-destination-level mobility patterns over the year. However, we refrain from using the interacted version as our baseline specification as the interaction of $\vartheta_{ij}\times\varphi_d$ could potentially absorb the strike participation we want to ultimately identify. Another robustness check estimates Equation \ref{eq_greta_cons:res_journeys} with a Poisson model to account for the discrete nature of the dependent variable.
-
-
-
-% take residuals and combine with strike database
-To obtain the number and origin of people participating in climate strikes, we calculate the difference between the observed number of journeys and the predicted number of journeys conditional on the variables described above $e_{ijt} =(\text{journeys}_{ijt} - \widehat{\text{journeys}}_{ijt})$. The residuals $e_{ijt}$ capture the excess mobility net of the variation stemming from the baseline covariates. In the next step, we match the daily origin-destination-level residuals with our strike data base. The climate strike database contains the precise time and location for the set of destinations $j\in\{1,...,J\}$ in which a strike takes place on $t\in\{1,...,T\}$ (mostly Fridays). Consequently, $e_{ijt}$ indicates how many people are coming from county $i$ to a strike in county $j$ happening on $t$. Figure \ref{fig_greta_cons:strike_participation_hh_ber} shows for two exemplary strikes where individuals are coming from.
-
-% remaining variation on days of the strike can be attributed to people participation in the climate strikes given the date
-
-
-
-
-
+%--------------------------------------------
 % fig: strike participation for selected strikes
 \begin{figure}[t]\centering
 	\caption{Strike participation for selected strikes}
@@ -293,11 +271,81 @@ To obtain the number and origin of people participating in climate strikes, we c
 		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for two exemplary strikes. The two strikes were both visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the strikes' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
 	\end{minipage}
 \end{figure}
+%--------------------------------------------
+
+In the first part of the empirical analysis, we exploit the mobile phone-based tracking data to measure local strike participation. To determine how many participants attend a climate strike and where they come from, we residualize the number of movements between origins and destinations. We exploit a rich fixed effects model to remove the predictable variation in the number of journeys based on the origin-destination pair, date characteristics, holiday fixed effects, and weather controls. Let $\text{journeys}_{ijt}$ denote the number of journeys between origin $i$ and destination $j$ at time $t$, which in our baseline model is given by 
+
+\begin{align}
+\text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \underbrace{\varphi_d+\eta_w+\psi_m}_{\gamma_t} + \lambda \mathbf{X}_{ijt}  + \varepsilon_{ijt}. \label{eq_greta_cons:res_journeys}
+\end{align}
+
+Origin-destination fixed effects are captured by $\vartheta_{ij}$ and account for time-invariant mobility patterns between origin-destination pairs (mostly on the county level with few subclusters). They ensure we use within instead of between origin-destination pair variation over time. The time fixed effects vector $\gamma_t$ contains binary variables for the day-of-the-week ($\varphi_d$), the week-of-the-year ($\eta_w$), and the month ($\psi_m$). It allows to flexibly control for weekly and seasonal mobility patterns. The vector $\mathbf{X}_{ijt} $ includes public as well as school holidays and weather controls, both at the origin and destination geography.\footnote{State-level public holiday controls contain dummy variables for All Saints' Day, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year's Day, Penance Day, Pentecost, and Reformation Day. Furthermore, it contains binary variables for Carnival season and News Year's Eve.\newline County-level weather controls include air temperature, hours of sunshine, and precipitation.} The model explains a high proportion of the variance in the number of origin-destination journeys as the adjusted $R^2=0.9696$.
 
 
-for Hamburg, alternative participation measures shown in Figure \ref{fig_greta_cons:strike_participation_hh_different_measure}
+% take residuals and combine with strike database
+To obtain the number and origin of people participating in climate strikes, we calculate the difference between the observed number of journeys and the predicted number of journeys conditional on the variables described above $e_{ijt} =(\text{journeys}_{ijt} - \widehat{\text{journeys}}_{ijt})$. The residuals $e_{ijt}$ capture the excess mobility net of the variation stemming from the baseline covariates. We match the daily origin-destination-level residuals with our strike database in the next step. The climate strike database contains the precise time and location for the set of destinations $j\in\{1,...,J\}$ in which a strike takes place on $t\in\{1,...,T\}$ (mostly Fridays). Consequently, $e_{ijt}$ indicates how many people are coming from origin $i$ to a strike in destination $j$ happening on day $t$. 
 
-validation exercise: where do spectators at soccer games come from -> Figure \ref{fig_greta_cons:participation_soccer_games}
+
+% example Hamburg and Berlin
+Figure \ref{fig_greta_cons:strike_participation_hh_ber} shows intuitively how the resulting strike participation measure looks like for two exemplary strikes in Hamburg and Berlin. Both of the climate strikes were visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people in that geography were coming to one of the two strikes (locations marked in red) net of the variation stemming from the controls discussed above. The color scale classification is obtained by applying the Fisher-Jenks natural breaks algorithm. The algorithm searches for natural breaks in the data by minimizing the variance within clusters and maximizing the variance between clusters \citep{jenks1967data}. In both instances, strike participation is a relatively local phenomenon. The highest excess population flows are coming from adjacent geographies.
+
+
+
+
+
+% robustness - alternative measurements
+We perform several sensitivity tests to assess the robustness of our local strike participation measure. Figure \ref{fig_greta_cons:strike_participation_hh_different_measure} shows maps for the climate strike in Hamburg using alternative participation measures.\footnote{The corresponding maps for the climate strike in Berlin can be found in Appendix Figure \ref{fig_greta_cons:strike_participation_ber_different_measure}.} Throughout the paper, we focus on the baseline specification but present results when using the following alternative strike participation measures. First, we expand the baseline specification by including interactions of $\vartheta_{ij}\times\gamma_t$ in Equation \ref{eq_greta_cons:res_journeys}, i.e. origin-destination-by-day-of-the-week fixed effects, origin-destination-by-week-of-the-year fixed effects, and origin-destination-by-month fixed effects. The interactions have the advantage of allowing for systematic changes in the origin-destination-level mobility patterns over the year. The top row maps illustrate different versions of included interactions when estimating the equation with OLS. Panel A displays the baseline specification as already shown in Figure \ref{fig_greta_cons:strike_participation_hh_ber}. Panel B adds interactions of the origin-destination fixed effects with week and month fixed effects. We refrain from also interacting the origin-destination fixed effects with the day-of-the-week fixed effects because the average strike participation would likely be absorbed by the interacted fixed effects in regions where climate strikes happen every Friday. For completeness, we show a fully interacted version in Panel C. Second, we test the robustness of the strike participation measure by estimating Equation \ref{eq_greta_cons:res_journeys} with a Poisson model to account for the discrete nature of the dependent variable. We do so by also showing the different interaction specifications discussed in the OLS case. Throughout all specifications emerges a picture of remarkable consistency. The models identify roughly the same set of regions where strike participants come from, irrespective of the modeling choices. The levels might be different, but this will not be an issue as we use standardized versions of the strike participation measure.
+
+
+
+% validation exercise soccer
+As a further check, we validate our approach to identify the origin of people attending large-scale public events by investigating the catchment areas for soccer games. In that respect, Figure \ref{fig_greta_cons:participation_soccer_games} presents results for matches happening in Munich, Dortmund, and Freiburg (an example of a large, medium, and small city). Reassuringly, the maps look quite similar to the ones depicting climate strikes and illustrate that the catchment areas lie around the matches' location. However, in comparison to the climate strikes, the catchment areas are more extensive and contain the guest teams' origin.
+
+
+
+
+
+
+
+%--------------------------------------------
+% analysis strike particpation robustness: alternative participation measures
+\afterpage{
+	\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
+	\begin{landscape}
+		\vspace*{\fill}
+		\begin{figure}[H]\centering
+			\caption{Alternative participation measures for the climate strike in Hamburg}
+			\label{fig_greta_cons:strike_participation_hh_different_measure}
+			% Hamburg
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_small}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_only}
+			\end{subfigure}
+			
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_small}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
+			\end{subfigure}
+			\begin{minipage}{0.9\linewidth}
+				\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Hamburg (March, 1). Column 1 uses the baseline specification in Equation \ref{eq_greta_cons:res_journeys}, column 2 further adds $\vartheta_{ij}$$\times\eta_w$ and  $\vartheta_{ij}$$\times\psi_m$, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times\varphi_d$). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
+			\end{minipage}
+		\end{figure}
+		\vspace*{\fill}\clearpage
+	\end{landscape}
+	\restoregeometry
+}
+%--------------------------------------------
+
 
 
 
@@ -384,7 +432,7 @@ validation exercise: where do spectators at soccer games come from -> Figure \re
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_particiaption_index_eu_election_2019_ags8_100.png}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_corr_particiaption_greens_eu_election_2019_ags8_100.png}
+		\includegraphics[width=\linewidth]{descriptive/greta_cons_corr_particiaption_greens_eu_election_2019_ags8_200.png}
 	\end{subfigure}
 
 	\begin{minipage}{0.9\linewidth}

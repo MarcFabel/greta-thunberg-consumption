@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------
 %	DOCUMENT CLASS
 %--------------------------------------------------------------------
-\documentclass[11pt, a4paper, draft]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
+\documentclass[11pt, a4paper]{article} % type of document (paper, presentation, book,...); scrartcl class with sans serif titles, European layout 
 \usepackage{fullpage} % leaves less space at margins of page
 
 
@@ -89,6 +89,11 @@ labelfont={bf}
 \usepackage{enumerate}				% change appearance of the enumerator
 \usepackage{paralist, enumitem}		% better enumerations
 \setlist{noitemsep}					% no additional vertical spacing for enurations
+
+\usepackage{placeins}				% provides FloatBarrier
+\usepackage{afterpage}				% help with placing figure after the end of page
+\usepackage{flafter}
+
 %--------------------------------------------------------------------
 %	MATH
 %--------------------------------------------------------------------
