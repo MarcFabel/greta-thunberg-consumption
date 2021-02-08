@@ -13,6 +13,9 @@ Inputs:
 Outputs:
     - election_thueringen2019_ags5_prepared.csv              [intermediate]
     - election_sachsen_ags8_prepared.csv                     [intermediate]
+    
+Updates:
+    08.02.2021 add fd_voter_turnout
 
 """
 
@@ -112,9 +115,10 @@ elec_ags8 = elec_ags8[['voter_turnout', 'union', 'spd', 'the_greens',
                                'the_left', 'afd', 'fdp', 'others']] 
 
 
-elec_ags8_2014 = elec_ags8[['the_greens']].copy()
+elec_ags8_2014 = elec_ags8[['the_greens', 'voter_turnout']].copy()
 elec_ags8_2014.reset_index(inplace=True)
-elec_ags8_2014.rename({'the_greens':'the_greens_2014'}, axis=1, inplace=True)
+elec_ags8_2014.rename({'the_greens':'the_greens_2014',
+                       'voter_turnout':'voter_turnout_2014'}, axis=1, inplace=True)
 
 
 
@@ -213,7 +217,8 @@ elec_ags8 = elec_ags8[['voter_turnout', 'union', 'spd', 'the_greens',
 elec_ags8.reset_index(inplace=True)
 elec_ags8 = elec_ags8.merge(elec_ags8_2014, on='ags', indicator=False, how='inner')
 elec_ags8['fd_the_greens'] = elec_ags8['the_greens'] - elec_ags8['the_greens_2014']
-elec_ags8.drop('the_greens_2014', axis=1, inplace=True)
+elec_ags8['fd_voter_turnout'] = elec_ags8['voter_turnout'] - elec_ags8['voter_turnout_2014']
+elec_ags8.drop(['the_greens_2014', 'voter_turnout_2014'], axis=1, inplace=True)
 
 
       
