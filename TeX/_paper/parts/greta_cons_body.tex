@@ -386,7 +386,28 @@ where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relat
 %--------------------------------------------------------------------
 \clearpage
 \section{Strike Participation and Electoral Outcomes [Helmut \& Maria]}\label{sec_greta_cons:strike_participation_elections}
+
+
+
+
+% EMPIRICAL STRATEGY %--------------------------------------------------------------------
 \subsection{Empirical Strategy}
+To investigates associations of the constructed cumulative strike participation index with electoral results ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{align}
 	\text{Share Greens}_{me} = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{1m} + \xi_{me}\label{eq_greta_cons:vote_share_greens}
@@ -412,6 +433,8 @@ where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relat
 
 
 
+
+% RESULTS %--------------------------------------------------------------------
 \subsection{Results}
 
 % maps greens, fd_greens, strike_index, correlation of the two
@@ -447,7 +470,7 @@ mention \cite{cantoni2020persistence}
 	\begin{threeparttable}
 		\caption{Strike participation and the greens' vote share}\label{tab_greta_cons:associations_part_greens}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{3}{c}}
+			\begin{tabular*}{.8\linewidth}{@{\extracolsep{\fill}}l*{3}{c}}
 				\toprule
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
 				& Greens & $\Delta$ Greens & $\Delta$ Greens \\
@@ -461,7 +484,7 @@ mention \cite{cantoni2020persistence}
 				State FE				& \checkmark 		  & \checkmark       		& \checkmark 		\\
 				Election FE				& \checkmark 		  & \checkmark       		& \checkmark 		\\
 				\bottomrule
-		\end{tabular}}
+		\end{tabular*}}
 		\begin{tablenotes} 
 			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
@@ -497,8 +520,39 @@ mention \cite{cantoni2020persistence}
 
 
 
+% Tab - voter_tunrout
+\begin{table}[H]\centering
+	\begin{threeparttable}
+		\caption{Strike participation and voter turnout}\label{tab_greta_cons:associations_part_turnout}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular*}{.68\linewidth}{@{\extracolsep{\fill}}l*{2}{c}}
+				\toprule
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+				& Turnout & $\Delta$ Turnout  \\
+				& 2019		 & 2019-2015	\\
+				\midrule
+				Participation Index [std.]	&      0.0140		  &      0.0787\sym{***} 			\\
+											&    (0.0325)         &    (0.0181)         				\\
+				\\	
+				Observations        		&      12,189         &      12,189         			\\
+				Adjusted $R^2$         		&       0.270         &       0.499         			\\
+				State FE					& \checkmark 		  & \checkmark       			\\
+				Election FE					& \checkmark 		  & \checkmark       		\\
+				\bottomrule
+		\end{tabular*}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the voter turnout, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable}
+\end{table}
 
 
+
+
+
+
+
+% ROBUSTNESS %--------------------------------------------------------------------
 % figure cutoff distances
 \begin{figure}[H]\centering
 	\caption{Cutoff distances for origins}\label{fig_greta_cons:origin_cutoff_distances}
@@ -520,7 +574,7 @@ mention \cite{cantoni2020persistence}
 	\begin{threeparttable}
 		\caption{Alternative participation measures}\label{tab_greta_cons:alternative_participation_measures}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
-			\begin{tabular}{l*{3}{c}}
+			\begin{tabular*}{.72\linewidth}{@{\extracolsep{\fill}}l*{3}{c}}
 				\toprule
 				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\\\
 				&\multicolumn{3}{c}{Interaction of $\vartheta_{ij}$ and $\gamma_t$}\\
@@ -547,7 +601,7 @@ mention \cite{cantoni2020persistence}
 				State FE				& \checkmark 		  & \checkmark       & \checkmark  \\
 				Election FE				& \checkmark 		  & \checkmark       & \checkmark  \\
 				\bottomrule
-		\end{tabular}}
+		\end{tabular*}}
 		\begin{tablenotes} 
 			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The column header indicates how the process of residualizing journeys is varied. Column 1 uses the baseline specification presented in Equation \ref{eq_greta_cons:res_journeys}. Column 2 further includes interactions of $\vartheta_{ij}$$\times$week and $\vartheta_{ij}$$\times$month. Column3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). Panel A (B) contains estimates when estimating Equation \ref{eq_greta_cons:res_journeys} with OLS (Poisson). See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
