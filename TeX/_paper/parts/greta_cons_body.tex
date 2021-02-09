@@ -274,11 +274,9 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 %--------------------------------------------
 
 In the first part of the empirical analysis, we exploit the mobile phone-based tracking data to measure local strike participation. To determine how many participants attend a climate strike and where they come from, we residualize the number of movements between origins and destinations. We exploit a rich fixed effects model to remove the predictable variation in the number of journeys based on the origin-destination pair, date characteristics, holiday fixed effects, and weather controls. Let $\text{journeys}_{ijt}$ denote the number of journeys between origin $i$ and destination $j$ at time $t$, which in our baseline model is given by 
-
 \begin{align}
 \text{journeys}_{ijt} = \alpha + \vartheta_{ij} + \underbrace{\varphi_d+\eta_w+\psi_m}_{\gamma_t} + \lambda \mathbf{X}_{ijt}  + \varepsilon_{ijt}. \label{eq_greta_cons:res_journeys}
 \end{align}
-
 Origin-destination fixed effects are captured by $\vartheta_{ij}$ and account for time-invariant mobility patterns between origin-destination pairs (mostly on the county level with few subclusters). They ensure we use within instead of between origin-destination pair variation over time. The time fixed effects vector $\gamma_t$ contains binary variables for the day-of-the-week ($\varphi_d$), the week-of-the-year ($\eta_w$), and the month ($\psi_m$). It allows to flexibly control for weekly and seasonal mobility patterns. The vector $\mathbf{X}_{ijt} $ includes public as well as school holidays and weather controls, both at the origin and destination geography.\footnote{State-level public holiday controls contain dummy variables for All Saints' Day, Ascension Day, Assumption Day, Christmas, Corpus Christi, Epiphany, Easter, German Unity Day, Good Friday, Labor Day, New Year's Day, Penance Day, Pentecost, and Reformation Day. Furthermore, it contains binary variables for Carnival season and News Year's Eve.\newline County-level weather controls include air temperature, hours of sunshine, and precipitation.} The model explains a high proportion of the variance in the number of origin-destination journeys as the adjusted $R^2=0.9696$.
 
 
@@ -356,13 +354,9 @@ As a further check, we validate our approach to identify the origin of people at
 \subsection{Construction of a Strike Participation Index}
 
 After identifying the origin of strike participants, we want to account for the intensity of local participation rates over time. Undoubtedly, there is a difference between regions with continuous strike involvement and regions with one-time events. In this section, we incorporate these considerations by constructing a cumulative municipality-level measure of strike participation across the origin regions. We define our index as follows:
-	
-
 \begin{align}
 	\text{Participation Index}_{m\tilde{t}} = \left( \frac{w_{m}}{\text{population}_{m}} \sum\limits_{t=1}^{\tilde{t}}\sum\limits_{j=1}^{J} e_{ijt}\right), \label{eq_greta_cons:participation_index}
 \end{align}
-
-
 where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relative strike participation in origin municipality $m$ at time period $\tilde{t}$. It comprises the following elements: $\sum_{t=1}^{\tilde{t}}\sum_{j=1}^{J} e_{ijt}$ indicates the cumulative strike participation in county $i$ up to time $\tilde{t}$ (for instance when an election takes place).\footnote{We only select non-negative residuals to obtain throughout positive values of strike participation.} We sum over destinations $j$ to account for the fact that individuals residing in $i$ are going to climate strikes in more than one destination. Furthermore, we sum over all times $t\in\{1,...,\tilde{t}\}$ in which county $i$ appears as an origin for a strike in any destination $j$. The weights $w_{mi}$ allocate the strike participation from the county to the municipality level. They are defined as $w_m=\tfrac{\text{population }[minors]_m}{\sum_{r=1}^{R}\text{population }[minors]_r}$, in other words the share of young people (aged 0-17) living in municipality $m$ compared to other municipalities $r\in\{1,...,R\}$ in county $i$. The weights resemble the idea that strike participation should be higher in municipalities with many young people relative to municipalities with few young people. We restrain our weights to minors, i.e. the population share that is not allowed to vote, with the purpose to not generate associations with electoral outcomes by construction. Finally, we take the number of cumulative strike participants in municipality $m$ at time $\tilde{t}$ and divide it by the municipality's population figure to have a relative measure.
 
 
@@ -389,47 +383,29 @@ where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relat
 
 
 
-
 % EMPIRICAL STRATEGY %--------------------------------------------------------------------
 \subsection{Empirical Strategy}
-To investigates associations of the constructed cumulative strike participation index with electoral results ...
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Our approach to investigating the relationship between strike participation and electoral results is based on a fixed-effects model, which exploits within-state and within-election variation of local strike participation rates. We estimate the following model:\footnote{For some aspects in this section's empirical approach, we found inspiration in the study of \cite{cantoni2020persistence} who investigate the municipality-level relationship between the support for Germany's Nazi party in 1933 and the likelihood to vote for the `Alternative for Germany', an increasingly right-wing populist party.}
 \begin{align}
-	\text{Share Greens}_{me} = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{1m} + \xi_{me}\label{eq_greta_cons:vote_share_greens}
+	\text{Share Greens}_{me} = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{1m} + \xi_{me},\label{eq_greta_cons:vote_share_greens}
 \end{align}
-\begin{itemize}
-	\item $\theta_s$ state fixed effects, $\tau_e$ election fixed effects, $\text{Participation Index}_{me}$ participation index up to time when election $e$ takes place, $\mathbf{X}_{1m}$ municipality-levels controls 
-	\item all variables standardized
-\end{itemize}
+where $\text{Share Greens}_{me}$ is the Greens' vote share in municipality $m$ for election $e$, which we define as the number of votes for the Greens relative to the total number of valid votes cast. We regress the dependent variable on state and election fixed effects ($\theta_s$ and $\tau_e$). The $\text{Participation Index}_{me}$ captures the cumulative relative strike participation up to the time when election $e$ takes place. For some specifications, we also include a set of municipality-level controls $\mathbf{X}_{1m}$, such as income, unemployment, and demographic characteristics. 
 
+
+% first-difference
+To eliminate unobserved time-invariant municipality specific effects, such as a general tendency to vote for the Greens, we employ a  first-differences strategy in which we examine the \textit{change} in the vote share. Let $\Delta(\text{Share Greens}_{me,2019-2015})$ denote the change in the Greens' vote share from 2015 to 2019 in municipality $m$ for election $e$, which is given by
 \begin{align}
-	\Delta(\text{Share Greens}_{me,2019-2015}) = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{2m} + \xi_{me}\label{eq_greta_cons:fd_vote_share_greens}
+	\Delta(\text{Share Greens}_{me,2019-2015}) = \theta_s + \tau_e + \beta\cdot\text{Participation Index}_{me} + \mu \mathbf{X}_{2m} + \xi_{me}.\label{eq_greta_cons:fd_vote_share_greens}
 \end{align}
-\begin{itemize}
-	\item take first-differences to eliminate time-invariant municipality specific effects (unobserved)
-	\item $\mathbf{X}_{2m}$ potentially different to $\mathbf{X}_{1m}$
-	\item in both specifications: 
-	\begin{itemize}
-		\item observations are weighted by the population
-		\item standard errors are clustered on county level (maybe we should go a bit higher, as this costs us quite some stars)
-	\end{itemize}
-	
-\end{itemize}
+Although first-differencing removes time-invariant municipality specific effects, we still include in some specifications a set of controls $\mathbf{X}_{2m}$ (potentially different to $\mathbf{X}_{1m}$ in Equation \ref{eq_greta_cons:vote_share_greens}) to allow for time-varying effects of covariates.
+
+
+In both Equations \ref{eq_greta_cons:vote_share_greens} and \ref{eq_greta_cons:fd_vote_share_greens}, all variables, dependent and explanatory alike, are standardized. $\beta$ is the parameter of interest and captures the relationship between local strike participation rates and the (change in the) greens' vote share. The parameter reports the change in the outcome variable in standard deviation units due to a one standard deviation increase of the participation index. Observations are weighted by population figures from the Federal Statistical Office. We calculate sandwiched standard error estimates allowing errors to be correlated across municipalities corresponding to the same county---i.e., clustered at the county level.
+
+% robustness: 
+%cutoff distances, and different
 
 
 
@@ -462,7 +438,7 @@ To investigates associations of the constructed cumulative strike participation 
 \end{figure}
 
 
-mention \cite{cantoni2020persistence}
+
 
 
 % Tab - first results - assocation strike part & greens
@@ -486,7 +462,7 @@ mention \cite{cantoni2020persistence}
 				\bottomrule
 		\end{tabular*}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation index. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters $=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
@@ -541,7 +517,7 @@ mention \cite{cantoni2020persistence}
 				\bottomrule
 		\end{tabular*}}
 		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the voter turnout, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation increase. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters$=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the voter turnout, i.e. the number of votes relative to total votes cast. See Table \ref{tab_greta_cons:associations_part_greens} for additional details. Standard errors are clustered at the county level (number of clusters $=401$). \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
 		\end{tablenotes} 
 	\end{threeparttable}
 \end{table}
