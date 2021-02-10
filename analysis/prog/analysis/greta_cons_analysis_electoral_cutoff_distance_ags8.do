@@ -267,13 +267,13 @@ forval distance = 1/823 { // 800
 
 } // end: loop over distance
 
-/*
+
 
 ********************************************************************************
 *	Visualisation
 ********************************************************************************	
 	
-	import delimited "$tables_temp/distance_cutoffs_notall_kids.csv", stripquote(yes) clear // distance_cutoffs_ALL_STRIKES
+	import delimited "$tables_temp/distance_cutoffs_ags8.csv", stripquote(yes) clear // distance_cutoffs_ALL_STRIKES
 	qui gen temp = _n 
 	qui drop if temp == 1
 	qui drop temp
@@ -310,14 +310,14 @@ forval distance = 1/823 { // 800
 		
 		capture drop temp*
 		qui summ ci95h_`spec'
-		qui gen templ = 0.145
+		qui gen templ = 0.15
 		qui summ ci95l_`spec'
-		qui gen temph = -0.05
+		qui gen temph = -0.1
 
-		twoway rarea templ temph distance if distance <= 100, color(forest_green%40) lcolor(navy%0) || ///
-			rspike ci95l_`spec' ci95h_`spec' distance, color(gs6%20) || ///
+		twoway rarea templ temph distance if distance <= 80, color(forest_green%40) lcolor(navy%0) || ///
+			rspike ci95l_`spec' ci95h_`spec' distance, color(gs6%20)  lw(vthin) || ///
 			rspike ci90l_`spec' ci90h_`spec' distance, color(gs3%20) || ///
-			scatter beta_`spec' distance, color(gs3%10) m(o) ///
+			scatter beta_`spec' distance, color(gs3%15) m(o) ///
 			yline(0,lp(dash) lcolor(black%30)) ///
 			legend(off) ///
 			ytitle("") xtitle("") ///
@@ -325,26 +325,27 @@ forval distance = 1/823 { // 800
 			scheme(s1mono) plotregion(color(white)) ///
 			xsize(5) ysize(3)
 			
-		*graph export "$graphs/greta_cons_cutoff_distance_`spec'_all.pdf", as(pdf) replace
+		graph export "$graphs/greta_cons_cutoff_distance_`spec'_all.pdf", as(pdf) replace
 	}
 	
 	
 	* first trial graph
-	keep if distance <= 75
+	keep if distance <= 80
 	*qui gen odd = mod(distance,2)
 	*drop if odd == 1
 	
 	foreach spec in  "ols" {	
 
-		twoway rspike ci95l_`spec' ci95h_`spec' distance, color(gs12%70) || ///
+		twoway rspike ci95l_`spec' ci95h_`spec' distance, color(gs11%70) lw(vthin) || ///
 			rspike ci90l_`spec' ci90h_`spec' distance, color(navy) || ///
 			scatter beta_`spec' distance, color(maroon) m(O) ///
 			yline(0,lp(dash)) ///
 			legend(off) ///
 			ytitle("Estimate") xtitle("Distance [km]") ///
-			scheme(s1mono) plotregion(color(white))
+			scheme(s1mono) plotregion(color(white)) ///
+			xmtick(10 (20) 70)
 			
-			*graph export "$graphs/greta_cons_cutoff_distance_`spec'_100.pdf", as(pdf) replace
+			graph export "$graphs/greta_cons_cutoff_distance_`spec'_80.pdf", as(pdf) replace
 	}
 	
 	
