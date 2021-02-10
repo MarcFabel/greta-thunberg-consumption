@@ -65,6 +65,39 @@
 	}
 	
 	
+	
+	* voter turnout
+
+	eststo clear 
+	foreach row in "ols" "ols_int_small" "ols_int_large" "ols_int_only" "p" "p_int_small" "p_int_large" "p_int_only" {		
+		qui eststo a1: reghdfe voter_turnout 		cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)  vce(cluster ags5_num)
+		qui estadd scalar Nn = e(N)
+		qui eststo a2: reghdfe fd_voter_turnout	cum_res_`row' [pw=pop_t], absorb(i.bula_num i.election_num)  vce(cluster ags5_num)
+		qui estadd scalar Nn = e(N)
+		
+
+		
+		
+		esttab a*, ///
+			se star(* 0.10 ** 0.05 *** 0.01) keep(cum_res_*) ///
+			nonote  nonumbers noobs ///
+			coeflabels(cum_res_`row' "`row'") ///
+			scalars("Nn Observations" "r2_a \$R^2$") 					///
+			sfmt(%12.0fc %12.3f ) b(%12.4f) se(%12.4f)
+		
+		/*esttab a* using "$tables/temp/election_eu_ags8_`row'_weighted.tex", replace ///
+			se star(* 0.10 ** 0.05 *** 0.01) keep(cum_res_*) ///
+			 booktabs fragment label ///									///
+			nomtitles nonumbers noobs nonote nogaps noline ///
+			coeflabels(cum_res_`row' "`row'") ///
+			scalars("Nn Observations" "r2_a \$R^2$") 					///
+			sfmt(%12.0fc %12.3f ) b(%12.4f) se(%12.4f)*/
+	}
+	
+	
+	
+	
+	
 			
 	* check effect across elections
 	eststo clear
