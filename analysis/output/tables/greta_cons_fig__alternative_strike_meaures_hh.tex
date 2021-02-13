@@ -1,0 +1,33 @@
+\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
+	\begin{landscape}
+		\vspace*{\fill}
+		\begin{figure}[H]\centering
+			\caption{Alternative participation measures for the climate strike in Hamburg}
+			\label{fig_greta_cons:strike_participation_hh_different_measure}
+			% Hamburg
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_small}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_only}
+			\end{subfigure}
+			
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_small}
+			\end{subfigure}
+			\begin{subfigure}[h]{0.22\linewidth}\centering
+				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
+			\end{subfigure}
+			\begin{minipage}{0.9\linewidth}
+				\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Hamburg (March, 1). Column 1 uses the baseline specification in Equation \ref{eq_greta_cons:res_journeys}, column 2 further adds $\vartheta_{ij}$$\times\eta_w$ and  $\vartheta_{ij}$$\times\psi_m$, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times\varphi_d$). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
+			\end{minipage}
+		\end{figure}
+		\vspace*{\fill}\clearpage
+	\end{landscape}
+\restoregeometry

@@ -10,7 +10,10 @@ literature:
 %--------------------------------------------------------------------
 \newpage
 \section{Background}\label{sec_greta_cons:background}
-
+% fig: timeline
+\afterpage{
+	\input{greta_cons_fig__timeline}
+}
 % general intro 
 \textit{Fridays for Future} (henceforth FFF) is a global social movement consisting to a large extent of school students that claim comprehensive, fast, and efficient measures for climate protection. The students skip school, mostly on Fridays, to lay emphasis on their key demand: to adhere to the targets set in the 2015 Paris agreement to lower global carbon dioxide (CO$_2$) emissions in order to limit the associated increase in global warming to 1.5 degrees above pre-industrial levels. Parts of the scientific community (\textit{Scientists for Future}) have stood in solidarity with FFF, declaring the concerns as justified and expressing support for the demands put forward by FFF \citep{warren2019thousands,hagedorn2019science}. The movement is organized in local chapters that plan weekly school strikes for the climate and regular large-scale coordinated marches \citep{smith2019window}. In 2019, there have been four large-scale global climate strikes in March, May, September, and November. For instance, alone for the third global climate strike in September 2019, FFF organized 6,000 protests in 185 countries, which mobilized 7.6 million participants \citep{demoor2020protest}. The exact dates of the global climate strikes and other relevant events are presented in the timeline in Panel (a) of Figure \ref{fig_greta_cons:timeline_media_awareness}.
 
@@ -42,61 +45,9 @@ While the initial coverage was centered around the violation of compulsory schoo
 
 
 
-
- 
-
-
-
-
-
-
-
-
-
-
 %In Germany, the idea to rise awareness for ecological issues and fight environmental pollution is not new. There has been a decades-long environmental movement \citep{smith2019window}. Recently, however, school strikes set the tone for environmental protest. 
 
 
-
-
-
-
-
-
-
-
-\newpage
-
-
-
-
-
-\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
-\begin{landscape}
-	\vspace*{\fill}
-	\begin{figure}[H]\centering\caption{Important events surrounding FFF, perception in (social) media, and environmental awareness in 2019}\label{fig_greta_cons:timeline_media_awareness}
-		\begin{subfigure}[h]{0.99\linewidth}\centering\caption{Timeline of events}
-			\includegraphics[width=\linewidth]{descriptive/greta_cons_background_timeline_elections_events.pdf}
-		\end{subfigure}
-		
-		\par\bigskip\smallskip % force a bit of vertical whitespace
-		\begin{subfigure}[h]{0.33\linewidth}\centering\caption{Appearance in print media}
-			\includegraphics[width=\linewidth]{descriptive/greta_cons_fff_print_media_articles_2019.pdf}
-		\end{subfigure}
-		\begin{subfigure}[h]{0.33\linewidth}\centering\caption{Twitter feed of Greta Thunberg}
-			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_gt_favorites_retweets_2019.pdf}
-		\end{subfigure}
-		\begin{subfigure}[h]{0.33\linewidth}\centering\caption{Environmental awareness}
-			\includegraphics[width=\linewidth]{descriptive/greta_cons_gesis_env_issue_combined}
-		\end{subfigure}
-
-		\begin{minipage}{\linewidth}
-			\scriptsize{\emph{Notes:} Panel a presents a timeline of relevant events over the year 2019. Above the timeline, the scheme lists elections that fall in the sample period (election for the European Parliament, Brandenburg, Saxony, and Thuringia). Below the timeline, there is a series of important events, either far-reaching strikes or critical milestones for Greta Thunberg. Panel b shows the daily share of print articles covering FFF (per thousand articles). An article is defined to report about FFF if it contains at least the keyword `Fridays for Future' (in various notations) or `climate strike'. The blue line stems from a moving average with a window of three days. Panel c plots the weekly number of favorites and retweets of Greta Thunberg's tweets (in thousand). Panel d presents the share of respondents who state that the environment is the most important issue in the representative election survey \cite{politbarometer2019}. Since 1977, the survey informs about the political mood, projections, and attitudes towards current topics.\newline \emph{Source:} Own representation with data from Genios, Twitter, and Forschungsgruppe Wahlen.}
-		\end{minipage}
-	\end{figure}
-	\vspace*{\fill}\clearpage
-\end{landscape}
-\restoregeometry
 
 
 
@@ -118,7 +69,7 @@ While the initial coverage was centered around the violation of compulsory schoo
 %--------------------------------------------------------------------
 % DATA & VARIABLES
 %--------------------------------------------------------------------
-\newpage
+\bigskip
 \section{Data}\label{sec_greta_cons:data} 
 Our main sample uses data from 2019 and contains all German regions, either on the county (\textit{Kreise}, $N=401$) or municipality (\textit{Gemeinde}, $N=10,719$) level. We combine six sources of data to residualize journeys and to investigate associations between climate strike participation and electoral outcomes.
 
@@ -133,14 +84,6 @@ The data reports the daily number of trips between origin-destination pairs over
 
 
 
-
-
-
-% strike data
-\subsection{Climate Strike Data}
-Our data on climate strikes is self-collected and comes from local authorities, social media, and the website of FFF Germany. All public gatherings such as rallies and demonstrations must be registered in Germany. The registration usually happens at the police, the city council, or other regulatory agencies. The large bulk of our database is retrieved by contacting the respective authorities and requesting a list of all climate strikes that took place in their jurisdictions in 2019. Consequently, we obtained information on the exact location and time of nearly 2,000 strikes. In the next step, we used social media postings (Twitter, Facebook, and Instagram) to fill up missing information for the 20 largest cities that were missing in the database. Searching for information on social media channels gave us almost another 400 climate strikes and ensured that we do not miss any large-scale climate strike. In the last step, we enriched our database with information on almost 1,600 strikes retrieved from the website of FFF Germany. Using the internet archive of \url{web.archive.org}, we could restore snapshots with information on climate strikes for some weeks. After combining the information from the different sources, the locations where the climate strikes took place were geographically encoded. Figure \ref{fig_greta_cons:fff_strikes_2019} shows a map with all strikes contained in our database. There is quite some variation in the strike behavior across the year as depicted in the maps in Appendix Figure \ref{fig_greta_cons:fff_strikes_months}. The same impression is obtained from Figure \ref{fig_greta_cons:number_strikes_per_source}, which presents the daily number of strikes across the three sources. The highest number of strikes is reported on the global climate strike events (March, May, September, and November). Furthermore, it is visible that the strikes from the FFF website are only available in 19 weeks when the domain was archived. The other sources, however, exhibit more continuity in how they report the number of strikes.\footnote{Because of the extreme volatility of the strikes from the FFF Germany website - no information in most instances vs. detailed regional resolution on others-, we first focus on strikes for which there is more continuous information, i.e. strikes obtained from the authorities and social media.} 
-
-
 % map: all strikes 2019
 \begin{figure}[t]\centering
 	\caption{Strikes in 2019}\label{fig_greta_cons:fff_strikes_2019}
@@ -149,6 +92,14 @@ Our data on climate strikes is self-collected and comes from local authorities, 
 		\scriptsize{\emph{Notes:} The map shows the climate strikes (red dots) in our data base over the year 2019. The bold white lines indicate state boundaries and the thin white lines represent county boundaries.}
 	\end{minipage}
 \end{figure}
+
+
+
+% strike data
+\subsection{Climate Strike Data}
+Our data on climate strikes is self-collected and comes from local authorities, social media, and the website of FFF Germany. All public gatherings such as rallies and demonstrations must be registered in Germany. The registration usually happens at the police, the city council, or other regulatory agencies. The large bulk of our database is retrieved by contacting the respective authorities and requesting a list of all climate strikes that took place in their jurisdictions in 2019. Consequently, we obtained information on the exact location and time of nearly 2,000 strikes. In the next step, we used social media postings (Twitter, Facebook, and Instagram) to fill up missing information for the 20 largest cities that were missing in the database. Searching for information on social media channels gave us almost another 400 climate strikes and ensured that we do not miss any large-scale climate strike. In the last step, we enriched our database with information on almost 1,600 strikes retrieved from the website of FFF Germany. Using the internet archive of \url{web.archive.org}, we could restore snapshots with information on climate strikes for some weeks. After combining the information from the different sources, the locations where the climate strikes took place were geographically encoded. Figure \ref{fig_greta_cons:fff_strikes_2019} shows a map with all strikes contained in our database. There is quite some variation in the strike behavior across the year as depicted in the maps in Appendix Figure \ref{fig_greta_cons:fff_strikes_months}. The same impression is obtained from Figure \ref{fig_greta_cons:number_strikes_per_source}, which presents the daily number of strikes across the three sources. The highest number of strikes is reported on the global climate strike events (March, May, September, and November). Furthermore, it is visible that the strikes from the FFF website are only available in 19 weeks when the domain was archived. The other sources, however, exhibit more continuity in how they report the number of strikes.\footnote{Because of the extreme volatility of the strikes from the FFF Germany website - no information in most instances vs. detailed regional resolution on others-, we first focus on strikes for which there is more continuous information, i.e. strikes obtained from the authorities and social media.} 
+
+
 
 
 % temporal variation of strike number across sources
@@ -171,34 +122,8 @@ For the European Parliament election, we use data provided by the Federal Statis
 
 
 
-
-\begin{table}[ht]\centering
-	\begin{threeparttable}
-		\caption{Vote share for the Greens across elections in 2019}
-		\label{tab_greta_cons:data_greens_vote_share}
-		\begin{tabular*}{.7\linewidth}{@{\extracolsep{\fill}}l*{5}{c}}
-			\toprule
-			%			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
-			
-			&\multicolumn{2}{c}{Greens}&\multicolumn{2}{c}{$\Delta$ Greens}\\
-			&\multicolumn{2}{c}{(2019)}&\multicolumn{2}{c}{(2019-2015)}\\
-			\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-			Election		&	mean		&	sd		&	mean	& sd	&	Obs.	\\
-			\midrule\\
-			
-			EU				&	20.762		&	7.537	&	9.731	& 3.859	&	10,719	\\
-			Brandenburg		&	10.167		&	5.120	&	4.308	& 2.189	&	413		\\
-			Saxony			&	4.937		&	1.906	&	1.305	& 0.905	&	414		\\
-			Thuringia		&	5.318		&	3.407	&	-0.572	& 0.968	&	645		\\
-			\midrule
-			Total			&	19.676		&	8.234	&	9.113	& 4.325	&	12,191	\\
-			\bottomrule
-		\end{tabular*}
-		\begin{tablenotes} 
-			\item \scriptsize \emph{Notes:} The Table reports the population-weighted mean and standard deviation for the Green's vote share in 2019 (columns 2 and 3) and the first-differenced vote share for the Greens (columns 4 and 5) across the 2019 elections. The last column reports the number of municipalities per election. 
-		\end{tablenotes} 
-	\end{threeparttable}
-\end{table}
+% tab election vote share greens
+\input{greta_cons_tab__vote_share_greens_elections}
 
 
 
@@ -237,7 +162,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 %--------------------------------------------------------------------
 % MEASUREMENT STRIKE PARTICIPATION
 %--------------------------------------------------------------------
-\newpage
+\bigskip
 \section{Granular Measurement of Strike Participation}\label{sec_greta_cons:measurement_strike_participation}
 
 
@@ -246,25 +171,7 @@ The Federal Statistical Office and the statistical offices of the Länder provid
 
 %--------------------------------------------
 % fig: strike participation for selected strikes
-\begin{figure}[t]\centering
-	\caption{Strike participation for selected strikes}
-	\label{fig_greta_cons:strike_participation_hh_ber}
-	% Hamburg
-	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_hh_ols.png}
-	\end{subfigure}
-	%Berlin
-	\begin{subfigure}[h]{0.45\linewidth}\centering
-		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_ber_ols.png}
-	\end{subfigure}
-	%	%Aachen
-	%	\begin{subfigure}[h]{0.4\linewidth}\centering
-	%		\includegraphics[width=\linewidth]{descriptive/greta_cons_strike_participation_aa_ols.png}
-	%	\end{subfigure}
-	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for two exemplary strikes. The two strikes were both visited by Greta Thunberg and attracted large populations. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the strikes' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
-	\end{minipage}
-\end{figure}
+\input{greta_cons_fig__strike_participation_hh_ber}
 %--------------------------------------------
 
 In the first part of the empirical analysis, we exploit the mobile phone-based tracking data to measure local strike participation. To determine how many participants attend a climate strike and where they come from, we residualize the number of movements between origins and destinations. We exploit a rich fixed effects model to remove the predictable variation in the number of journeys based on the origin-destination pair, date characteristics, holiday fixed effects, and weather controls. Let $\text{journeys}_{ijt}$ denote the number of journeys between origin $i$ and destination $j$ at time $t$, which in our baseline model is given by 
@@ -301,41 +208,7 @@ As a further check, we validate our approach to identify the origin of people at
 
 %--------------------------------------------
 % analysis strike particpation robustness: alternative participation measures
-\afterpage{
-	\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
-	\begin{landscape}
-		\vspace*{\fill}
-		\begin{figure}[H]\centering
-			\caption{Alternative participation measures for the climate strike in Hamburg}
-			\label{fig_greta_cons:strike_participation_hh_different_measure}
-			% Hamburg
-			\begin{subfigure}[h]{0.22\linewidth}\centering
-				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols}
-			\end{subfigure}
-			\begin{subfigure}[h]{0.22\linewidth}\centering
-				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_small}
-			\end{subfigure}
-			\begin{subfigure}[h]{0.22\linewidth}\centering
-				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_ols_int_only}
-			\end{subfigure}
-			
-			\begin{subfigure}[h]{0.22\linewidth}\centering
-				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p}
-			\end{subfigure}
-			\begin{subfigure}[h]{0.22\linewidth}\centering
-				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_small}
-			\end{subfigure}
-			\begin{subfigure}[h]{0.22\linewidth}\centering
-				\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_hh_spec_res_p_int_only}
-			\end{subfigure}
-			\begin{minipage}{0.9\linewidth}
-				\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Hamburg (March, 1). Column 1 uses the baseline specification in Equation \ref{eq_greta_cons:res_journeys}, column 2 further adds $\vartheta_{ij}$$\times\eta_w$ and  $\vartheta_{ij}$$\times\psi_m$, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times\varphi_d$). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
-			\end{minipage}
-		\end{figure}
-		\vspace*{\fill}\clearpage
-	\end{landscape}
-	\restoregeometry
-}
+\afterpage{\include{greta_cons_fig__alternative_strike_meaures_hh}}
 %--------------------------------------------
 
 
@@ -372,7 +245,7 @@ where $\text{Participation Index}_{m\tilde{t}}$ is a cumulative measure of relat
 %--------------------------------------------------------------------
 % ASSOCIATION WITH ELECTION OUTCOMES
 %--------------------------------------------------------------------
-\clearpage
+\bigskip
 \section{Strike Participation and Electoral Outcomes [Helmut \& Maria]}\label{sec_greta_cons:strike_participation_elections}
 
 
