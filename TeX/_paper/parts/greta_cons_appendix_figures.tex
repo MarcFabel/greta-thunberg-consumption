@@ -4,43 +4,39 @@
 
 %--------------------------------------------
 % Greta tweets - top words, hashtags, mentions
-\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
-\begin{landscape}
-	\vspace*{\fill}
-	\begin{figure}[H]
-		\centering
-		\caption{Most widely used words, hashtags, and mentions in Greta Thunberg's tweets}
-		\label{fig_greta_cons:twitter_greta_thunberg_top_words_hashtags_mentions}
-		
-		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{Word cloud}
+\vspace*{\fill}
+	\begin{figure}[H]\centering
+		\begin{subfigure}[h]{0.49\linewidth}\centering\caption{Word cloud}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_word_cloud.pdf}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{Top words}
+		\begin{subfigure}[h]{0.49\linewidth}\centering\caption{Top words}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_words.pdf}
 		\end{subfigure}
-	
-		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{Top hashtags}
+		
+		\begin{subfigure}[h]{0.49\linewidth}\centering\caption{Top hashtags}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_hashtags.pdf}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.4\linewidth}\centering\caption{Top mentions}
+		\begin{subfigure}[h]{0.49\linewidth}\centering\caption{Top mentions}
 			\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_greta_frequency_common_mentions.pdf}
 		\end{subfigure}
 		\scriptsize
-		\begin{minipage}{0.95\linewidth}
+		\begin{minipage}{\linewidth}
+			\caption{Most widely used words, hashtags, and mentions in Greta Thunberg's tweets}
+			\label{fig_greta_cons:twitter_greta_thunberg_top_words_hashtags_mentions}
 			\scriptsize{\emph{Notes:} Panel a displays a word cloud of Greta Thunberg's tweets in 2019. The larger a word is depicted, the more frequent it is used by Greta Thunberg in her tweets. The lowercased keywords are from the subset of words after removing urls, hashtags, mentions, digits, punctuation, and stopwords. Panels b, c, and d show the frequency of the most common words, hashtags, and mentions. The people behind the Twitter accounts are: @$\_$NikkiHenderson, @Sailing$\_$LaVaga, @elayna$\_$c (sailors), @KevinClimate (Professor of energy and climate change), @Luisamneubauer (German climate activist), @AnunaDe (Belgian climate activist), @GeorgeMonbiot (British writer and political activist), @jrockstrom (Director of Potsdam Institute), @SKAVLANTVShow (Scandinavian talk show), @MichaelEMann (Professor of Atmospheric Science).\newline\emph{Source:} Own representation with data from Twitter.}
+			% 
 		\end{minipage}
 	\end{figure}
-	\vspace*{\fill}\clearpage
-\end{landscape}
-\restoregeometry
+\vspace*{\fill}\clearpage
 %--------------------------------------------
 % Greta tweets - sentiment and length of tweets
 \vspace*{\fill}
 \begin{figure}[H]
-	\centering\caption{Sentiment and length of Greta Thunberg's tweets}
-	\label{fig_greta_cons:twitter_greta_sentiment_length}
+	\centering
 	\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_activists_scatter_polarity_subjectivity_word_count.pdf}
 	\begin{minipage}{0.99\linewidth}
+		\caption{Sentiment and length of Greta Thunberg's tweets}
+		\label{fig_greta_cons:twitter_greta_sentiment_length}
 		\scriptsize{\emph{Notes:} The two top panels show the conditional distribution of the tweets' sentiment. Greta Thunberg's tweets tend to be more positively formulated (polarity values larger than zero), with the right balance between objective and subjective language. Her tweets contain on average 135 characters and a bit more than 20 words.\newline\emph{Source:} Own representation with data from Twitter.}
 	\end{minipage}
 \end{figure}
@@ -49,9 +45,10 @@
 % twitter likes of German FFF ICONS
 \vspace*{\fill}
 \begin{figure}[H]
-	\centering\caption{The twitter feed of influential German FFF activists}\label{fig_greta_cons:twitter_favorites_activists}
+	\centering
 	\includegraphics[width=\linewidth]{descriptive/greta_cons_twitter_favorites_spaghetti_wo_greta_2019.pdf}
 	\begin{minipage}{0.99\linewidth}
+		\caption{The twitter feed of influential German FFF activists}\label{fig_greta_cons:twitter_favorites_activists}
 		\scriptsize{\emph{Notes:} The figure plots the weekly number of likes [in thousand] of influential German climate activists and groups over the year 2019.\newline\emph{Source:} Own representation with data from Twitter.}
 	\end{minipage}
 \end{figure}
@@ -60,54 +57,48 @@
 % data - map: strikes 2019 across months
 \vspace*{\fill}
 \begin{figure}[H]\centering
-	\caption{Strikes in 2019, variation across months}\label{fig_greta_cons:fff_strikes_months}
 	\includegraphics[width=0.99\linewidth]{descriptive/greta_cons_fff_strikes_all_months.png}
 	\begin{minipage}{0.99\linewidth}
+		\caption{Strikes in 2019, variation across months}\label{fig_greta_cons:fff_strikes_months}
 		\scriptsize{\emph{Notes:} The maps show the climate strikes (red dots) in our data base over the year 2019. The bold white lines indicate state boundaries and the thin white lines represent county boundaries.}
 	\end{minipage}
 \end{figure}
 \vspace*{\fill}\clearpage
 %--------------------------------------------
 % analysis strike particpation robustness: alternative participation measures
-\newgeometry{left=0.5cm,right=0.5cm,top=3cm,bottom=3cm} 
-\begin{landscape}
-	\vspace*{\fill}
+\vspace*{\fill}
 	\begin{figure}[H]\centering
-		\caption{Alternative participation measures for the climate strike in Berlin}
-		\label{fig_greta_cons:strike_participation_ber_different_measure}
 		% Hamburg
-		\begin{subfigure}[h]{0.22\linewidth}\centering
+		\begin{subfigure}[h]{0.32\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_ols}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.22\linewidth}\centering
+		\begin{subfigure}[h]{0.32\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_ols_int_small}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.22\linewidth}\centering
+		\begin{subfigure}[h]{0.32\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_ols_int_only}
 		\end{subfigure}
 		
-		\begin{subfigure}[h]{0.22\linewidth}\centering
+		\begin{subfigure}[h]{0.32\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_p}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.22\linewidth}\centering
+		\begin{subfigure}[h]{0.32\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_p_int_small}
 		\end{subfigure}
-		\begin{subfigure}[h]{0.22\linewidth}\centering
+		\begin{subfigure}[h]{0.32\linewidth}\centering
 			\includegraphics[width=\linewidth]{descriptive/maps_resid_trips/greta_cons_strike_participation_ber_spec_res_p_int_only}
 		\end{subfigure}
-		\begin{minipage}{0.9\linewidth}
+		\begin{minipage}{\linewidth}
+			\caption{Alternative participation measures for the climate strike in Berlin}
+			\label{fig_greta_cons:strike_participation_ber_different_measure}
 			\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for the climate strike in Berlin (March, 29). Column 1 uses the baseline specification in Equation \ref{eq_greta_cons:res_journeys}, column 2 further adds $\vartheta_{ij}$$\times\eta_w$ and  $\vartheta_{ij}$$\times\psi_m$, and column 3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times\varphi_d$). The top row uses OLS to estimate Equation \ref{eq_greta_cons:res_journeys}, while the bottom row shows results when using Poisson. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. See Figure \ref{fig_greta_cons:strike_participation_hh_ber} for additional details.}
 		\end{minipage}
 	\end{figure}
-	\vspace*{\fill}\clearpage
-\end{landscape}
-\restoregeometry
+\vspace*{\fill}\clearpage
 %--------------------------------------------
 % analysis strike particpation validation: soccer games
-
+\vspace*{\fill}
 \begin{figure}[H]\centering
-	\caption{Validation: Participation soccer games}
-	\label{fig_greta_cons:participation_soccer_games}
 	\begin{subfigure}[h]{0.45\linewidth}\centering
 		\includegraphics[width=\linewidth]{descriptive/greta_cons_soccer_muc_jan25.png}
 	\end{subfigure}
@@ -119,8 +110,10 @@
 	\end{subfigure}
 	
 	\begin{minipage}{0.9\linewidth}
-		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for soccer matches in Munich, Dortmund, and Freiburg. A darker shade of green indicates that more people were coming to the climate strike conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the games' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
+		\caption{Validation: Attendance at soccer games}
+		\label{fig_greta_cons:participation_soccer_games}
+		\scriptsize{\emph{Notes:} The maps show residualized movements (in thousand) for soccer matches in Munich, Dortmund, and Freiburg. A darker shade of green indicates that more people were coming to the soccer matches conditional on the controls discussed in the text. The color scale classification is obtained by using the Fisher-Jenks natural breaks algorithm. The red dots mark the games' location, gray areas indicate missing data (censored), bold gray lines show state boundaries, and thin gray lines represent the regions defined by \textit{Teralytics}.}
 	\end{minipage}
 \end{figure}
-
+\vspace*{\fill}\clearpage
 
