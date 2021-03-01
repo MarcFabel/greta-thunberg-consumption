@@ -1,7 +1,43 @@
+
+
+%--------------------------------------------------------------------
+% Introduction
+%--------------------------------------------------------------------
+\bigskip
+\section{Introduction}\label{sec_greta_cons:intro}
+
+While the scientific case for policies mitigating climate change is clear, societies will only adopt mitigating measures if the general population supports them. The solution to climate change involves short-term costs that would result in long-run gains. As the costs will affect populations at large, while the gains would be disproportionately enjoyed by younger individuals, the young have often been at the forefront of demanding adaptive measures against climate change. Already in 1992, during the UN Climate Conference in Rio de Janeiro, the then 12-year old Severn Cullis-Suzuki addressed delegates by stressing that: 
+\begin{quote}
+	\textit{“You must change your ways; […] losing my future is not like losing an election or a few points on the stock market”.}
+\end{quote}
+Since then, the consequences of human-caused climate change have become ever more visible, as evidenced by the melting of the polar ice caps and the appearance of more extreme weather phenomena.  Tellingly, over the course of 2019, Greta Thunberg, the Swedish teen climate activist, has inspired especially young people around the globe to stage some of the largest environmental protests in history. For instance, on Friday, September 20, 2019 during the Global Week for Future, roughly four million protestors in more than 150 countries demanded action to fight climate change. 
+
+
+Against this background, our aim is to examine whether and, if so, how school strikes that recently set the tone for environmental protest action around the world (“Fridays For Future”, henceforth FFF) affected economically relevant behavior of adults. In economics, a large literature examines the transmission of values and attitudes from adults to children, and its consequences for children’s behavior \citep{bisin2001economics,figlio2019longterm}. By contrast, we hypothesize that, through their participation in FFF, children and youth transmit attitudes of environmental awareness to adults. This, in turn, may trigger consumption changes towards more environmentally-friendly products, cause adjustments in mobility and travel behavior, and lead to higher demand for ``green politics'' aimed at mitigating the negative effects of climate change. 
+
+The specific question we attempt to answer in this paper is: Did the mobilization of young people to the climate cause have a discernible impact on electoral outcomes in general, and on the demand for green politics in particular? We strive to shed light on this question by studying the spread of FFF climate strikes in Germany. Inspired by Greta Thunberg's \emph{Skolstrejk f\"{o}r klimatet} in front of the Swedish parliament in August 2018, FFF quickly turned into a large social movement of school students who skip classes, mostly on Fridays, to participate in mass strikes over climate change inaction. In Germany, a first few climate strikes took place in mid-December 2018, and the FFF movement then gained significant momentum over the course of 2019, staging more than xxx local strikes in over xxx cities. The strike activity reached its peak during the Global Week of Climate action in September, when roughly 1.4 million individuals participated in climate protests in 550 German cities.  
+
+In the first part of the paper, our core contribution is to develop a time-varying, municipality-level measure of youth's propensity to participate in climate strikes. This is a non-trivial challenge due the geography of mass protests: while strikes are often organized in some central location (e.g., the main city of a region), its participants typically originate both from within and outside that location (e.g., neighboring or more distant municipalities). We tackle this challenge in three steps. First, based on information we collected from police forces, city councils, municipal authorities, and social media, we build up a database consisting of more than 2,300 climate strikes in over 330 German cities during 2019. Second, exploiting cell phone-based tracking data consisting of daily counts of journeys between 260,000 origin-destination pairs, we compute the excess mobility between locations by taking residuals from regressions of the number of journeys between origin $i$ and destination $j$ on day $t$ on a rich set of fixed effects and controls. Third, merging the daily origin-destination mobility residuals with our strike database, we obtain a measure of protest participation that proxies for each strike the geographic distribution of its participants. Crucially, this measure allows us to trace out how protest participation in support of FFF evolved across time and space in Germany. We perform several sensitivity tests to assess the robustness of our strike participation measure, and validate our approach for identifying the geographic distribution of individuals attending mass events by examining professional soccer games.  
+
+In the second part of the paper, we use time-series and municipality-level variation in our protest participation data to study the role of youth environmental activism in adults' voting behavior. Over the course of 2019, Germany saw four elections: a nation-wide EU election in spring and three federal state elections spread out over the second half of the year. In all four ballots, and especially in the nation-wide EU election, voter turnout increased substantially compared to previous elections, and in three out of four elections this increase was accompanied a sharp rise in vote share of the Green Party. In particular during its EU election campaign, one of the Green Party's main objectives had been to label the ballot as a ``climate election". On the night of the election day, Michael Kellner, the party's secretary general, announced that he was extremely satisfied that his party was able to turn the election into a ``Sunday for Future''. Against this background, we investigate two municipality-level electoral outcomes: voter turnout and the share of votes cast for the Green Party. To purge unmeasured municipality-level, time-invariant factors that may determine a general tendency to vote ``green'', we implement a first-differences strategy that compares electoral results in different years (2015 vs. 2019). %Our main dependent variable is a cumulative v, measured up to an election date.  
+
+We obtain two main results. The first of them concerns voter turnout. We show that   
+
 literature: 
 \begin{itemize}
 	\item mobile-phone based tracking data: \cite{dave2020contagion}
 \end{itemize}
+
+\textbf{Color-coding}
+
+{\color{forestgreen} Highlighting of added text}
+
+
+
+
+
+
+
 
 
 
@@ -76,15 +112,6 @@ While the initial coverage was centered around the violation of compulsory schoo
 Our main sample uses data from 2019 and contains all German regions, either on the county (\textit{Kreise}, $N=401$) or municipality (\textit{Gemeinde}, $N=10,719$) level. We combine six sources of data to residualize journeys and to investigate associations between climate strike participation and electoral outcomes.
 
 
-
-
-% mobile phone data
-\subsection{Mobile Phone-Based Tracking Data}
-The mobile phone-based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network. The mobile network provider had a market share of 31 percent in 2019 \citep{statista2020marktanteil} and is a popular carrier among young people.\footnote{To obtain representative mobility patterns, \textit{Teralytics} extrapolates to the entire population with the help of regional market shares.} \textit{Teralytics} uses machine learning-based technology to transform mobile signals into a number of journeys between two locations.\footnote{There is a required minimum time between individual movements so that they count as a completed journey, depending on the mode of transport: It is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} The data reports the daily number of trips between origin-destination pairs, which is the unit of observation in the first part of the empirical analysis. Over the year 2019, the data contains 64.4 billion trips in total. Due to data privacy regulations, \textit{Teralytics} cannot report journeys if there are fewer than five trips for a given origin-destination pair. The spatial level of aggregation mostly coincides with county borders. Only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different geographies, which result in more than 260,000 possible origin-destination pairs.\footnote{For 355 counties, the geographies overlap with the county borders. The remaining 46 counties are split into subclusters, with a maximum of five subclusters for the largest metropolitan areas.} The vast majority of trips (92.7 percent) do not exceed 30 kilometers.\footnote{The distance refers to the linear distance between the centroids of two geographies.} For larger distances, the data can distinguish between different modes of transportation.
-% car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent). The vast majority of trips exhibit shorter distances or cannot be attributed to one of the previous transportation modes and fall into the category "not classified" (92.7 percent).
-
-
-
 % map: all strikes 2019
 \begin{figure}[t]\centering
 	\includegraphics[width=0.8\linewidth]{descriptive/greta_cons_fff_strikes_all_2019_200.png}
@@ -95,11 +122,10 @@ The mobile phone-based tracking data is obtained from \textit{Teralytics}, which
 \end{figure}
 
 
-
-% strike data
-\subsection{Climate Strike Data}
-Our data on climate strikes is self-collected and comes from local authorities, social media, and the website of FFF Germany. All public gatherings such as rallies and demonstrations must be registered in Germany. The registration usually happens at the police, the city council, or other regulatory agencies. The large bulk of our database is retrieved by contacting the respective authorities and requesting a list of all climate strikes that took place in their jurisdictions in 2019. Consequently, we obtained information on the exact location and time of nearly 2,000 strikes. In the next step, we used social media postings (Twitter, Facebook, and Instagram) to fill up missing information for the 20 largest cities that were missing in the database. Searching for information on social media channels gave us almost another 400 climate strikes and ensured that we do not miss any large-scale climate strike. In the last step, we enriched our database with information on almost 1,600 strikes retrieved from the website of FFF Germany. Using the internet archive of \url{www.web.archive.org}, we could restore snapshots with information on climate strikes for some weeks. After combining the information from the different sources, the locations where the climate strikes took place were geographically encoded. Figure \ref{fig_greta_cons:fff_strikes_2019} shows a map with all strikes contained in our database. There is quite some variation in the strike behavior across the year as depicted in the maps in Appendix Figure \ref{fig_greta_cons:fff_strikes_months}. The same impression is obtained from Figure \ref{fig_greta_cons:number_strikes_per_source}, which presents the daily number of strikes across the three sources. The highest number of strikes is reported on the global climate strike events (March, May, September, and November). Furthermore, it is visible that the strikes from the FFF website are only available in 19 weeks when the domain was archived. The other sources, however, exhibit more continuity in how they report the number of strikes.\footnote{Because of the extreme volatility of the strikes from the FFF Germany website - no information in most instances vs. detailed regional resolution on others-, we first focus on strikes for which there is more continuous information, i.e. strikes obtained from the authorities and social media.} 
-
+% mobile phone data
+\subsection{Mobile Phone-Based Tracking Data}
+The mobile phone-based tracking data is obtained from \textit{Teralytics}, which draws on the universe of customers from the \textit{Telefonica O$_2$}-network. The mobile network provider had a market share of 31 percent in 2019 \citep{statista2020marktanteil} and is a popular carrier among young people.\footnote{To obtain representative mobility patterns, \textit{Teralytics} extrapolates to the entire population with the help of regional market shares.} \textit{Teralytics} uses machine learning-based technology to transform mobile signals into a number of journeys between two locations.\footnote{There is a required minimum time between individual movements so that they count as a completed journey, depending on the mode of transport: It is 30 minutes by car, 60 minutes by train, and 120 minutes by plane.} The data reports the daily number of trips between origin-destination pairs, which is the unit of observation in the first part of the empirical analysis. Over the year 2019, the data contains 64.4 billion trips in total. Due to data privacy regulations, \textit{Teralytics} cannot report journeys if there are fewer than five trips for a given origin-destination pair. The spatial level of aggregation mostly coincides with county borders. Only for larger metropolitan areas, there are regions with smaller clusters. For this reason, the data set provides us the number of journeys for 513 different geographies, which result in more than 260,000 possible origin-destination pairs.\footnote{For 355 counties, the geographies overlap with the county borders. The remaining 46 counties are split into subclusters, with a maximum of five subclusters for the largest metropolitan areas.} The vast majority of trips (92.7 percent) do not exceed 30 kilometers.\footnote{The distance refers to the linear distance between the centroids of two geographies.} For larger distances, the data can distinguish between different modes of transportation.
+% car (6.4 percent of all trips), train (0.9 percent), and plane (< 0.03 percent). The vast majority of trips exhibit shorter distances or cannot be attributed to one of the previous transportation modes and fall into the category "not classified" (92.7 percent).
 
 
 
@@ -114,6 +140,16 @@ Our data on climate strikes is self-collected and comes from local authorities, 
 
 
 
+% strike data
+\subsection{Climate Strike Data}
+Our data on climate strikes is self-collected and comes from local authorities, social media, and the website of FFF Germany. All public gatherings such as rallies and demonstrations must be registered in Germany. The registration usually happens at the police, the city council, or other regulatory agencies. The large bulk of our database is retrieved by contacting the respective authorities and requesting a list of all climate strikes that took place in their jurisdictions in 2019. Consequently, we obtained information on the exact location and time of nearly 2,000 strikes. In the next step, we used social media postings (Twitter, Facebook, and Instagram) to fill up missing information for the 20 largest cities that were missing in the database. Searching for information on social media channels gave us almost another 400 climate strikes and ensured that we do not miss any large-scale climate strike. In the last step, we enriched our database with information on almost 1,600 strikes retrieved from the website of FFF Germany. Using the internet archive of \url{www.web.archive.org}, we could restore snapshots with information on climate strikes for some weeks. After combining the information from the different sources, the locations where the climate strikes took place were geographically encoded. Figure \ref{fig_greta_cons:fff_strikes_2019} shows a map with all strikes contained in our database. There is quite some variation in the strike behavior across the year as depicted in the maps in Appendix Figure \ref{fig_greta_cons:fff_strikes_months}. The same impression is obtained from Figure \ref{fig_greta_cons:number_strikes_per_source}, which presents the daily number of strikes across the three sources. The highest number of strikes is reported on the global climate strike events (March, May, September, and November). Furthermore, it is visible that the strikes from the FFF website are only available in 19 weeks when the domain was archived. The other sources, however, exhibit more continuity in how they report the number of strikes.\footnote{Because of the extreme volatility of the strikes from the FFF Germany website - no information in most instances vs. detailed regional resolution on others-, we first focus on strikes for which there is more continuous information, i.e. strikes obtained from the authorities and social media.} 
+
+
+
+
+
+
+
 
 
 
@@ -124,7 +160,9 @@ For the European Parliament election, we use data provided by the Federal Statis
 
 
 % tab election vote share greens
+
 \input{greta_cons_tab__vote_share_greens_elections}
+
 
 
 
@@ -311,7 +349,7 @@ In both Equations \ref{eq_greta_cons:vote_share_greens} and \ref{eq_greta_cons:f
 % Tab - first results - assocation strike part & greens
 \begin{table}[H]\centering
 	\begin{threeparttable}
-		\caption{Strike participation and the greens' vote share}\label{tab_greta_cons:associations_part_greens}
+		\caption{Strike participation and the Greens' vote share}\label{tab_greta_cons:associations_part_greens}
 		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
 			\begin{tabular*}{.8\linewidth}{@{\extracolsep{\fill}}l*{3}{c}}
 				\toprule

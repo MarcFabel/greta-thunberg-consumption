@@ -130,7 +130,8 @@ labelfont={bf}
 \usepackage{pdflscape} % lscape.sty Produce landscape pages in a (mainly) portrait document.
 
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
-\newcommand\natalia[1]{\textcolor{orange}{#1}}
+\definecolor{forestgreen}{RGB}{0,100,0}
+\newcommand\revision[1]{\textcolor{forestgreen}{#1}}
 
 % CAPTIAL LETTERS FOR SECTION CAPTIONS
 %\usepackage{sectsty}
@@ -192,8 +193,7 @@ labelfont={bf}
 %--------------------------------------------------------------------
 %	AUTHOR & TITLE
 %--------------------------------------------------------------------
-\title{– For the Greta Good –\\The Rise of Environmental Awareness
-	through Child-to-Parent Value Transmission\footnote{Thank you for funding???
+\title{The Power of Youth: School Strikes for Climate and Electoral Outcomes\footnote{Thank you for funding???
 		Lina Leutner, Franziska Wintersteller provided excellent research assistance. All errors and omissions are our own.}}
 \author{} %Marc Fabel, Helmut Rainer, Maria Waldinger
 
@@ -207,28 +207,26 @@ labelfont={bf}
 
 
 %--------------------------------------------------------------------
-%	BEGIN DOCUMENT
+%	BEGIN DOCUMENT & ABSTRACT
 %--------------------------------------------------------------------
-
-
-
 
 \begin{document}
 \setcounter{page}{0}  
 \maketitle
-\bigskip
-\tableofcontents
-\newpage
+
+
+\vspace{-4 em}
+\renewcommand{\abstractname}{\vspace{-\baselineskip}} % GET RID OF ABSTRACT TITLE
+
+\begin{abstract}\noindent 
+	\footnotesize{\begin{center}\textbf{Abstract}\end{center} This paper analyses the relationship between local participation rates in climate strikes, also known as Fridays for Future, and electoral results from four elections in Germany in 2019. In that year, large crowds of protestors, primarily students, gathered for weekly climate strikes to demand far-reaching, rapid, and effective measures to mitigate climate change. In the first part of the empirical analysis, we propose a local measure of strike participation using mobile phone-based tracking data. With the help of a rich fixed-effects model, we identify the number and origin of protesters for almost 4,000 strikes. In the second part of the empirical analysis, we investigate the relationship between climate strike participation and electoral outcomes. We find that municipalities with higher strike participation rates are more likely to vote for the Green Party. Additionally, voter turnout is increasing with increasing levels of strike participation. Our results are robust to alternative measurements of strike participation.}
+\end{abstract}
+
 
 
 %--------------------------------------------------------------------
-% INTRODUCTION
+% DOCUMENT BODY
 %--------------------------------------------------------------------
-\section{Introduction [Helmut \& Maria]}\label{sec_greta_cons:introduction}
-
-
-
-
  \input{parts/greta_cons_body}
 
 
