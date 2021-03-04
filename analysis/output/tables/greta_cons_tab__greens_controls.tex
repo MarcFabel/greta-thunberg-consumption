@@ -1,0 +1,23 @@
+\begin{table}[t]\centering
+	\begin{threeparttable}
+		\caption{Inclusion of controls}\label{tab_greta_cons:inclusion_controls}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular}{l*{4}{c}}
+				\toprule
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+				& Baseline & Income & Unemployment &  Demographics \\
+				\midrule
+			  Participation Index [std.]&      0.0537\sym{**} &      0.0439\sym{**} &      0.0560\sym{**} &      0.0422\sym{*}  \\
+										&    (0.0270)         	&    (0.0217)         &    (0.0269)         &    (0.0256)         \\
+				\\
+				Observations        	&      12,189         &      12,185         &      12,066         &      12,189         \\
+				Adjusted $R^2$         	&       0.754         &       0.798         &       0.755         &       0.778         \\			
+				State FE				& \checkmark 		  & \checkmark       & \checkmark 	& \checkmark \\
+				Election FE				& \checkmark 		  & \checkmark       & \checkmark   & \checkmark \\
+				\bottomrule
+		\end{tabular}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The baseline specification in column 1 corresponds to the specification in column 2 of Table \ref{tab_greta_cons:associations_part_greens}. Each column adds a different set of control variables. Column 2 adds the logarithm of per capita income, column 3 adds the unemployment rate, and column 4 controls for population density (dummy: median split) and the age structure of the population. Clustered errors are reported in parentheses. See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable}
+\end{table}

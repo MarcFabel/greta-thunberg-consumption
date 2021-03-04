@@ -1,0 +1,37 @@
+\begin{table}[t]\centering
+	\begin{threeparttable}
+		\caption{Alternative participation measures}\label{tab_greta_cons:alternative_participation_measures}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular*}{.72\linewidth}{@{\extracolsep{\fill}}l*{3}{c}}
+				\toprule
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\\\
+				&\multicolumn{3}{c}{Interaction of $\vartheta_{ij}$ and $\gamma_t$}\\
+				\cmidrule{2-4}
+				& Baseline & \clb{c}{Partial\\interaction} & \clb{c}{Fully\\interacted} \\
+				\midrule\\
+				
+				% OLS
+				\multicolumn{4}{l}{\textbf{\textit{Panel A: OLS}}} \\
+			Participation Index [std.]  &      0.0537\sym{**} &      0.0520\sym{*}  &      0.0483\sym{*}  \\  
+										&    (0.0270)         &    (0.0272)         &    (0.0292)         \\  
+				Observations      		&      12,189         &      12,189         &      12,189         \\  
+				Adjusted $R^2$         	&       0.754         &       0.754         &       0.754         \\ 
+				State FE				& \checkmark 		  & \checkmark       & \checkmark  \\
+				Election FE				& \checkmark 		  & \checkmark       & \checkmark  \\
+				\\ 
+				
+				% Poisson
+				\multicolumn{4}{l}{\textbf{\textit{Panel B: Poisson}}} \\
+			Participation Index [std.]	&      0.0541\sym{**} &      0.0469\sym{*}  &      0.0501\sym{*}  \\
+										&    (0.0251)         &    (0.0257)         &    (0.0300)         \\
+				Observations      		&      12,189         &      12,189         &      12,189         \\
+				Adjusted $R^2$         	&       0.754         &       0.754         &       0.754         \\		
+				State FE				& \checkmark 		  & \checkmark       & \checkmark  \\
+				Election FE				& \checkmark 		  & \checkmark       & \checkmark  \\
+				\bottomrule
+		\end{tabular*}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The dependent variable is defined as the standardized change in Greens' vote share from 2015 to 2019. The column header indicates how the process of residualizing journeys is varied. Column 1 uses the baseline specification presented in Equation \ref{eq_greta_cons:res_journeys}. Column 2 further includes interactions of $\vartheta_{ij}$$\times$week and $\vartheta_{ij}$$\times$month. Column3 presents a fully interacted version (plus also including $\vartheta_{ij}$$\times$day-of-the-week). Panel A (B) contains estimates when estimating Equation \ref{eq_greta_cons:res_journeys} with OLS (Poisson). See Table \ref{tab_greta_cons:associations_part_greens} for additional details.\newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable}
+\end{table}

@@ -1,0 +1,24 @@
+\begin{table}[H]\centering
+	\begin{threeparttable}
+		\caption{Strike participation and the Greens' vote share}\label{tab_greta_cons:associations_part_greens}
+		{\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi} 
+			\begin{tabular*}{.8\linewidth}{@{\extracolsep{\fill}}l*{3}{c}}
+				\toprule
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+				& Greens & $\Delta$ Greens & $\Delta$ Greens \\
+				& 2019		 & 2019-2015		& 2019-2015 \\
+				\midrule
+			  Participation Index [std.]&      0.1306\sym{***}&      0.0537\sym{**}	 	&	0.0799\sym{**}	\\
+										&    (0.0341)         &    (0.0270)         	&	(0.0300)		\\
+				\\	
+				Observations        	&      12,189         &      12,189         	&	455				\\
+				Adjusted $R^2$         	&       0.569         &       0.754         	&	0.826			\\
+				State FE				& \checkmark 		  & \checkmark       		& \checkmark 		\\
+				Election FE				& \checkmark 		  & \checkmark       		& \checkmark 		\\
+				\bottomrule
+		\end{tabular*}}
+		\begin{tablenotes} 
+			\item \scriptsize \emph{Notes:} The specifications use election results from the 2019 elections for the EU and the federal states of Brandenburg, Saxony, and Thuringia. The dependent variable is defined as the Greens' vote share, i.e. the number of votes relative to total votes cast. The explanatory variable is the participation index at the time of the elections. As all variables (dependent and explanatory) are standardized, population-weighted coefficients show the change in the outcome variable (in standard deviation units) due to a one standard deviation increase of the participation index. Columns 1 and 2 show results on the municipality level, while column 3 presents county-level results. All regressions include state and election fixed effects. Standard errors are clustered at the county level (number of clusters $=401$) in columns 1 and 2. Robust standard errors are reported in column 3. \newline Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
+		\end{tablenotes} 
+	\end{threeparttable}
+\end{table}
