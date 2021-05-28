@@ -24,6 +24,8 @@ Outputs:
     various figures                                                                 [z_output_figures]
 
 
+Updates:
+    May 28, 2021: added maps for variation in precipitation on 1st GCS
 """
 
 import geopandas as gp
@@ -44,6 +46,7 @@ z_strike_intermed   = z_data + 'intermediate/fff_strikes/'
 z_strike_source     = z_data + 'source/fff_strikes/ordnungsamt_hiwi/'
 z_strike_output     = z_data + 'final/fff_strikes/'
 z_biv_map           = z_data + 'final/bivariate_maps/'
+z_weather_intermed  = z_data + 'intermediate/weather/'
 z_output_figures    = '/Users/marcfabel/econ/greta_consumption/analysis/output/graphs/descriptive/'
 z_prefix            = 'greta_cons_'
 
@@ -866,6 +869,67 @@ fri_pt.plot(ax=ax, marker='o', color='red', markersize=20)
 ax.set_title('C. Freiburg, February 22, 2020\n (vs. Dusseldorf)', fontweight='bold')
 plt.axis('off')
 plt.savefig(z_output_figures + z_prefix + 'soccer_fri_feb22.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+
+################################################################################
+## MAP - PRECIPITATION FROM 1ST GCS
+################################################################################
+
+z_c_lightgray2 = '#d9d9d9'
+from matplotlib.colors import ListedColormap
+import seaborn as sns
+
+# read in weather 
+weather = pd.read_excel(z_weather_intermed +
+                        'greta_cons_weather_monitors_precipitation_2019_03_15_RS_MN006.xls')
+weather = gp.GeoDataFrame(weather,geometry=gp.points_from_xy(
+                weather.geogr_laenge,
+                weather.geogr_breite)).set_crs(epsg=z_epsg_wgs84)
+
+
+
+# define bins and cmap
+my_bins=[.1, .5, 1, 2, 5, 10, 15, 20, 25, 30, 40, 100]
+my_cmap = ListedColormap(sns.color_palette('vlag_r', len(my_bins)).as_hex())
+#my_cmap = ListedColormap(sns.color_palette('YlGnBu', len(my_bins)).as_hex())
+
+
+
+# Figure
+f, ax = plt.subplots(figsize=(11, 15))
+kreise.plot(ax=ax, color=z_c_lightgray2, edgecolor='white', linewidth=0.2, zorder=1)
+bula_borders.plot(ax=ax, color='white', linewidth=0.8, zorder=2)
+weather.plot(ax=ax, marker='o', markersize=40, zorder=3,
+             column='wert', cmap = my_cmap, scheme='user_defined',
+             classification_kwds={'bins':my_bins},
+             legend=True, legend_kwds={'fontsize':7, 'loc':'upper left', 'frameon':False,
+                         'ncol':1}
+
+             )
+ax.set_title('Daily Precipitation [in mm], March 15, 2019', fontweight='bold')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'precipitation_2019_03_15.png',
+            bbox_inches = 'tight', dpi=100)
+
+
+
+
+# generate map with binary version ############################################
+f, ax = plt.subplots(figsize=(11, 15))
+kreise.plot(ax=ax, color=z_c_lightgray2, edgecolor='white', linewidth=0.2, zorder=1)
+bula_borders.plot(ax=ax, color='white', linewidth=0.8, zorder=2)
+weather.loc[weather['wert']<25.4].plot(ax=ax, marker='o', markersize=40, zorder=3,
+             color='#a30207', alpha=0.6, label='nonrainy (prec.<25mm)')
+weather.loc[weather['wert']>=25.4].plot(ax=ax, marker='o', markersize=40, zorder=4,
+             color='#0d137a', alpha=0.7, label='rainy (prec.>=25mm)')
+ax.set_title('Rainy vs. Nonrainy days, March 15, 2019', fontweight='bold')
+ax.legend(frameon=False, loc='upper left')
+plt.axis('off')
+plt.savefig(z_output_figures + z_prefix + 'rainy_vs_nonrainy_2019_03_15.png',
             bbox_inches = 'tight', dpi=100)
 
 
