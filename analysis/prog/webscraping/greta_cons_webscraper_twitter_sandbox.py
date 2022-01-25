@@ -23,10 +23,10 @@ import GetOldTweets3 as got
 from datetime import timedelta, date,datetime
 
 # Store OAuth authentication credentials in relevant variables
-access_token = "165818745-x3wLpDdKgN3A24DXJmbmSZUzbFeEVCUf75aH9QIX"
-access_token_secret = "Ur5PX2LmPF9egjG0nVYVRavK0LyD3DoTGNtajuzupAyuE"
-consumer_key = "9UYHCptzCkclqz0wXqbGYfgXu"
-consumer_secret = "KS0NyzN7exRRK06OmIXrPrPGLbNKuBOfIyNW2EF8TVsJy98rx1"
+access_token = ""
+access_token_secret = ""
+consumer_key = ""
+consumer_secret = ""
 
 # Pass OAuth details to tweepy's OAuth handler
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
